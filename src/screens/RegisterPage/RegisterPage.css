@@ -1,0 +1,62 @@
+.main {
+    padding: 0 28rem;
+
+    @media (max-width: 768px) {
+        padding: 0 2rem;
+    }
+
+    @media (max-width: 576px) {
+        padding: 0 1rem;
+    }
+}
+
+.login-page {
+}
+
+
+.login-page .field__email {
+    margin-bottom: 1.5rem;
+}
+
+.login-page .auth-block {
+    width: 450px;
+    margin: 0 auto;
+}
+
+.login-page .auth-block .title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-align: left;
+    margin-top: 100px;
+
+    @media (max-width: 768px) {
+        font-size: 1.2rem;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 1rem;
+    }
+}
+
+.login-page .auth-block .btn__login {
+    width: 100%;
+    padding: 30px 0;
+    margin-bottom: 1rem;
+    margin-top: 3rem;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 15px;
+}
+
+.login-page .auth-block .subspan__signup {
+    display: block;
+    text-align: center;
+}
+
+.login-page .auth-block .subspan__signup-link {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #5a5aff;
+}

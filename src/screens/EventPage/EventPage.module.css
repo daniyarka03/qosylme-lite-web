@@ -1,0 +1,22 @@
+.eventBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.eventTitle {
+    display: block;
+    font-size: 36px;
+    font-weight: 700;
+    margin-top: 40px;
+    float: left;
+}
+
+.eventImage {
+    width: 800px;
+    height: 400px;
+    object-fit: cover;
+    margin-top: 40px;
+}

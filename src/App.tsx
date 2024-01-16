@@ -1,81 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
-import './index.css'
 import { NextUIProvider } from "@nextui-org/react";
-import { Input } from "@nextui-org/react";
-import { SelectItem, Select, Switch, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, RadioGroup, Radio } from "@nextui-org/react";
+import HomePage from "./screens/HomePage/HomePage";
+import React, {useEffect} from "react";
+import {BrowserRouter as Router, Route, Routes, useNavigate} from 'react-router-dom';
+import EventListPage from "./screens/EventListPage/EventListPage";
+import Navbar from "./components/Navbar/NavbarComponent";
+import NavbarComponent from "./components/Navbar/NavbarComponent";
+import EventPage from "./screens/EventPage/EventPage";
+import LoginPage from "./screens/LoginPage/LoginPage";
+import RegisterPage from "./screens/RegisterPage/RegisterPage";
+import {ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache} from "@apollo/client";
+import {onError} from "@apollo/client/link/error";
+
 function App() {
-  const [count, setCount] = useState(0)
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [modalPlacement, setModalPlacement] = useState("auto");
-  const [isSelected, setIsSelected] = useState(true);
-  return (
-    <NextUIProvider>
-      <div className="block">
-        <Switch isSelected={isSelected} onValueChange={setIsSelected} size="lg">
-          Airplane mode
-        </Switch>
-        <p className="text-small text-default-500">Selected: {isSelected ? "true" : "false"}</p>
-        <Button onPress={onOpen} className="max-w-fit">Open Modal</Button>
-        <RadioGroup
-          label="Select modal placement"
-          orientation="horizontal"
-          value={modalPlacement}
-          onValueChange={setModalPlacement}
-        >
-          <Radio value="auto">auto</Radio>
-          <Radio value="top">top</Radio>
-          <Radio value="bottom">bottom</Radio>
-          <Radio value="center">center</Radio>
-          <Radio value="top-center">top-center</Radio>
-          <Radio value="bottom-center">bottom-center</Radio>
-        </RadioGroup>
-        <Select
-          label="Favorite Animal"
-          placeholder="Select an animal"
-          className="max-w-xs"
-        >
-          <SelectItem>1</SelectItem>
-          <SelectItem>2</SelectItem>
-          <SelectItem>3</SelectItem>
-        </Select>
-        <Modal
-          isOpen={isOpen}
-          placement={modalPlacement}
-          onOpenChange={onOpenChange}
-        >
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
-                <ModalBody>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nullam pulvinar risus non risus hendrerit venenatis.
-                    Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                  </p>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nullam pulvinar risus non risus hendrerit venenatis.
-                    Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                  </p>
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
-                    Close
-                  </Button>
-                  <Button color="primary" onPress={onClose}>
-                    Action
-                  </Button>
-                </ModalFooter>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      </div>
-    </NextUIProvider>
-  )
+
+    const token = localStorage.getItem('token');
+
+
+    const errorLink = onError(({ graphQLErrors, networkError }) => {
+        // Обработка ошибок GraphQL
+        if (graphQLErrors) {
+            graphQLErrors.forEach(({ message, locations, path }) => {
+                console.log(
+                    `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+                );
+            });
+        }
+
+        // Обработка ошибок сети
+        if (networkError) {
+            console.log(`[Network error]: ${networkError}`);
+        }
+    });
+
+    const client = new ApolloClient({
+        cache: new InMemoryCache(),
+        link: from([
+            errorLink,
+            new HttpLink({
+                uri: import.meta.env.VITE_SERVER_URL_GRAPHQL,
+                credentials: 'include',
+            }),
+        ]),
+    });
+
+    return (
+        <ApolloProvider client={client}>
+            <NextUIProvider>
+                <NavbarComponent />
+                <Router>
+                    <Routes>
+                        {token ? (
+                            <>
+                                <Route path="/" element={<HomePage />} />
+                                <Route path="/events" element={<EventListPage />} />
+                                <Route path="/event/:id" element={<EventPage />} />
+                            </>
+                        ) : (
+                            <>
+                                <Route path="/login" element={<LoginPage />} />
+                                <Route path="/register" element={<RegisterPage />} />
+                                <Route path={"*"} element={<LoginPage />} />
+                            </>
+                        )}
+                    </Routes>
+                </Router>
+            </NextUIProvider>
+        </ApolloProvider>
+    );
 }
 
-export default App
+export default App;

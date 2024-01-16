@@ -1,0 +1,90 @@
+.cardBlock {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    background-size: cover;
+    z-index: 1;
+    border-radius: 30px; /* Optional: Add rounded corners */
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+}
+
+.cardEventBody {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardEventTitle {
+    font-size: 32px;
+    color: #fff;
+    font-weight: 800;
+    position: absolute;
+    bottom: 50px;
+    left: 20px;
+    line-height: 33.813px;
+    right: 40px;
+}
+
+.cardEventDate {
+    font-size: 16px;
+    color: #D6D9E2;
+    font-weight: 700;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.cardEventLocationIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 100px;
+    background: #fff;
+}
+
+.cardEventLocation {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    min-width: 120px;
+    width: 150px;
+    border-radius: 1000px;
+}
+.cardEventLocationText {
+    display: inline;
+    font-weight: 800;
+    margin-left: 7px;
+}
+
+/* Additional styling to ensure the card header spans the full width */
+.cardHeader {
+    width: 100%;
+}
+
+.cardEventActions {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.cardEventActionButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 61px;
+    height: 61px;
+    border-radius: 1000px;
+    background: #fff;
+    transition: 0.6s ease;
+}
+
+.cardEventActionButton:hover {
+    background: #D6D9E2;
+}
