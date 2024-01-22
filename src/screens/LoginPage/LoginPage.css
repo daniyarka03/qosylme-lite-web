@@ -1,5 +1,4 @@
 .main {
-    padding: 0 28rem;
 
     @media (max-width: 768px) {
         padding: 0 2rem;
@@ -19,9 +18,10 @@
 }
 
 .login-page .auth-block {
-    width: 450px;
+    max-width: 450px;
     margin: 0 auto;
 }
+
 
 .login-page .auth-block .title {
     font-size: 30px;

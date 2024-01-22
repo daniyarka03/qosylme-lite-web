@@ -11,6 +11,9 @@ import LoginPage from "./screens/LoginPage/LoginPage";
 import RegisterPage from "./screens/RegisterPage/RegisterPage";
 import {ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache} from "@apollo/client";
 import {onError} from "@apollo/client/link/error";
+import ProfilePage from "./screens/ProfilePage/ProfilePage";
+import CreateEventPage from "./screens/CreateEventPage/CreateEventPage";
+import UpdateEventPage from "./screens/UpdateEventPage/UpdateEventPage";
 
 function App() {
 
@@ -55,6 +58,10 @@ function App() {
                                 <Route path="/" element={<HomePage />} />
                                 <Route path="/events" element={<EventListPage />} />
                                 <Route path="/event/:id" element={<EventPage />} />
+                                <Route path="/profile" element={<ProfilePage />} />
+                                <Route path="/event/create" element={<CreateEventPage />} />
+                                <Route path="/event/:id/edit" element={<UpdateEventPage />} />
+                                <Route path={"*"} element={<HomePage />} />
                             </>
                         ) : (
                             <>

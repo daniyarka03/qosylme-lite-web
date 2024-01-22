@@ -38,3 +38,14 @@ export const SHOW_EVENT_BY_ID = gql`
     }
   }
 `;
+
+export const GET_CURRENT_USER = gql`
+query {
+  loggedIn {
+    userId,
+    firstname
+    lastname,
+    email
+  }
+}
+`;

@@ -11,7 +11,7 @@ const RegisterPage = () => {
     }
     return (
         <>
-            <div className="login-page main">
+            <div className="register-page main">
                 <div className="auth-block">
                     <h2 className="title">New account</h2>
                     <Input type="email" label="Email" className="field__email" />

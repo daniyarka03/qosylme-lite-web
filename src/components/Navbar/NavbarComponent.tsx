@@ -54,7 +54,7 @@ const NavbarComponent = () => {
                 {token ? (
                     <NavbarItem>
                         <Link href="/profile">
-                            <Button auto  color="primary" className="font-bold">
+                            <Button color="primary" className="font-bold">
                                 Профиль
                             </Button>
                         </Link>

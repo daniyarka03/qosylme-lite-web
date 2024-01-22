@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Button } from '@nextui-org/react';
 import photo from '../../assets/image.jpg';
 import style from './EventPage.module.css';
@@ -38,7 +38,10 @@ const EventPage = () => {
                     <h1 className={style.eventTitle}>{event.name}</h1>
                     <p>{event.description}</p>
                     <br />
-                    <Button color="primary">Join Event</Button>
+                    <div className="row">
+                        <Button color="primary">Join Event</Button>
+                        <Link to="./edit"><Button color="primary" className="ml-2">Edit info of Event</Button></Link>
+                    </div>
                 </>
             )}
         </div>
