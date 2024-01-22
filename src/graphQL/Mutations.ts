@@ -71,3 +71,11 @@ export const UPDATE_EVENT = gql`
     }
   }
 `;
+
+export const DELETE_EVENT = gql`
+  mutation deleteEvent($eventId: ID!) {
+    deleteEvent(eventId: $eventId) {
+      success
+    }
+  }
+`;

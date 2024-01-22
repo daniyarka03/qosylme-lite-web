@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import {Link, useParams} from 'react-router-dom';
-import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Button } from '@nextui-org/react';
-import photo from '../../assets/image.jpg';
+import { Image, Button } from '@nextui-org/react';
 import style from './EventPage.module.css';
 import { SHOW_EVENT_BY_ID } from '../../graphQL/Queries';
-import { useQuery } from '@apollo/client';
+import { DELETE_EVENT } from '../../graphQL/Mutations';
+import {useMutation, useQuery} from '@apollo/client';
 
 interface EventPageProps {
     eventId: number;
@@ -23,12 +23,29 @@ const EventPage = () => {
     });
 
     const [event, setEvent] = React.useState<EventPageProps | null>(null);
-
+    const [deleteEvent, { loading: deleteLoading, error: deleteError }] = useMutation(DELETE_EVENT);
     useEffect(() => {
         if (data) {
             setEvent(data.eventById);
         }
     }, [data]);
+
+    const handleDelete = async () => {
+        try {
+            const { data: deleteData } = await deleteEvent({
+                variables: { eventId: id },
+            });
+
+            console.log('Deleted Event:', deleteData.deleteEvent);
+            // Добавь обработку успешного удаления мероприятия
+            // Перенаправление на главную страницу после удаления
+            window.location.href = '/events';
+        } catch (error: any) {
+            console.error('Error deleting event:', error.message);
+            // Добавь обработку ошибок
+        }
+    };
+
 
     return (
         <div className={`${style.eventBlock}`}>
@@ -40,7 +57,9 @@ const EventPage = () => {
                     <br />
                     <div className="row">
                         <Button color="primary">Join Event</Button>
+
                         <Link to="./edit"><Button color="primary" className="ml-2">Edit info of Event</Button></Link>
+                        <Button color="danger" onClick={() => handleDelete()}>Delete Event</Button>
                     </div>
                 </>
             )}

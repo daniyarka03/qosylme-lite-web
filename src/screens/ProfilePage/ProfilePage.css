@@ -1,0 +1,11 @@
+.main {
+    padding: 4rem 16.1rem;
+
+    @media (max-width: 768px) {
+        padding: 2rem 2rem;
+    }
+
+    @media (max-width: 576px) {
+        padding: 1rem 1rem;
+    }
+}
