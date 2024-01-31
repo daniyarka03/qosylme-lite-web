@@ -14,6 +14,8 @@ import {onError} from "@apollo/client/link/error";
 import ProfilePage from "./screens/ProfilePage/ProfilePage";
 import CreateEventPage from "./screens/CreateEventPage/CreateEventPage";
 import UpdateEventPage from "./screens/UpdateEventPage/UpdateEventPage";
+import SettingsPage from "./screens/SettingsPage/SettingsPage";
+import EditProfilePage from "./screens/EditProfilePage/EditProfilePage";
 
 function App() {
 
@@ -59,8 +61,10 @@ function App() {
                                 <Route path="/events" element={<EventListPage />} />
                                 <Route path="/event/:id" element={<EventPage />} />
                                 <Route path="/profile" element={<ProfilePage />} />
+                                <Route path="/profile/edit" element={<EditProfilePage />} />
                                 <Route path="/event/create" element={<CreateEventPage />} />
                                 <Route path="/event/:id/edit" element={<UpdateEventPage />} />
+                                <Route path="/settings" element={<SettingsPage />} />
                                 <Route path={"*"} element={<HomePage />} />
                             </>
                         ) : (

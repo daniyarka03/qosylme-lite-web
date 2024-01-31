@@ -5,6 +5,8 @@ export const useInfoProfile = () => {
 
     const token = localStorage.getItem('token');
 
+
+
     const { data, loading, error } = useQuery(GET_CURRENT_USER, {
         context: {
             headers: {
@@ -13,7 +15,10 @@ export const useInfoProfile = () => {
         },
     });
 
+    console.log(error);
+
     if (data) {
+        console.log(data);
         return data.loggedIn;
     }
 };

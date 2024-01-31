@@ -44,7 +44,7 @@ const CardEvent = ({data}: CardEventProps) => {
             <div className={style.cardEventBody}>
                 <div className={style.cardEventContent}>
                     <h1 className={style.cardEventTitle}>{data.name}</h1>
-                    <p className={style.cardEventDate}>24 December</p>
+                    <p className={style.cardEventDate}></p>
                 </div>
                 <div className={style.cardEventActions}>
                     <Link to={"/event/" + data.eventId} replace><button className={style.cardEventActionButton}><img src={ArrowIcon} alt=""/></button></Link>
