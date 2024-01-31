@@ -40,8 +40,8 @@ export const GET_USER_INFO = gql`
 `;
 
 export const CREATE_EVENT = gql`
-  mutation createEvent($name: String!, $description: String!, $date: Date!, $time: Time!, $location: String!, $image_cover: String!) {
-    createEvent( name: $name, description: $description, date: $date, time: $time, location: $location, imageCover: $image_cover) {
+  mutation createEvent($name: String!, $description: String!, $date: Date!, $time: Time!, $location: String!, $image_cover: String!, $userId: ID!, $email: String!, $firstname: String!, $lastname: String!) {
+    createEvent( name: $name, description: $description, date: $date, time: $time, location: $location, imageCover: $image_cover, userId: $userId, email: $email, firstname: $firstname, lastname: $lastname) {
       event {
         eventId
         name
@@ -50,10 +50,17 @@ export const CREATE_EVENT = gql`
         time
         location
         imageCover
+        authorEvent {
+            userId
+            email
+            firstname
+            lastname
+        }
       }
     }
   }
 `;
+
 
 export const UPDATE_EVENT = gql`
   mutation updateEvent(

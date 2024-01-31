@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_EVENT } from '../../graphQL/Mutations';
+import ModalLoading from "../../components/ModalLoading/ModalLoading";
+import {useModalLoadingStore} from "../../store/store";
+import {useInfoProfile} from "../../hooks/useInfoProfile";
 
 const CreateEventPage = () => {
+    const profileData = useInfoProfile();
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -10,24 +14,42 @@ const CreateEventPage = () => {
         time: '',
         location: '',
         image_cover: '',
+        userId: 0,
+        email: '',
+        firstname: '',
+        lastname: ''
     });
+
+    const {toggleModal} = useModalLoadingStore();
 
     const [createEvent, { loading, error }] = useMutation(CREATE_EVENT);
 
+    useEffect(() => {
+          if (profileData) {
+            setFormData({
+                ...formData,
+                    userId: parseInt(profileData.userId),
+                    email: profileData.email,
+                    firstname: profileData.firstname,
+                    lastname: profileData.lastname
+            })
+        }
+    }, [profileData]);
+
     const handleSubmit = async (e: any) => {
+        toggleModal();
         e.preventDefault();
 
-        console.log('Form Data:', formData);
 
         try {
-            const { data } = await createEvent({
+            const { data, errors } = await createEvent({
                 variables: {
                     ...formData,
                 },
             });
 
-            console.log('Created Event:', data.createEvent.event);
-            // Добавь обработку успешного создания мероприятия
+
+            window.location.href = `/event/${data.createEvent.event.eventId}`;
         } catch (error: any) {
             console.error('Error creating event:', error.message);
             // Добавь обработку ошибок
@@ -68,6 +90,7 @@ const CreateEventPage = () => {
 
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
+            <ModalLoading />
         </div>
     );
 };

@@ -5,6 +5,7 @@ import style from './EventPage.module.css';
 import { SHOW_EVENT_BY_ID } from '../../graphQL/Queries';
 import { DELETE_EVENT } from '../../graphQL/Mutations';
 import {useMutation, useQuery} from '@apollo/client';
+import {useInfoProfile} from "../../hooks/useInfoProfile";
 
 interface EventPageProps {
     eventId: number;
@@ -22,11 +23,18 @@ const EventPage = () => {
         variables: { eventId: id }, // Convert id to integer if needed
     });
 
+    const [isAuthor, setIsAuthor] = React.useState(false);
+
+    const profileData = useInfoProfile();
+
     const [event, setEvent] = React.useState<EventPageProps | null>(null);
     const [deleteEvent, { loading: deleteLoading, error: deleteError }] = useMutation(DELETE_EVENT);
     useEffect(() => {
         if (data) {
             setEvent(data.eventById);
+            if (profileData && data.eventById.authorEvent.userId === profileData.userId) {
+                setIsAuthor(true);
+            }
         }
     }, [data]);
 
@@ -55,12 +63,16 @@ const EventPage = () => {
                     <h1 className={style.eventTitle}>{event.name}</h1>
                     <p>{event.description}</p>
                     <br />
-                    <div className="row">
-                        <Button color="primary">Join Event</Button>
-
-                        <Link to="./edit"><Button color="primary" className="ml-2">Edit info of Event</Button></Link>
-                        <Button color="danger" onClick={() => handleDelete()}>Delete Event</Button>
-                    </div>
+                    {isAuthor && (
+                        <div className="row">
+                            <Link to="./edit"><Button color="primary" className="ml-2">Edit info of Event</Button></Link>
+                            <Button color="danger" onClick={() => handleDelete()}>Delete Event</Button>
+                        </div>
+                    ) || (
+                        <div className="row">
+                            <Button color="primary">Join Event</Button>
+                        </div>
+                        )}
                 </>
             )}
         </div>

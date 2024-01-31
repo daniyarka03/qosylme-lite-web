@@ -3,9 +3,12 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { UPDATE_EVENT } from '../../graphQL/Mutations';
 import {SHOW_EVENT_BY_ID} from "../../graphQL/Queries";
+import ModalLoading from "../../components/ModalLoading/ModalLoading";
+import {useModalLoadingStore} from "../../store/store";
 
 const UpdateEventPage = () => {
     const { id } = useParams();
+    const {toggleModal} = useModalLoadingStore();
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -29,6 +32,7 @@ const UpdateEventPage = () => {
     }, [loading, data]);
 
     const handleSubmit = async (e: any) => {
+        toggleModal();
         e.preventDefault();
         console.log('Form Data:', formData);
 
@@ -40,7 +44,7 @@ const UpdateEventPage = () => {
                 },
             });
 
-            console.log('Updated Event:', updateData.updateEvent.event);
+            window.location.href = `/event/${id}`;
             // Добавь обработку успешного обновления мероприятия
         } catch (error: any) {
             console.error('Error updating event:', error.message);
@@ -87,6 +91,7 @@ const UpdateEventPage = () => {
 
             {updateLoading && <p>Updating...</p>}
             {updateError && <p>Error: {updateError.message}</p>}
+            <ModalLoading />
         </div>
     );
 };

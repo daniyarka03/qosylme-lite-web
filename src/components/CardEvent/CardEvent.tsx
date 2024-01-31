@@ -5,6 +5,7 @@ import style from './CardEvent.module.css';
 import { Link } from 'react-router-dom';
 import LocationIcon from '../../assets/Location.svg';
 import ArrowIcon from '../../assets/arrow.svg';
+import {useChangeFormatDate} from "../../hooks/useChangeFormatDate";
 interface CardEventProps {
     style?: React.CSSProperties,
     data: {
@@ -12,7 +13,8 @@ interface CardEventProps {
         name: string,
         author: string,
         imageCover: string,
-        location: string
+        location: string,
+        date: string,
     }
 }
 const CardEvent = ({data}: CardEventProps) => {
@@ -28,6 +30,10 @@ const CardEvent = ({data}: CardEventProps) => {
     // Pick a random color
     const randomColor = colors[randomIndex];
 
+    const dateEvent = new Date(data.date);
+    const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US' });
+    console.log(goodFormatDate)
+
     const [isFollowed, setIsFollowed] = React.useState(false);
     return (
         <div className={style.cardBlock} style={{
@@ -38,18 +44,17 @@ const CardEvent = ({data}: CardEventProps) => {
                     <div className={style.cardEventLocationIcon}>
                         <img src={LocationIcon}/>
                     </div>
-                    <p className={style.cardEventLocationText} style={{color: 'rgba(0, 0, 0, .7)'}}>{data.location}</p>
+                    <p className={style.cardEventLocationText} style={{color: 'rgba(0, 0, 0, .7)'}}>{goodFormatDate}</p>
                 </div>
             </div>
             <div className={style.cardEventBody}>
                 <div className={style.cardEventContent}>
                     <h1 className={style.cardEventTitle}>{data.name}</h1>
-                    <p className={style.cardEventDate}></p>
+                    <p className={style.cardEventDate}>{data.location}</p>
                 </div>
                 <div className={style.cardEventActions}>
                     <Link to={"/event/" + data.eventId} replace><button className={style.cardEventActionButton}><img src={ArrowIcon} alt=""/></button></Link>
                 </div>
-
             </div>
         </div>
     );
