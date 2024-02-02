@@ -7,8 +7,9 @@ import {
     Link,
     Button,
     NavbarMenuToggle,
-    NavbarMenuItem, NavbarMenu
+    NavbarMenuItem, NavbarMenu, Image
 } from "@nextui-org/react";
+import Logo from '../../assets/logo.png';
 
 const NavbarComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -29,7 +30,7 @@ const NavbarComponent = () => {
                     className="sm:hidden"
                 />
                 <NavbarBrand>
-                    <p className="font-bold text-inherit">Qosylme</p>
+                    <Image src={Logo} style={{height: "48px", width: "auto"}}/>
                 </NavbarBrand>
             </NavbarContent>
 

@@ -15,10 +15,8 @@ export const useInfoProfile = () => {
         },
     });
 
-    console.log(error);
 
     if (data) {
-        console.log(data);
         return data.loggedIn;
     }
 };

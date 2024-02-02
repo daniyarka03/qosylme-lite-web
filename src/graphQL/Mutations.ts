@@ -133,3 +133,20 @@ export const REFRESH_TOKEN = gql`
         }
     }
 `;
+
+export const UPDATE_EVENT_JOIN_FUNCTION = gql`
+  mutation updateEvent(
+    $eventId: ID!
+    $guests: [ID!]
+  ) {
+    updateEvent(
+      eventId: $eventId
+      guests: $guests
+    ) {
+      event {
+        eventId
+        guests
+      }
+    }
+  }
+`;

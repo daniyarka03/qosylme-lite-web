@@ -35,6 +35,7 @@ export const SHOW_EVENT_BY_ID = gql`
         firstname
         lastname
       }
+      guests
     }
   }
 `;
