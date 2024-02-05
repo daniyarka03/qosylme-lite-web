@@ -12,6 +12,12 @@ interface IModalLoadingStore {
     toggleModal: () => void
 }
 
+interface IModalSuccessJoinEventStore {
+    isOpen: boolean
+    toggleModal: () => void
+
+}
+
 interface Guest {
     id: number;
 }
@@ -31,6 +37,11 @@ export const useStore = create<IStore>((set) => ({
 }))
 
 export const useModalLoadingStore = create<IModalLoadingStore>((set) => ({
+    isOpen: false,
+    toggleModal: () => set((state) => ({ isOpen: !state.isOpen })),
+}));
+
+export const useModalSuccessJoinEventStore = create<IModalSuccessJoinEventStore>((set) => ({
     isOpen: false,
     toggleModal: () => set((state) => ({ isOpen: !state.isOpen })),
 }));

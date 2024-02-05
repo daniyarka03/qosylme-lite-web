@@ -6,6 +6,8 @@ import { SHOW_EVENT_BY_ID } from '../../graphQL/Queries';
 import {DELETE_EVENT, UPDATE_EVENT_JOIN_FUNCTION} from '../../graphQL/Mutations';
 import {useMutation, useQuery} from '@apollo/client';
 import {useInfoProfile} from "../../hooks/useInfoProfile";
+import ModalSuccessJoinedEvent from "../../components/ModalSuccessJoinedEvent/ModalSuccessJoinedEvent";
+import {useModalLoadingStore, useModalSuccessJoinEventStore} from "../../store/store";
 
 interface EventPageProps {
     eventId: number;
@@ -28,6 +30,7 @@ const EventPage = () => {
     const [isAuthor, setIsAuthor] = React.useState(false);
 
     const profileData = useInfoProfile();
+    const {toggleModal} = useModalSuccessJoinEventStore();
 
     const [event, setEvent] = React.useState<EventPageProps | null>(null);
     const [deleteEvent, { loading: deleteLoading, error: deleteError }] = useMutation(DELETE_EVENT);
@@ -60,23 +63,14 @@ const EventPage = () => {
         }
     };
 
-
     const joinGuestHandler = async () => {
-
         const currentGuests = guestsList;
-        console.log('currentGuests', currentGuests)
-        if (currentGuests.includes(profileData.userId)) {
-            console.log('TRUE')
+        if (currentGuests.includes(parseInt(profileData.userId))) {
+            //console.log('ОН УЖЕ В МЕРОПРИЯТИИ')
             try {
-                console.log('currentGuests', currentGuests)
-                console.log('currentGuests Typeof', typeof currentGuests)
                 const updatedGuests = currentGuests.filter((guest) => {
-                    console.log('guest', guest)
-                    console.log('profileData.userId', +profileData.userId)
-                    console.log('guest !== profileData.userId', guest !== +profileData.userId)
-                    return guest !== profileData.userId
+                    return guest === profileData.userId
                 });
-                console.log('updatedGuests', updatedGuests)
                 const { data: joinData } = await updateEventFunction({
                     variables: { eventId: id, guests: updatedGuests },
                 });
@@ -88,28 +82,19 @@ const EventPage = () => {
             }
         } else {
             try {
-
-                const updatedGuests = [...currentGuests, profileData.userId];
+                const updatedGuests = [...currentGuests, parseInt(profileData.userId)];
                 const { data: joinData } = await updateEventFunction({
                     variables: { eventId: id, guests: updatedGuests },
                 });
 
                 setGuestsList(updatedGuests)
+                toggleModal();
 
-                // Добавь обработку успешного добавления пользователя в список гостей
-                // Перенаправление на страницу мероприятия после добавления
             } catch (error: any) {
                 console.error('Error joining event:', error.message);
-                // Добавь обработку ошибок
             }
         }
-
-
     }
-
-
-
-
 
     return (
         <div className={`${style.eventBlock}`}>
@@ -145,6 +130,7 @@ const EventPage = () => {
                             <Button color="primary" onClick={() => joinGuestHandler()}>Join Event</Button>
                         </div>
                         )}
+                    <ModalSuccessJoinedEvent event={event} />
                 </>
             )}
         </div>

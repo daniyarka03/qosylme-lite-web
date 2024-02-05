@@ -15,9 +15,8 @@ const CreateEventPage = () => {
         location: '',
         image_cover: '',
         userId: 0,
-        email: '',
-        firstname: '',
-        lastname: ''
+        guestIds: [],
+
     });
 
     const {toggleModal} = useModalLoadingStore();
@@ -29,9 +28,6 @@ const CreateEventPage = () => {
             setFormData({
                 ...formData,
                     userId: parseInt(profileData.userId),
-                    email: profileData.email,
-                    firstname: profileData.firstname,
-                    lastname: profileData.lastname
             })
         }
     }, [profileData]);
