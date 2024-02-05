@@ -11,10 +11,12 @@ export const SHOW_ALL_EVENTS = gql`
             date
             imageCover
             authorEvent {
+                userId
                 firstname
                 lastname
                 email
             }
+            guests
         }
     }
     `;

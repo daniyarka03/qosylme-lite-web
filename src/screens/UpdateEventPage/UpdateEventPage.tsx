@@ -19,7 +19,7 @@ const UpdateEventPage = () => {
     });
 
     const { loading, error, data } = useQuery(SHOW_EVENT_BY_ID, {
-        variables: { eventId: id },
+        variables: { eventId: parseInt(id) },
     });
 
     const [updateEvent, { loading: updateLoading, error: updateError }] = useMutation(UPDATE_EVENT);

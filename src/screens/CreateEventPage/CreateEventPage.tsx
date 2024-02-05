@@ -4,6 +4,8 @@ import { CREATE_EVENT } from '../../graphQL/Mutations';
 import ModalLoading from "../../components/ModalLoading/ModalLoading";
 import {useModalLoadingStore} from "../../store/store";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
+import {Button, Input} from "@nextui-org/react";
+import "./CreateEventPage.css";
 
 const CreateEventPage = () => {
     const profileData = useInfoProfile();
@@ -60,34 +62,173 @@ const CreateEventPage = () => {
     };
 
     return (
-        <div>
-            <h2>Create Event</h2>
-            <form onSubmit={handleSubmit}>
-                <label>Name:</label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+        <div className="main">
+            <div className="section-create-event">
+                <h2>Create Event</h2>
+                <form onSubmit={handleSubmit}>
+                    <Input
+                        variant="flat"
+                        className="section__input"
+                        classNames={{
+                            input: [
+                                "bg-transparent",
+                                "text-black/90 dark:text-white/90",
+                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                            ],
+                            innerWrapper: "bg-transparent",
+                            inputWrapper: [
+                                "bg-default-200/50",
+                                "dark:bg-default/60",
+                                "backdrop-blur-xl",
+                                "backdrop-saturate-200",
+                                "hover:bg-default-200/70",
+                                "dark:hover:bg-default/70",
+                                "group-data-[focused=true]:bg-default-200/50",
+                                "dark:group-data-[focused=true]:bg-default/60",
+                                "!cursor-text",
+                            ],
+                        }}
+                        label="Name"
+                        color="default"
+                        type="text"
+                        name="name"
+                        value={formData.name} onChange={handleChange} required />
 
-                <label>Description:</label>
-                <input type="text" name="description" value={formData.description} onChange={handleChange} required />
+                    <Input
+                        className="section__input"
+                        classNames={{
+                            input: [
+                                "bg-transparent",
+                                "text-black/90 dark:text-white/90",
+                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                            ],
+                            innerWrapper: "bg-transparent",
+                            inputWrapper: [
+                                "bg-default-200/50",
+                                "dark:bg-default/60",
+                                "backdrop-blur-xl",
+                                "backdrop-saturate-200",
+                                "hover:bg-default-200/70",
+                                "dark:hover:bg-default/70",
+                                "group-data-[focused=true]:bg-default-200/50",
+                                "dark:group-data-[focused=true]:bg-default/60",
+                                "!cursor-text",
+                            ],
+                        }}
+                        label="Description"
+                        type="text"
+                        name="description"
+                        value={formData.description} onChange={handleChange} required />
 
-                <label>Date:</label>
-                <input type="date" name="date" value={formData.date} onChange={handleChange} required />
+                    <Input
+                        className="section__input"
+                        classNames={{
+                            input: [
+                                "bg-transparent",
+                                "text-black/90 dark:text-white/90",
+                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                            ],
+                            innerWrapper: "bg-transparent",
+                            inputWrapper: [
+                                "bg-default-200/50",
+                                "dark:bg-default/60",
+                                "backdrop-blur-xl",
+                                "backdrop-saturate-200",
+                                "hover:bg-default-200/70",
+                                "dark:hover:bg-default/70",
+                                "group-data-[focused=true]:bg-default-200/50",
+                                "dark:group-data-[focused=true]:bg-default/60",
+                                "!cursor-text",
+                            ],
+                        }}
+                        label="Date"
+                        type="date"
+                        name="date"
+                        value={formData.date} onChange={handleChange} required />
 
-                <label>Time:</label>
-                <input type="time" name="time" value={formData.time} onChange={handleChange} required />
+                    <Input
+                        className="section__input"
+                        classNames={{
+                            input: [
+                                "bg-transparent",
+                                "text-black/90 dark:text-white/90",
+                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                            ],
+                            innerWrapper: "bg-transparent",
+                            inputWrapper: [
+                                "bg-default-200/50",
+                                "dark:bg-default/60",
+                                "backdrop-blur-xl",
+                                "backdrop-saturate-200",
+                                "hover:bg-default-200/70",
+                                "dark:hover:bg-default/70",
+                                "group-data-[focused=true]:bg-default-200/50",
+                                "dark:group-data-[focused=true]:bg-default/60",
+                                "!cursor-text",
+                            ],
+                        }}
+                        label="Time"
+                        type="time"
+                        name="time"
+                        value={formData.time} onChange={handleChange} required />
 
-                <label>Location:</label>
-                <input type="text" name="location" value={formData.location} onChange={handleChange} required />
+                    <Input
+                        className="section__input"
+                        classNames={{
+                            input: [
+                                "bg-transparent",
+                                "text-black/90 dark:text-white/90",
+                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                            ],
+                            innerWrapper: "bg-transparent",
+                            inputWrapper: [
+                                "bg-default-200/50",
+                                "dark:bg-default/60",
+                                "backdrop-blur-xl",
+                                "backdrop-saturate-200",
+                                "hover:bg-default-200/70",
+                                "dark:hover:bg-default/70",
+                                "group-data-[focused=true]:bg-default-200/50",
+                                "dark:group-data-[focused=true]:bg-default/60",
+                                "!cursor-text",
+                            ],
+                        }}
+                        label="Location"
+                        type="text"
+                        name="location"
+                        value={formData.location} onChange={handleChange} required />
 
-                <label>Image Cover:</label>
-                <input type="text" name="image_cover" value={formData.image_cover} onChange={handleChange} required />
+                    <Input
+                        className="section__input"
+                        classNames={{
+                            input: [
+                                "bg-transparent",
+                                "text-black/90 dark:text-white/90",
+                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                            ],
+                            innerWrapper: "bg-transparent",
+                            inputWrapper: [
+                                "bg-default-200/50",
+                                "dark:bg-default/60",
+                                "backdrop-blur-xl",
+                                "backdrop-saturate-200",
+                                "hover:bg-default-200/70",
+                                "dark:hover:bg-default/70",
+                                "group-data-[focused=true]:bg-default-200/50",
+                                "dark:group-data-[focused=true]:bg-default/60",
+                                "!cursor-text",
+                            ],
+                        }}
+                        label="Image Cover"
+                        type="text"
+                        name="image_cover" value={formData.image_cover} onChange={handleChange} required />
 
-                <button type="submit" disabled={loading}>Create Event</button>
-            </form>
+                    <Button color="primary" type="submit" disabled={loading}>Create Event</Button>
+                </form>
 
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error.message}</p>}
-            <ModalLoading />
-        </div>
+                {error && <p>Error: {error.message}</p>}
+                <ModalLoading />
+            </div></div>
     );
 };
 

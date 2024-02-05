@@ -23,10 +23,10 @@ interface EventPageProps {
 const EventPage = () => {
     const { id } = useParams();
     const { error, loading, data } = useQuery(SHOW_EVENT_BY_ID, {
-        variables: { eventId: id }, // Convert id to integer if needed
+        variables: { eventId: parseInt(id) }, // Convert id to integer if needed
     });
     const [updateEventFunction, {data: data2}] = useMutation(UPDATE_EVENT_JOIN_FUNCTION);
-
+    const [stateJoinText, setStateJoinText] = React.useState('Join Event');
     const [isAuthor, setIsAuthor] = React.useState(false);
 
     const profileData = useInfoProfile();
@@ -76,6 +76,7 @@ const EventPage = () => {
                 });
 
                 setGuestsList(updatedGuests)
+                setStateJoinText('Join Event')
 
             } catch (error: any) {
                 console.error('Error joining event:', error.message);
@@ -88,6 +89,7 @@ const EventPage = () => {
                 });
 
                 setGuestsList(updatedGuests)
+                setStateJoinText('Leave Event')
                 toggleModal();
 
             } catch (error: any) {
@@ -127,7 +129,7 @@ const EventPage = () => {
                         </div>
                     ) || (
                         <div className="row">
-                            <Button color="primary" onClick={() => joinGuestHandler()}>Join Event</Button>
+                            <Button color={stateJoinText === "Join Event" ? "primary" : "danger"} onClick={() => joinGuestHandler()}>{stateJoinText}</Button>
                         </div>
                         )}
                     <ModalSuccessJoinedEvent event={event} />

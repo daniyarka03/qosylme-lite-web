@@ -9,3 +9,10 @@
         padding: 1rem 1rem;
     }
 }
+
+.profile__list-events__title {
+    font-size: 36px;
+    margin-top: 50px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
