@@ -4,6 +4,8 @@ import {Link} from "react-router-dom";
 import './RegisterPage.css';
 import {useMutation} from "@apollo/client";
 import {CREATE_USER, LOGIN_MUTATION} from "../../graphQL/Mutations";
+import {useModalLoadingStore} from "../../store/store";
+import ModalLoading from "../../components/ModalLoading/ModalLoading";
 
 const RegisterPage = () => {
 
@@ -15,10 +17,12 @@ const RegisterPage = () => {
 
     const [login, { data }] = useMutation(LOGIN_MUTATION);
 
+    const {toggleModal} = useModalLoadingStore();
+
 
 
     const createAccountHandler  = async () => {
-
+        toggleModal();
         try {
             const { data } = await createUser({
                 variables: {
@@ -69,6 +73,7 @@ const RegisterPage = () => {
                     <span className="subspan__signup">Do you have already account? <Link to="/login" className="subspan__signup-link">Login Account</Link></span>
                 </div>
             </div>
+            <ModalLoading />
         </>
     );
 };

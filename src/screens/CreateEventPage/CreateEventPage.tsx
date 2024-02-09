@@ -4,7 +4,7 @@ import { CREATE_EVENT } from '../../graphQL/Mutations';
 import ModalLoading from "../../components/ModalLoading/ModalLoading";
 import {useModalLoadingStore} from "../../store/store";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
-import {Button, Input} from "@nextui-org/react";
+import {Button, Input, Textarea} from "@nextui-org/react";
 import "./CreateEventPage.css";
 
 const CreateEventPage = () => {
@@ -82,6 +82,7 @@ const CreateEventPage = () => {
                                 "backdrop-blur-xl",
                                 "backdrop-saturate-200",
                                 "hover:bg-default-200/70",
+                                "focus-within:!bg-default-200/50",
                                 "dark:hover:bg-default/70",
                                 "group-data-[focused=true]:bg-default-200/50",
                                 "dark:group-data-[focused=true]:bg-default/60",
@@ -94,7 +95,7 @@ const CreateEventPage = () => {
                         name="name"
                         value={formData.name} onChange={handleChange} required />
 
-                    <Input
+                    <Textarea
                         className="section__input"
                         classNames={{
                             input: [
@@ -109,6 +110,7 @@ const CreateEventPage = () => {
                                 "backdrop-blur-xl",
                                 "backdrop-saturate-200",
                                 "hover:bg-default-200/70",
+                                "focus-within:!bg-default-200/50",
                                 "dark:hover:bg-default/70",
                                 "group-data-[focused=true]:bg-default-200/50",
                                 "dark:group-data-[focused=true]:bg-default/60",
@@ -135,6 +137,7 @@ const CreateEventPage = () => {
                                 "backdrop-blur-xl",
                                 "backdrop-saturate-200",
                                 "hover:bg-default-200/70",
+                                "focus-within:!bg-default-200/50",
                                 "dark:hover:bg-default/70",
                                 "group-data-[focused=true]:bg-default-200/50",
                                 "dark:group-data-[focused=true]:bg-default/60",
@@ -144,10 +147,12 @@ const CreateEventPage = () => {
                         label="Date"
                         type="date"
                         name="date"
+                        placeholder="Date"
                         value={formData.date} onChange={handleChange} required />
 
                     <Input
                         className="section__input"
+                        placeholder="Time"
                         classNames={{
                             input: [
                                 "bg-transparent",
@@ -161,6 +166,7 @@ const CreateEventPage = () => {
                                 "backdrop-blur-xl",
                                 "backdrop-saturate-200",
                                 "hover:bg-default-200/70",
+                                "focus-within:!bg-default-200/50",
                                 "dark:hover:bg-default/70",
                                 "group-data-[focused=true]:bg-default-200/50",
                                 "dark:group-data-[focused=true]:bg-default/60",
@@ -187,6 +193,7 @@ const CreateEventPage = () => {
                                 "backdrop-blur-xl",
                                 "backdrop-saturate-200",
                                 "hover:bg-default-200/70",
+                                "focus-within:!bg-default-200/50",
                                 "dark:hover:bg-default/70",
                                 "group-data-[focused=true]:bg-default-200/50",
                                 "dark:group-data-[focused=true]:bg-default/60",
@@ -213,6 +220,7 @@ const CreateEventPage = () => {
                                 "backdrop-blur-xl",
                                 "backdrop-saturate-200",
                                 "hover:bg-default-200/70",
+                                "focus-within:!bg-default-200/50",
                                 "dark:hover:bg-default/70",
                                 "group-data-[focused=true]:bg-default-200/50",
                                 "dark:group-data-[focused=true]:bg-default/60",

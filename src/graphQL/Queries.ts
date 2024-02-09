@@ -52,3 +52,42 @@ query {
   }
 }
 `;
+
+export const GET_USERS = gql`
+query {
+  users {
+    userId
+    firstname
+    lastname
+    email
+  }
+}
+`;
+
+export const GET_USER_BY_ID = gql`
+  query GetUserById($userId: ID!) {
+    user (userId: $userId) {
+      userId
+      firstname
+      lastname
+      email
+      
+    }
+  }
+`;
+
+// events {
+//   eventId
+//   name
+//   description
+//   location
+//   date
+//   imageCover
+//   authorEvent {
+//     userId
+//     firstname
+//     lastname
+//     email
+//   }
+//   guests
+// }

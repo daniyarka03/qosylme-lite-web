@@ -1,3 +1,5 @@
+
+
 .eventBlock {
     display: flex;
     flex-direction: column;
@@ -16,7 +18,109 @@
 
 .eventImage {
     width: 800px;
-    height: 400px;
+    height: 500px;
     object-fit: cover;
-    margin-top: 40px;
+}
+
+.cardBlock {
+    position: relative;
+    width: 500px;
+    height: 400px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    background-size: cover;
+    z-index: 1;
+    border-radius: 30px; /* Optional: Add rounded corners */
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+}
+
+.cardEventBody {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardEventTitle {
+    font-size: 40px;
+    color: #fff;
+    font-weight: 800;
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    line-height: 40.813px;
+    right: 40px;
+
+}
+
+.eventInfoBlock {
+    width: 100%;
+    max-width: 500px;
+}
+
+
+.eventInfoDate {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.eventInfoLocation {
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    gap: 10px;
+}
+
+.eventInfoDateText {
+    font-size: 20px;
+    color: #25084B;
+    font-weight: 700;
+}
+
+.eventInfoTimeText {
+    font-size: 15px;
+    color: #8A8A8A;
+    font-weight: 600;
+}
+
+.eventInfoLocationText {
+    font-size: 20px;
+    color: #25084B;
+    font-weight: 700;
+}
+
+.eventInfoDescriptionTitle {
+    font-size: 24px;
+    color: #000;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.eventInfoDescriptionText {
+
+}
+
+.eventInfoAuthorTitle, .eventInfoLocationSectionTitle {
+    font-size: 24px;
+    color: #000;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.eventInfoLocationSectionTextValue {
+
+}
+
+.eventBlockButton {
+
+}
+
+@media (max-width: 768px) {
+    .eventInfoBlock {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 }

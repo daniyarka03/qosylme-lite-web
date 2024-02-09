@@ -3,7 +3,6 @@ import {useModalLoadingStore, useModalSuccessJoinEventStore} from "../../store/s
 import {
     Button,
     Card, CardHeader,
-    CircularProgress,
     Modal,
     ModalBody,
     ModalContent,
@@ -42,10 +41,8 @@ const ModalSuccessJoinedEvent = ({event}: ModalSuccessJoinedEventProps) => {
                                         removeWrapper
                                         alt="Card background"
                                         className="z-0 w-full h-full object-cover blur-darken-image"
-                                        src="https://images.unsplash.com/photo-1682685797229-b2930538da47?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                        src={event.imageCover}
                                     />
-
-
                             </Card>
                         </ModalBody>
                         <ModalFooter className="flex-column">
@@ -55,7 +52,7 @@ const ModalSuccessJoinedEvent = ({event}: ModalSuccessJoinedEventProps) => {
                                     color="primary"
                                     fullWidth={true}
                                     size="lg"
-                                    style={{ height: '4rem', fontWeight: 700, fontSize: '1.1rem' }}
+                                    style={{ height: '4rem', fontWeight: 700, fontSize: '1.1rem', marginBottom: "20px" }}
                                 >
                                     Check QR-ticket
                                 </Button>

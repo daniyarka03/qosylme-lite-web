@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, CardHeader, CardBody, CardFooter, Divider, Image, Button} from "@nextui-org/react";
 import photo from '../../assets/image.jpg';
 import style from './CardEvent.module.css';
@@ -25,6 +25,11 @@ const CardEvent = ({data}: CardEventProps) => {
         "#558FFF",
     ];
 
+    const [isMobile, setIsMobile] = useState(false);
+    const detectDeviceType = () => {
+        setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
+    };
+
     // Calculate a random index
     const randomIndex = Math.floor(Math.random() * colors.length);
     // Pick a random color
@@ -35,6 +40,49 @@ const CardEvent = ({data}: CardEventProps) => {
     console.log(goodFormatDate)
 
     const [isFollowed, setIsFollowed] = React.useState(false);
+    useEffect(() => {
+        detectDeviceType();
+        // Добавляем прослушиватель изменения размера окна для реакции на изменение типа устройства
+        window.addEventListener('resize', detectDeviceType);
+        // Убираем прослушиватель при размонтировании компонента
+        return () => window.removeEventListener('resize', detectDeviceType);
+    }, []);
+
+    if (isMobile != null) {
+
+        return isMobile ?
+            mobileVersionView({data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link})
+            :
+            desktopVersionView({data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link});
+    }
+};
+
+function mobileVersionView({data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
+    return (
+        <Link to={"/event/" + data.eventId} style={{width: "100%"}}>
+            <div className={style.cardBlock} style={{
+                background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.imageCover}) lightgray 50% / cover no-repeat`
+            }}>
+                <div className={style.cardEventHeader}>
+                    <div className={style.cardEventLocation} style={{background: randomColor}}>
+                        <div className={style.cardEventLocationIcon}>
+                            <img src={LocationIcon}/>
+                        </div>
+                        <p className={style.cardEventLocationText} style={{color: 'rgba(0, 0, 0, .7)'}}>{goodFormatDate}</p>
+                    </div>
+                </div>
+                <div className={style.cardEventBody}>
+                    <div className={style.cardEventContent}>
+                        <h1 className={style.cardEventTitle}>{data.name}</h1>
+                        <p className={style.cardEventDate}>{data.location}</p>
+                    </div>
+                </div>
+            </div>
+        </Link>
+    )
+}
+
+function desktopVersionView({data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
     return (
         <div className={style.cardBlock} style={{
             background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.imageCover}) lightgray 50% / cover no-repeat`
@@ -57,7 +105,7 @@ const CardEvent = ({data}: CardEventProps) => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
 export default CardEvent;

@@ -1,5 +1,5 @@
 .main {
-    padding: 0 28rem;
+    padding: 0 120px;
 
     @media (max-width: 768px) {
         padding: 0 2rem;
@@ -23,4 +23,15 @@
     @media (max-width: 576px) {
         font-size: 1rem;
     }
+}
+
+.input_search {
+    display: block;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 15px;
 }

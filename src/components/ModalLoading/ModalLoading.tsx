@@ -27,7 +27,7 @@ const ModalLoading = () => {
             >
                 <ModalContent>
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Updating data</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">Uploading data</ModalHeader>
                             <ModalBody >
                                 <CircularProgress style={{margin: "0 auto", padding: "40px"}} label="Loading..." />
                             </ModalBody>
