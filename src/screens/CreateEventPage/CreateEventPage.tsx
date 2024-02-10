@@ -2,28 +2,72 @@ import React, {useEffect, useState} from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_EVENT } from '../../graphQL/Mutations';
 import ModalLoading from "../../components/ModalLoading/ModalLoading";
-import {useModalLoadingStore} from "../../store/store";
+import {
+    useModalChangeEventPropertiesStore,
+    useModalChangeTitleEventStore,
+    useModalLoadingStore
+} from "../../store/store";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import {Button, Input, Textarea} from "@nextui-org/react";
-import "./CreateEventPage.css";
+import style from "./CreateEventPage.module.css";
+import ChangeTitleEventModal from "../../components/ChangeTitleEventModal/ChangeTitleEventModal";
+import ChangeImageCoverEventModal from "../../components/ChangeImageCoverEventModal/ChangeImageCoverEventModal";
 
 const CreateEventPage = () => {
     const profileData = useInfoProfile();
+    const staticImage = "https://images.unsplash.com/photo-1683009427513-28e163402d16";
+
     const [formData, setFormData] = useState({
         name: '',
         description: '',
         date: '',
         time: '',
         location: '',
-        image_cover: '',
+        image_cover: staticImage,
         userId: 0,
         guestIds: [],
-
     });
 
+    const [titleValueState, setTitleValueState] = useState("Choose name event");
+
+    const {toggleModal: toggleModalTitleEvent, titleValue} = useModalChangeTitleEventStore();
+    const {toggleImageModal, image} = useModalChangeEventPropertiesStore();
+
+
     const {toggleModal} = useModalLoadingStore();
+    const [fontSizeTitle, setFontSizeTitle] = useState('40px');
 
     const [createEvent, { loading, error }] = useMutation(CREATE_EVENT);
+
+    useEffect(() => {
+        // Функция для определения размера шрифта
+        const calculateFontSize = () => {
+            if (titleValueState.length <= 20) {
+                return '40px';
+            } else if (titleValueState.length > 20) {
+                return '30px';
+            }
+            return '40px';
+        };
+
+        // Установка размера шрифта
+        setFontSizeTitle(calculateFontSize());
+    }, [titleValueState]);
+
+    useEffect(() => {
+        console.log("titleValue", titleValue)
+        if (titleValue) {
+           setTitleValueState(titleValue);
+            console.log("formData", formData)
+        }
+        if (image) {
+            console.log("image", image)
+            setFormData({
+                ...formData,
+                image_cover: image,
+            });
+        }
+    }, [titleValue, image]);
 
     useEffect(() => {
           if (profileData) {
@@ -34,9 +78,20 @@ const CreateEventPage = () => {
         }
     }, [profileData]);
 
+    const editTitleHandler = () => {
+       toggleModalTitleEvent();
+    };
+
+    const editImageCoverHandler = () => {
+        toggleImageModal();
+    };
+
     const handleSubmit = async (e: any) => {
         toggleModal();
         e.preventDefault();
+
+        formData.name = titleValueState;
+        formData.image_cover = image;
 
 
         try {
@@ -62,41 +117,35 @@ const CreateEventPage = () => {
     };
 
     return (
-        <div className="main">
-            <div className="section-create-event">
+        <div className={style.main}>
+            <div className={style.sectionCreateEvent}>
                 <h2>Create Event</h2>
+
                 <form onSubmit={handleSubmit}>
-                    <Input
-                        variant="flat"
-                        className="section__input"
-                        classNames={{
-                            input: [
-                                "bg-transparent",
-                                "text-black/90 dark:text-white/90",
-                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-                            ],
-                            innerWrapper: "bg-transparent",
-                            inputWrapper: [
-                                "bg-default-200/50",
-                                "dark:bg-default/60",
-                                "backdrop-blur-xl",
-                                "backdrop-saturate-200",
-                                "hover:bg-default-200/70",
-                                "focus-within:!bg-default-200/50",
-                                "dark:hover:bg-default/70",
-                                "group-data-[focused=true]:bg-default-200/50",
-                                "dark:group-data-[focused=true]:bg-default/60",
-                                "!cursor-text",
-                            ],
-                        }}
-                        label="Name"
-                        color="default"
-                        type="text"
-                        name="name"
-                        value={formData.name} onChange={handleChange} required />
+                    <div className={style.cardBlock} style={{
+                        background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.92) 100%), url(${formData.image_cover}) lightgray 50% / cover no-repeat`
+                    }}>
+                        <div className={style.cardEventBody}>
+                            <div className={style.cardEventContent}>
+                                <Button color={"primary"} style={{
+                                    fontWeight: "700",
+                                    fontSize: "16px",
+                                    borderRadius: "40px",
+                                    margin: "20px 20px"
+                                }}
+                                        onClick={() => editImageCoverHandler()}
+                                >Choose image cover</Button>
+                                <h1 style={{fontSize: fontSizeTitle}} className={style.cardEventTitle} onClick={() => editTitleHandler()}>{titleValueState}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <form onSubmit={handleSubmit}>
+
 
                     <Textarea
-                        className="section__input"
+                        className={style.sectionInput}
                         classNames={{
                             input: [
                                 "bg-transparent",
@@ -123,7 +172,7 @@ const CreateEventPage = () => {
                         value={formData.description} onChange={handleChange} required />
 
                     <Input
-                        className="section__input"
+                        className={style.sectionInput}
                         classNames={{
                             input: [
                                 "bg-transparent",
@@ -151,7 +200,7 @@ const CreateEventPage = () => {
                         value={formData.date} onChange={handleChange} required />
 
                     <Input
-                        className="section__input"
+                        className={style.sectionInput}
                         placeholder="Time"
                         classNames={{
                             input: [
@@ -179,7 +228,7 @@ const CreateEventPage = () => {
                         value={formData.time} onChange={handleChange} required />
 
                     <Input
-                        className="section__input"
+                        className={style.sectionInput}
                         classNames={{
                             input: [
                                 "bg-transparent",
@@ -205,37 +254,27 @@ const CreateEventPage = () => {
                         name="location"
                         value={formData.location} onChange={handleChange} required />
 
-                    <Input
-                        className="section__input"
-                        classNames={{
-                            input: [
-                                "bg-transparent",
-                                "text-black/90 dark:text-white/90",
-                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-                            ],
-                            innerWrapper: "bg-transparent",
-                            inputWrapper: [
-                                "bg-default-200/50",
-                                "dark:bg-default/60",
-                                "backdrop-blur-xl",
-                                "backdrop-saturate-200",
-                                "hover:bg-default-200/70",
-                                "focus-within:!bg-default-200/50",
-                                "dark:hover:bg-default/70",
-                                "group-data-[focused=true]:bg-default-200/50",
-                                "dark:group-data-[focused=true]:bg-default/60",
-                                "!cursor-text",
-                            ],
-                        }}
-                        label="Image Cover"
-                        type="text"
-                        name="image_cover" value={formData.image_cover} onChange={handleChange} required />
 
-                    <Button color="primary" type="submit" disabled={loading}>Create Event</Button>
+
+                    <Button
+                        color="primary"
+                        type="submit"
+                        disabled={loading}
+                        style={{  width: "100%",
+                                height: "70px",
+                                fontWeight: "700",
+                                fontSize: "20px",
+                                borderRadius: "20px",
+                                border: "2px solid #fff"
+                        }}
+                    >
+                        Create Event</Button>
                 </form>
 
                 {error && <p>Error: {error.message}</p>}
                 <ModalLoading />
+                <ChangeTitleEventModal />
+                <ChangeImageCoverEventModal />
             </div></div>
     );
 };
