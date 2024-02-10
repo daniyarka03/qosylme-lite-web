@@ -92,7 +92,6 @@ const CreateEventPage = () => {
         e.preventDefault();
 
         formData.name = titleValueState;
-        formData.image_cover = image;
 
 
         try {

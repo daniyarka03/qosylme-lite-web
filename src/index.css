@@ -1,9 +1,127 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap');
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter/static/Inter-Light.eot');
+    src: url('./assets/Inter/static/Inter-Light.eot?#iefix') format('embedded-opentype'),
+    url('./assets/Inter/static/Inter-Light.woff2') format('woff2'),
+    url('./assets/Inter/static/Inter-Light.woff') format('woff'),
+    url('./assets/Inter/static/Inter-Light.ttf') format('truetype'),
+    url('./assets/Inter/static/Inter-Light.svg#Inter-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter/static/Inter-ExtraBold.eot');
+    src: url('./assets/Inter/static/Inter-ExtraBold.eot?#iefix') format('embedded-opentype'),
+    url('./assets/Inter/static/Inter-ExtraBold.woff2') format('woff2'),
+    url('./assets/Inter/static/Inter-ExtraBold.woff') format('woff'),
+    url('./assets/Inter/static/Inter-ExtraBold.ttf') format('truetype'),
+    url('./assets/Inter/static/Inter-ExtraBold.svg#Inter-ExtraBold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter/static/Inter-Black.eot');
+    src: url('./assets/Inter/static/Inter-Black.eot?#iefix') format('embedded-opentype'),
+    url('./assets/Inter/static/Inter-Black.woff2') format('woff2'),
+    url('./assets/Inter/static/Inter-Black.woff') format('woff'),
+    url('./assets/Inter/static/Inter-Black.ttf') format('truetype'),
+    url('./assets/Inter/static/Inter-Black.svg#Inter-Black') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter/static/Inter-Bold.eot');
+    src: url('./assets/Inter/static/Inter-Bold.eot?#iefix') format('embedded-opentype'),
+    url('./assets/Inter/static/Inter-Bold.woff2') format('woff2'),
+    url('./assets/Inter/static/Inter-Bold.woff') format('woff'),
+    url('./assets/Inter/static/Inter-Bold.ttf') format('truetype'),
+    url('./assets/Inter/static/Inter-Bold.svg#Inter-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter/static/Inter-ExtraLight.eot');
+    src: url('./assets/Inter/static/Inter-ExtraLight.eot?#iefix') format('embedded-opentype'),
+    url('./assets/Inter/static/Inter-ExtraLight.woff2') format('woff2'),
+    url('./assets/Inter/static/Inter-ExtraLight.woff') format('woff'),
+    url('./assets/Inter/static/Inter-ExtraLight.ttf') format('truetype'),
+    url('./assets/Inter/static/Inter-ExtraLight.svg#Inter-ExtraLight') format('svg');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter/static/Inter-Regular.eot');
+    src: url('./assets/Inter/static/Inter-Regular.eot?#iefix') format('embedded-opentype'),
+    url('./assets/Inter/static/Inter-Regular.woff2') format('woff2'),
+    url('./assets/Inter/static/Inter-Regular.woff') format('woff'),
+    url('./assets/Inter/static/Inter-Regular.ttf') format('truetype'),
+    url('./assets/Inter/static/Inter-Regular.svg#Inter-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter/static/Inter-Thin.eot');
+    src: url('./assets/Inter/static/Inter-Thin.eot?#iefix') format('embedded-opentype'),
+    url('./assets/Inter/static/Inter-Thin.woff2') format('woff2'),
+    url('./assets/Inter/static/Inter-Thin.woff') format('woff'),
+    url('./assets/Inter/static/Inter-Thin.ttf') format('truetype'),
+    url('./assets/Inter/static/Inter-Thin.svg#Inter-Thin') format('svg');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter/static/Inter-Medium.eot');
+    src: url('./assets/Inter/static/Inter-Medium.eot?#iefix') format('embedded-opentype'),
+    url('./assets/Inter/static/Inter-Medium.woff2') format('woff2'),
+    url('./assets/Inter/static/Inter-Medium.woff') format('woff'),
+    url('./assets/Inter/static/Inter-Medium.ttf') format('truetype'),
+    url('./assets/Inter/static/Inter-Medium.svg#Inter-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/Inter/static/Inter-SemiBold.eot');
+    src: url('./assets/Inter/static/Inter-SemiBold.eot?#iefix') format('embedded-opentype'),
+    url('./assets/Inter/static/Inter-SemiBold.woff2') format('woff2'),
+    url('./assets/Inter/static/Inter-SemiBold.woff') format('woff'),
+    url('./assets/Inter/static/Inter-SemiBold.ttf') format('truetype'),
+    url('./assets/Inter/static/Inter-SemiBold.svg#Inter-SemiBold') format('svg');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
 
 :root {
     font-family: 'Inter', sans-serif;
     background: #F7F8FB;
 }
+
