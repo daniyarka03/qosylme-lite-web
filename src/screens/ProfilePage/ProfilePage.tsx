@@ -29,7 +29,7 @@ const ProfilePage = () => {
                 setMyCreatedEvents(newMyEvents)
             }
         }
-    }, [allEvents]);
+    }, [allEvents.data, infoProfile]);
     const logoutHandler = () => {
         localStorage.removeItem('token');
         window.location.href = '/';
@@ -79,7 +79,7 @@ const ProfilePage = () => {
                                 title={
                                     <div className="flex items-center space-x-2">
                                         <span>My created events</span>
-                                        <Chip size="sm" color="default">9</Chip>
+                                        <Chip size="sm" color="default">{myCreatedEvents.length}</Chip>
                                     </div>
                                 }
                             >
@@ -98,7 +98,7 @@ const ProfilePage = () => {
                                 title={
                                     <div className="flex items-center space-x-2">
                                         <span>My Attended events</span>
-                                        <Chip size="sm" color="default">9</Chip>
+                                        <Chip size="sm" color="default">{events.length}</Chip>
                                     </div>
                                 }
                             >

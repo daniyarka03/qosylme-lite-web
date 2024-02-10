@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import {json, Link, useParams} from 'react-router-dom';
 import {Image, Button, Chip} from '@nextui-org/react';
 import style from './EventPage.module.css';
@@ -32,9 +32,11 @@ interface EventPageProps {
 const EventPage = () => {
     const { id } = useParams();
     // @ts-ignore
-    const { error, loading, data } = useQuery(SHOW_EVENT_BY_ID, {
-        variables: { eventId: parseInt(id) },
-    });
+    if (id !== undefined) {
+        const { error, loading, data } = useQuery(SHOW_EVENT_BY_ID, {
+            variables: { eventId: parseInt(id) },
+        });
+
     const [updateEventFunction, {data: data2}] = useMutation(UPDATE_EVENT_JOIN_FUNCTION);
     const [stateJoinText, setStateJoinText] = React.useState('Join Event');
     const [isAuthor, setIsAuthor] = React.useState(false);
@@ -42,6 +44,18 @@ const EventPage = () => {
     const [newTime, setNewTime] = React.useState('');
     const profileData = useInfoProfile();
     const {toggleModal} = useModalSuccessJoinEventStore();
+        const [isMobile, setIsMobile] = useState(false);
+        const detectDeviceType = () => {
+            setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
+        };
+
+        useEffect(() => {
+            detectDeviceType();
+            // Добавляем прослушиватель изменения размера окна для реакции на изменение типа устройства
+            window.addEventListener('resize', detectDeviceType);
+            // Убираем прослушиватель при размонтировании компонента
+            return () => window.removeEventListener('resize', detectDeviceType);
+        }, []);
 
     const [event, setEvent] = React.useState<EventPageProps | null>(null);
     const [deleteEvent, { loading: deleteLoading, error: deleteError }] = useMutation(DELETE_EVENT);
@@ -65,7 +79,7 @@ const EventPage = () => {
                 setStateJoinText('Leave Event')
             }
         }
-    }, [data]);
+    }, [data, profileData]);
 
 
     const handleDelete = async () => {
@@ -86,11 +100,13 @@ const EventPage = () => {
 
     const joinGuestHandler = async () => {
         const currentGuests = guestsList;
+        console.log('currentGuests', currentGuests)
         if (currentGuests.includes(parseInt(profileData.userId))) {
-            //console.log('ОН УЖЕ В МЕРОПРИЯТИИ')
+            console.log('ОН УЖЕ В МЕРОПРИЯТИИ')
             try {
                 const updatedGuests = currentGuests.filter((guest) => {
-                    return guest === profileData.userId
+                    console.log("guest === profileData.userId", guest !== parseInt(profileData.userId))
+                    return guest !== parseInt(profileData.userId)
                 });
                 const { data: joinData } = await updateEventFunction({
                     variables: { eventId: id, guests: updatedGuests },
@@ -99,12 +115,16 @@ const EventPage = () => {
                 setGuestsList(updatedGuests)
                 setStateJoinText('Join Event')
 
+                console.log("updatedGuests", updatedGuests)
+
             } catch (error: any) {
                 console.error('Error joining event:', error.message);
             }
         } else {
+            console.log('ОН НОВЫЙ')
             try {
                 const updatedGuests = [...currentGuests, parseInt(profileData.userId)];
+                console.log(updatedGuests)
                 const { data: joinData } = await updateEventFunction({
                     variables: { eventId: id, guests: updatedGuests },
                 });
@@ -157,7 +177,7 @@ const EventPage = () => {
                     <div className={style.eventInfoBlock}>
                         <div className={style.eventInfoAuthor}>
                             <h2 className={style.eventInfoAuthorTitle}>Author</h2>
-                            <p className={style.eventInfoAuthorText}>{event.authorEvent.firstname}</p>
+                            <GuestCardList guest={event.authorEvent.userId} />
                         </div>
                     </div>
 
@@ -189,38 +209,48 @@ const EventPage = () => {
 
 
                     <br />
-                    {isAuthor && (
-                        <div className={style.eventInfoBlock}>
-                            <Link to="./edit">
-                                <Button fullWidth={true} style={{
+                    <div className={isMobile ? style.eventControlBlockMobile : style.eventControlBlockDesktop}>
+                        {isAuthor && (
+                            <div className={style.eventInfoBlock}>
+                                <Link to="./edit">
+                                    <Button fullWidth={true} style={{
+                                        height: "70px",
+                                        fontWeight: "700",
+                                        fontSize: "18px",
+                                        borderRadius: "20px",
+                                        marginBottom: "10px"
+                                    }} color="primary">Edit info of Event</Button></Link>
+                                <Button color="danger" fullWidth={true} style={{
+                                    height: "70px",
+                                    fontWeight: "700",
+                                    fontSize: "18px",
+                                    borderRadius: "20px"
+                                }} onClick={() => handleDelete()}>Delete Event</Button>
+                            </div>
+                        ) || (
+                            <div className={style.eventControlSubblock}>
+                                <div className={style.eventControlCountGuests}>
+                                    <h2>Бесплатно</h2>
+                                    <p>Количество гостей: {guestsList.length}</p>
+                                </div>
+                                <Button  style={{
+                                    width: "45%",
                                     height: "70px",
                                     fontWeight: "700",
                                     fontSize: "18px",
                                     borderRadius: "20px",
-                                    marginBottom: "10px"
-                            }} color="primary">Edit info of Event</Button></Link>
-                            <Button color="danger" fullWidth={true} style={{
-                                height: "70px",
-                                fontWeight: "700",
-                                fontSize: "18px",
-                                borderRadius: "20px"
-                            }} onClick={() => handleDelete()}>Delete Event</Button>
-                        </div>
-                    ) || (
-                        <div className={style.eventInfoBlock}>
-                            <Button fullWidth={true} style={{
-                                height: "70px",
-                                fontWeight: "700",
-                                fontSize: "18px",
-                                borderRadius: "20px"
-                            }} className={style.eventBlockButton} color={stateJoinText === "Join Event" ? "primary" : "danger"} onClick={() => joinGuestHandler()}>{stateJoinText}</Button>
-                        </div>
+                                    border: "2px solid #fff"
+                                }}  className={style.eventBlockButton} color={stateJoinText === "Join Event" ? "primary" : "danger"} onClick={() => joinGuestHandler()}>{stateJoinText}</Button>
+                            </div>
                         )}
+                    </div>
                     <ModalSuccessJoinedEvent event={event} />
                 </>
             )}
         </div>
     );
+    }
+    return null;
 };
 
 export default EventPage;

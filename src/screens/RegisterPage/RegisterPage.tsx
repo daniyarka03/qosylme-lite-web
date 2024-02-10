@@ -11,20 +11,19 @@ const RegisterPage = () => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [email, setEmail]  = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [createUser, { loading, error }] = useMutation(CREATE_USER);
+    const [createUser, {loading, error}] = useMutation(CREATE_USER);
 
-    const [login, { data }] = useMutation(LOGIN_MUTATION);
+    const [login, {data}] = useMutation(LOGIN_MUTATION);
 
     const {toggleModal} = useModalLoadingStore();
 
 
-
-    const createAccountHandler  = async () => {
+    const createAccountHandler = async () => {
         toggleModal();
         try {
-            const { data } = await createUser({
+            const {data} = await createUser({
                 variables: {
                     firstname: firstName,
                     lastname: lastName,
@@ -35,7 +34,7 @@ const RegisterPage = () => {
 
             try {
                 // Выполняем мутацию для входа
-                const result = await login({ variables: { email, password } });
+                const result = await login({variables: {email, password}});
 
                 // Получаем токен из результата мутации
                 const token = result.data.tokenAuthWithUser.token;
@@ -65,15 +64,95 @@ const RegisterPage = () => {
             <div className="register-page main">
                 <div className="auth-block">
                     <h2 className="title">New account</h2>
-                    <Input type="text" label="First name" className="field__email" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                    <Input type="text" label="Last name" className="field__email" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                    <Input type="email" label="Email" className="field__email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <Input type="password" label="Password" className="field__password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <Input type="text" classNames={{
+                        input: [
+                            "bg-transparent",
+                            "text-black/90 dark:text-white/90",
+                            "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                        ],
+                        innerWrapper: "bg-transparent",
+                        inputWrapper: [
+                            "bg-default-200/50",
+                            "dark:bg-default/60",
+                            "backdrop-blur-xl",
+                            "backdrop-saturate-200",
+                            "hover:bg-default-200/70",
+                            "focus-within:!bg-default-200/50",
+                            "dark:hover:bg-default/70",
+                            "group-data-[focused=true]:bg-default-200/50",
+                            "dark:group-data-[focused=true]:bg-default/60",
+                            "!cursor-text",
+                        ],
+                    }} label="First name" className="field__email" value={firstName}
+                           onChange={(e) => setFirstName(e.target.value)}/>
+                    <Input type="text" classNames={{
+                        input: [
+                            "bg-transparent",
+                            "text-black/90 dark:text-white/90",
+                            "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                        ],
+                        innerWrapper: "bg-transparent",
+                        inputWrapper: [
+                            "bg-default-200/50",
+                            "dark:bg-default/60",
+                            "backdrop-blur-xl",
+                            "backdrop-saturate-200",
+                            "hover:bg-default-200/70",
+                            "focus-within:!bg-default-200/50",
+                            "dark:hover:bg-default/70",
+                            "group-data-[focused=true]:bg-default-200/50",
+                            "dark:group-data-[focused=true]:bg-default/60",
+                            "!cursor-text",
+                        ],
+                    }} label="Last name" className="field__email" value={lastName}
+                           onChange={(e) => setLastName(e.target.value)}/>
+                    <Input type="email" classNames={{
+                        input: [
+                            "bg-transparent",
+                            "text-black/90 dark:text-white/90",
+                            "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                        ],
+                        innerWrapper: "bg-transparent",
+                        inputWrapper: [
+                            "bg-default-200/50",
+                            "dark:bg-default/60",
+                            "backdrop-blur-xl",
+                            "backdrop-saturate-200",
+                            "hover:bg-default-200/70",
+                            "focus-within:!bg-default-200/50",
+                            "dark:hover:bg-default/70",
+                            "group-data-[focused=true]:bg-default-200/50",
+                            "dark:group-data-[focused=true]:bg-default/60",
+                            "!cursor-text",
+                        ],
+                    }} label="Email" className="field__email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <Input type="password" classNames={{
+                        input: [
+                            "bg-transparent",
+                            "text-black/90 dark:text-white/90",
+                            "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                        ],
+                        innerWrapper: "bg-transparent",
+                        inputWrapper: [
+                            "bg-default-200/50",
+                            "dark:bg-default/60",
+                            "backdrop-blur-xl",
+                            "backdrop-saturate-200",
+                            "hover:bg-default-200/70",
+                            "focus-within:!bg-default-200/50",
+                            "dark:hover:bg-default/70",
+                            "group-data-[focused=true]:bg-default-200/50",
+                            "dark:group-data-[focused=true]:bg-default/60",
+                            "!cursor-text",
+                        ],
+                    }} label="Password" className="field__password" value={password}
+                           onChange={(e) => setPassword(e.target.value)}/>
                     <Button color="primary" className="btn__login" onClick={() => createAccountHandler()}>Create</Button>
-                    <span className="subspan__signup">Do you have already account? <Link to="/login" className="subspan__signup-link">Login Account</Link></span>
+                    <span className="subspan__signup">Do you have already account? <Link to="/login"
+                                                                                         className="subspan__signup-link">Login Account</Link></span>
                 </div>
             </div>
-            <ModalLoading />
+            <ModalLoading/>
         </>
     );
 };

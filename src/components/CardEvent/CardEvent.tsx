@@ -54,6 +54,9 @@ const CardEvent = ({data}: CardEventProps) => {
             mobileVersionView({data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link})
             :
             desktopVersionView({data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link});
+    } else {
+        return null;
+
     }
 };
 

@@ -7,7 +7,7 @@ import ModalLoading from "../../components/ModalLoading/ModalLoading";
 import {useModalLoadingStore} from "../../store/store";
 
 const UpdateEventPage = () => {
-    const { id } = useParams();
+    const { id= "1"} = useParams();
     const {toggleModal} = useModalLoadingStore();
     const [formData, setFormData] = useState({
         name: '',
@@ -17,6 +17,8 @@ const UpdateEventPage = () => {
         location: '',
         image_cover: '',
     });
+
+
 
     const { loading, error, data } = useQuery(SHOW_EVENT_BY_ID, {
         variables: { eventId: parseInt(id) },

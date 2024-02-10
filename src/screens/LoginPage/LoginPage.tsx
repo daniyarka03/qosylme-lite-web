@@ -36,8 +36,46 @@ const LoginPage = () => {
                 <div className="auth-block">
                     <h2 className="title">Login</h2>
 
-                    <Input type="email" color="primary" label="Email" className="field__email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <Input type="password" label="Password" className="field__password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <Input type="email"  classNames={{
+                        input: [
+                            "bg-transparent",
+                            "text-black/90 dark:text-white/90",
+                            "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                        ],
+                        innerWrapper: "bg-transparent",
+                        inputWrapper: [
+                            "bg-default-200/50",
+                            "dark:bg-default/60",
+                            "backdrop-blur-xl",
+                            "backdrop-saturate-200",
+                            "hover:bg-default-200/70",
+                            "focus-within:!bg-default-200/50",
+                            "dark:hover:bg-default/70",
+                            "group-data-[focused=true]:bg-default-200/50",
+                            "dark:group-data-[focused=true]:bg-default/60",
+                            "!cursor-text",
+                        ],
+                    }} color="default" label="Email" className="field__email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <Input type="password"  classNames={{
+                        input: [
+                            "bg-transparent",
+                            "text-black/90 dark:text-white/90",
+                            "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                        ],
+                        innerWrapper: "bg-transparent",
+                        inputWrapper: [
+                            "bg-default-200/50",
+                            "dark:bg-default/60",
+                            "backdrop-blur-xl",
+                            "backdrop-saturate-200",
+                            "hover:bg-default-200/70",
+                            "focus-within:!bg-default-200/50",
+                            "dark:hover:bg-default/70",
+                            "group-data-[focused=true]:bg-default-200/50",
+                            "dark:group-data-[focused=true]:bg-default/60",
+                            "!cursor-text",
+                        ],
+                    }} label="Password" className="field__password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     <Button color="primary" className="btn__login" onClick={loginHandler} >Login</Button>
                     <span className="subspan__signup">If you don't have account? <Link to="/register" className="subspan__signup-link">Create account</Link></span>
                 </div>

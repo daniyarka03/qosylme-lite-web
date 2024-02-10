@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    margin-bottom: 200px;
 }
 
 .eventTitle {
@@ -100,7 +101,8 @@
 }
 
 .eventInfoDescriptionText {
-
+    width: 100%;
+    max-width: 500px;
 }
 
 .eventInfoAuthorTitle, .eventInfoLocationSectionTitle {
@@ -116,6 +118,40 @@
 
 .eventBlockButton {
 
+}
+
+.eventControlBlockDesktop {
+    width: 100%;
+    background: #0070F0;
+    max-width: 500px;
+    position: fixed;
+    bottom: 10px;
+    border-radius: 20px;
+}
+
+.eventControlBlockMobile {
+    width: 100%;
+    background: #0070F0;
+    max-width: 500px;
+    position: fixed;
+    bottom: 0;
+}
+
+.eventControlSubblock {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.eventControlCountGuests h2 {
+    font-size: 20px;
+    color: #fff;
+    font-weight: 700;
+}
+
+.eventControlCountGuests p {
+    font-size: 15px;
+    color: #fff;
 }
 
 @media (max-width: 768px) {
