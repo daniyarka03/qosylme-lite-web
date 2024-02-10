@@ -27,6 +27,7 @@ const ChangeImageCoverEventModal = () => {
                                          fontSize: "30px",
                                          fontWeight: "700",
                                          color: "#2A65FF",
+                                         margin: "30px 0 20px 0"
 
                                      }}>Change Image cover</ModalHeader>
                         <ModalBody >
@@ -70,6 +71,7 @@ const ChangeImageCoverEventModal = () => {
                                     fontWeight: "700",
                                     fontSize: "20px",
                                     borderRadius: "20px",
+                                    marginTop: "100px",
                                     border: "2px solid #fff"}}
                                 onClick={() => changeImageValueHandler()}
                             >Done</Button>

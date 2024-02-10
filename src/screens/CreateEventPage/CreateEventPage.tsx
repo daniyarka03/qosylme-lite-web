@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_EVENT } from '../../graphQL/Mutations';
 import ModalLoading from "../../components/ModalLoading/ModalLoading";
+import imageCover from "../../assets/image2.jpg";
 import {
     useModalChangeEventPropertiesStore,
     useModalChangeTitleEventStore,
@@ -15,8 +16,8 @@ import ChangeImageCoverEventModal from "../../components/ChangeImageCoverEventMo
 
 const CreateEventPage = () => {
     const profileData = useInfoProfile();
-    const staticImage = "https://images.unsplash.com/photo-1683009427513-28e163402d16";
-
+    //const staticImage = "https://images.unsplash.com/photo-1683009427513-28e163402d16";
+    const staticImage = imageCover;
     const [formData, setFormData] = useState({
         name: '',
         description: '',
