@@ -8,11 +8,17 @@ import {
     useModalChangeTitleEventStore,
     useModalLoadingStore
 } from "../../store/store";
+import LocationRedColor from "../../assets/LocationRedColor.svg";
+import TimeCircleBlue from "../../assets/TimeCircleBlueColor.svg";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import {Button, Input, Textarea} from "@nextui-org/react";
 import style from "./CreateEventPage.module.css";
 import ChangeTitleEventModal from "../../components/ChangeTitleEventModal/ChangeTitleEventModal";
 import ChangeImageCoverEventModal from "../../components/ChangeImageCoverEventModal/ChangeImageCoverEventModal";
+import CardEventPropertyBlock from "../../components/CardEventPropertyBlock/CardEventPropertyBlock";
+import ChangeDateTimeEventModal from "../../components/ChangeDateTimeEventModal/ChangeDateTimeEventModal";
+import ChangeLocationEventModal from "../../components/ChangeLocationEventModal/ChangeLocationEventModal";
+import {Link} from "react-router-dom";
 
 const CreateEventPage = () => {
     const profileData = useInfoProfile();
@@ -32,7 +38,7 @@ const CreateEventPage = () => {
     const [titleValueState, setTitleValueState] = useState("Choose name event");
 
     const {toggleModal: toggleModalTitleEvent, titleValue} = useModalChangeTitleEventStore();
-    const {toggleImageModal, image} = useModalChangeEventPropertiesStore();
+    const {toggleImageModal, image, toggleDateModal, toggleLocationModal, location: locationValue} = useModalChangeEventPropertiesStore();
 
 
     const {toggleModal} = useModalLoadingStore();
@@ -93,7 +99,6 @@ const CreateEventPage = () => {
 
         formData.name = titleValueState;
 
-
         try {
             const { data, errors } = await createEvent({
                 variables: {
@@ -143,6 +148,10 @@ const CreateEventPage = () => {
 
                 <form onSubmit={handleSubmit}>
 
+                    <div style={{display: "flex"}}>
+                        <CardEventPropertyBlock value={locationValue} toggleModal={toggleLocationModal} label={"location"} icon={LocationRedColor} />
+                        <CardEventPropertyBlock toggleModal={toggleDateModal} label={"date"} icon={TimeCircleBlue} />
+                    </div>
 
                     <Textarea
                         className={style.sectionInput}
@@ -166,7 +175,7 @@ const CreateEventPage = () => {
                                 "!cursor-text",
                             ],
                         }}
-                        label="Description"
+                        label="About event"
                         type="text"
                         name="description"
                         value={formData.description} onChange={handleChange} required />
@@ -269,12 +278,27 @@ const CreateEventPage = () => {
                         }}
                     >
                         Create Event</Button>
-                </form>
 
+                </form>
+                <Link to={"/profile"}>
+                    <Button
+                        color="danger"
+                        disabled={loading}
+                        style={{  width: "100%",
+                            height: "70px",
+                            fontWeight: "700",
+                            fontSize: "20px",
+                            borderRadius: "20px",
+                            border: "2px solid #fff"
+                        }}
+                    >Cancel</Button>
+                </Link>
                 {error && <p>Error: {error.message}</p>}
                 <ModalLoading />
                 <ChangeTitleEventModal />
                 <ChangeImageCoverEventModal />
+                <ChangeDateTimeEventModal />
+                <ChangeLocationEventModal />
             </div></div>
     );
 };

@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {json, Link, useParams} from 'react-router-dom';
-import {Image, Button, Chip} from '@nextui-org/react';
+import {Link, useParams} from 'react-router-dom';
+import {Button} from '@nextui-org/react';
 import style from './EventPage.module.css';
 import { SHOW_EVENT_BY_ID } from '../../graphQL/Queries';
 import {DELETE_EVENT, UPDATE_EVENT_JOIN_FUNCTION} from '../../graphQL/Mutations';
 import {useMutation, useQuery} from '@apollo/client';
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import ModalSuccessJoinedEvent from "../../components/ModalSuccessJoinedEvent/ModalSuccessJoinedEvent";
-import {useModalLoadingStore, useModalSuccessJoinEventStore} from "../../store/store";
-import ArrowIcon from "../../assets/arrow.svg";
+import {useModalSuccessJoinEventStore} from "../../store/store";
+import ArrowBackIcon from "../../assets/ArrowBack.svg";
 import LocationIcon from "../../assets/location-icon.svg";
 import CalendarIcon from "../../assets/calendar-icon.svg";
 import {useChangeFormatDate} from "../../hooks/useChangeFormatDate";
@@ -141,10 +141,12 @@ const EventPage = () => {
 
     return (
         <div className={`${style.eventBlock}`}>
+            {isMobile && (<Link to={"/events"}><button className={style.eventButtonBack}><img src={ArrowBackIcon} /></button></Link>)}
             {event && (
                 <>
                     <div className={style.cardBlock} style={{
-                        background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.92) 100%), url(${event.imageCover}) lightgray 50% / cover no-repeat`
+                        background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.92) 100%), url(${event.imageCover}) lightgray 50% / cover no-repeat`,
+                        borderRadius: isMobile ? "0 0 30px 30px" : "20px"
                     }}>
                         <div className={style.cardEventBody}>
                             <div className={style.cardEventContent}>

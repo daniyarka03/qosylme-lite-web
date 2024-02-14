@@ -9,7 +9,7 @@ export const useChangeFormatDate = (params: IChangeFormatDate) => {
     const dateObj = new Date(dateValue);
 
     // Use toLocaleDateString to format the date
-    const options: any = { day: 'numeric', month: 'long' };
+    const options: any = { day: 'numeric', month: 'short' };
     if (language) {
         options.localeMatcher = 'lookup';
         options.locale = language;

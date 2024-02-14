@@ -4,6 +4,7 @@ import style from './EventListPage.module.css';
 import {useQuery} from "@apollo/client";
 import {SHOW_ALL_EVENTS} from "../../graphQL/Queries";
 import {Input} from "@nextui-org/react";
+import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
 const EventListPage = () => {
 
     const {error, loading, data} = useQuery(SHOW_ALL_EVENTS);
@@ -55,6 +56,7 @@ const EventListPage = () => {
                     <CardEvent style={{marginBottom: "40px"}} key={`${item}-${index}`} data={item} />
                 ))}
             </div>
+            <BottomNavbar />
 
         </div>
     );

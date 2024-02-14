@@ -1,0 +1,21 @@
+.bottom-navbar {
+    z-index: 9999;
+    display: flex;
+    position: fixed;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 600px;
+    width: 90%;
+    height: 80px;
+    background: #3035E2;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    bottom: 20px;
+    border-radius: 200px;
+}
+
+.bottom-navbar__icon {
+    width: 36px;
+    height: 36px;
+}

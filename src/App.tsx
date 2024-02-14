@@ -1,8 +1,8 @@
 import './App.css'
 import { NextUIProvider } from "@nextui-org/react";
 import HomePage from "./screens/HomePage/HomePage";
-import React, {useEffect} from "react";
-import {BrowserRouter as Router, Route, Routes, useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from "react";
+import {BrowserRouter as Router, Link, Route, Routes, useNavigate} from 'react-router-dom';
 import EventListPage from "./screens/EventListPage/EventListPage";
 import Navbar from "./components/Navbar/NavbarComponent";
 import NavbarComponent from "./components/Navbar/NavbarComponent";
@@ -16,11 +16,26 @@ import CreateEventPage from "./screens/CreateEventPage/CreateEventPage";
 import UpdateEventPage from "./screens/UpdateEventPage/UpdateEventPage";
 import SettingsPage from "./screens/SettingsPage/SettingsPage";
 import EditProfilePage from "./screens/EditProfilePage/EditProfilePage";
+import BottomNavbar from "./components/BottomNavbar/BottomNavbar";
+import style from "./components/CardEvent/CardEvent.module.css";
+import LocationIcon from "./assets/Location.svg";
+import ArrowIcon from "./assets/arrow.svg";
 
 function App() {
 
     const token = localStorage.getItem('token');
-
+    const [isMobile, setIsMobile] = useState(false);
+    const detectDeviceType = () => {
+        setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
+    };
+    useEffect(() => {
+        detectDeviceType();
+        // Добавляем прослушиватель изменения размера окна для реакции на изменение типа устройства
+        window.addEventListener('resize', detectDeviceType);
+        console.log("IsMobile", isMobile)
+        // Убираем прослушиватель при размонтировании компонента
+        return () => window.removeEventListener('resize', detectDeviceType);
+    }, []);
 
     const errorLink = onError(({ graphQLErrors, networkError }) => {
         // Обработка ошибок GraphQL
@@ -49,12 +64,23 @@ function App() {
         ]),
     });
 
+    console.log("IsMobile", isMobile)
+
+
     return (
         <ApolloProvider client={client}>
             <NextUIProvider>
-                <NavbarComponent />
+
+
+
                 <Router>
+                    {
+                        !isMobile && (
+                            <NavbarComponent />
+                        )
+                    }
                     <Routes>
+
                         {token ? (
                             <>
                                 <Route path="/" element={<HomePage />} />

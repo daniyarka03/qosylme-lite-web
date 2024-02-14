@@ -33,7 +33,6 @@
     margin-bottom: 40px;
     background-size: cover;
     z-index: 1;
-    border-radius: 30px; /* Optional: Add rounded corners */
     @media (max-width: 768px) {
         width: 100%;
     }
@@ -152,6 +151,22 @@
 .eventControlCountGuests p {
     font-size: 15px;
     color: #fff;
+}
+
+.eventButtonBack {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 20px;
+    top: 20px;
+    background: rgba(0, 0, 0, 0.53);
+    width: 55px;
+    height: 55px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    position: absolute;
+    z-index: 100;
 }
 
 @media (max-width: 768px) {

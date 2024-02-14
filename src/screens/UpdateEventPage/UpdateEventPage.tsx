@@ -5,6 +5,7 @@ import { UPDATE_EVENT } from '../../graphQL/Mutations';
 import {SHOW_EVENT_BY_ID} from "../../graphQL/Queries";
 import ModalLoading from "../../components/ModalLoading/ModalLoading";
 import {useModalLoadingStore} from "../../store/store";
+import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
 
 const UpdateEventPage = () => {
     const { id= "1"} = useParams();
@@ -94,6 +95,7 @@ const UpdateEventPage = () => {
             {updateLoading && <p>Updating...</p>}
             {updateError && <p>Error: {updateError.message}</p>}
             <ModalLoading />
+            <BottomNavbar />
         </div>
     );
 };

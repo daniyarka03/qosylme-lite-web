@@ -1,13 +1,47 @@
 .main {
-    padding: 4rem 16.1rem;
 
     @media (max-width: 768px) {
-        padding: 2rem 2rem;
+        padding: 0;
     }
 
     @media (max-width: 576px) {
-        padding: 1rem 1rem;
     }
+}
+
+.section-profile {
+    display: block;
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.profile-cover {
+    background: #55A3FF;
+    height: 300px;
+}
+
+.profile {
+    background: #fff;
+    border-radius: 40px 40px 0 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 200px;
+    height: 100vh;
+}
+
+.profile__info {
+    margin-top: 100px;
+}
+
+.profile__info-item {
+    text-align: center;
+}
+
+.profile__info-item-value {
+    font-weight: 800;
+    font-size: 24px;
 }
 
 .profile__list-events__title {
@@ -16,3 +50,32 @@
     font-weight: 700;
     margin-bottom: 20px;
 }
+
+.profile-controls {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.profile-settings__button {
+    width: 57px;
+    height: 57px;
+    background: #55A3FF;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-logout__button {
+    width: 57px;
+    height: 57px;
+    background: #FF1368;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
