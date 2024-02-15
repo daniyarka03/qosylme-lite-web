@@ -48,6 +48,11 @@ interface IModalChangeEventPropertiesStore {
 
 }
 
+interface IModalEventSettingsStore {
+    isOpen: boolean,
+    toggleModal: () => void,
+}
+
 interface Guest {
     id: number;
 }
@@ -81,6 +86,11 @@ export const useModalChangeTitleEventStore = create<IModalChangeTitleEventStore>
     toggleModal: () => set((state) => ({ isOpen: !state.isOpen })),
     titleValue: '',
     toggleTitleValue: (value) => set({ titleValue: value }),
+}));
+
+export const useModalEventSettingsStore = create<IModalEventSettingsStore>((set) => ({
+    isOpen: false,
+    toggleModal: () => set((state) => ({ isOpen: !state.isOpen })),
 }));
 
 export const useModalChangeEventPropertiesStore = create<IModalChangeEventPropertiesStore>((set) => ({

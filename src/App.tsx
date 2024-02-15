@@ -20,6 +20,7 @@ import BottomNavbar from "./components/BottomNavbar/BottomNavbar";
 import style from "./components/CardEvent/CardEvent.module.css";
 import LocationIcon from "./assets/Location.svg";
 import ArrowIcon from "./assets/arrow.svg";
+import NotificationsPage from "./screens/NotificationsPage/NotificationsPage";
 
 function App() {
 
@@ -90,6 +91,7 @@ function App() {
                                 <Route path="/profile/edit" element={<EditProfilePage />} />
                                 <Route path="/event/create" element={<CreateEventPage />} />
                                 <Route path="/event/:id/edit" element={<UpdateEventPage />} />
+                                <Route path={"/notifications"} element={<NotificationsPage />} />
                                 <Route path="/settings" element={<SettingsPage />} />
                                 <Route path={"*"} element={<HomePage />} />
                             </>

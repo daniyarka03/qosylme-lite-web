@@ -15,6 +15,28 @@
     border-radius: 200px;
 }
 
+.bottom-navbar__active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+
+}
+
+.bottom-navbar__active-circle {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .bottom-navbar__icon {
     width: 36px;
     height: 36px;

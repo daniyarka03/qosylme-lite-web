@@ -3,23 +3,43 @@ import {gql} from "@apollo/client";
 
 export const SHOW_ALL_EVENTS = gql`
     query {
-        events {
-            eventId
-            name
-            description
-            location
-            date
-            imageCover
-            authorEvent {
-                userId
-                firstname
-                lastname
-                email
-            }
-            guests
+    events {
+        eventId
+        name
+        description
+        location
+        date
+        imageCover
+        authorEvent {
+            userId
+            firstname
+            lastname
+            email
         }
+        guests
     }
+}
     `;
+
+// export const SHOW_ALL_EVENTS = gql`
+//     query GetEvents ($first: Int!) {
+//     events(first: $first) {
+//         eventId
+//         name
+//         description
+//         location
+//         date
+//         imageCover
+//         authorEvent {
+//             userId
+//             firstname
+//             lastname
+//             email
+//         }
+//         guests
+//     }
+// }
+//     `;
 
 export const SHOW_EVENT_BY_ID = gql`
   query GetEventById($eventId: Int!) {

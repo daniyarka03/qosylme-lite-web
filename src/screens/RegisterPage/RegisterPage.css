@@ -1,15 +1,19 @@
-.main {
 
+.register-page {
     @media (max-width: 768px) {
         padding: 0 2rem;
     }
 
     @media (max-width: 576px) {
-        padding: 0 1rem;
+        padding: 0 2rem;
     }
 }
 
-.register-page {
+.register-page-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 70px;
+    margin-bottom: 40px;
 }
 
 

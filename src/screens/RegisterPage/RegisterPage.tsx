@@ -61,9 +61,9 @@ const RegisterPage = () => {
     }
     return (
         <>
-            <div className="register-page main">
+            <div className="register-page">
                 <div className="auth-block">
-                    <h2 className="title">New account</h2>
+                    <h2 className="register-page-title">New account</h2>
                     <Input type="text" classNames={{
                         input: [
                             "bg-transparent",

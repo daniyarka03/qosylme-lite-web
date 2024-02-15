@@ -32,9 +32,9 @@ const LoginPage = () => {
 
     return (
         <>
-            <div className="login-page main">
+            <div className="login-page">
                 <div className="auth-block">
-                    <h2 className="title">Login</h2>
+                    <h2 className="login-page-title">Login</h2>
 
                     <Input type="email"  classNames={{
                         input: [

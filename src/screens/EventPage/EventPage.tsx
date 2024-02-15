@@ -7,12 +7,16 @@ import {DELETE_EVENT, UPDATE_EVENT_JOIN_FUNCTION} from '../../graphQL/Mutations'
 import {useMutation, useQuery} from '@apollo/client';
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import ModalSuccessJoinedEvent from "../../components/ModalSuccessJoinedEvent/ModalSuccessJoinedEvent";
-import {useModalSuccessJoinEventStore} from "../../store/store";
+import {useModalEventSettingsStore, useModalSuccessJoinEventStore} from "../../store/store";
 import ArrowBackIcon from "../../assets/ArrowBack.svg";
 import LocationIcon from "../../assets/location-icon.svg";
 import CalendarIcon from "../../assets/calendar-icon.svg";
 import {useChangeFormatDate} from "../../hooks/useChangeFormatDate";
 import GuestCardList from "../../components/GuestCardList/GuestCardList";
+import CardEventPropertyBlock from "../../components/CardEventPropertyBlock/CardEventPropertyBlock";
+import LocationRedColor from "../../assets/LocationRedColor.svg";
+import TimeCircleBlue from "../../assets/TimeCircleBlueColor.svg";
+import EventSettingsModal from "../../components/EventSettingsModal/EventSettingsModal";
 
 interface EventPageProps {
     eventId: number;
@@ -36,7 +40,7 @@ const EventPage = () => {
         const { error, loading, data } = useQuery(SHOW_EVENT_BY_ID, {
             variables: { eventId: parseInt(id) },
         });
-
+    const {toggleModal: toggleEventSettingsModal} = useModalEventSettingsStore();
     const [updateEventFunction, {data: data2}] = useMutation(UPDATE_EVENT_JOIN_FUNCTION);
     const [stateJoinText, setStateJoinText] = React.useState('Join Event');
     const [isAuthor, setIsAuthor] = React.useState(false);
@@ -65,7 +69,7 @@ const EventPage = () => {
             setEvent(data.eventById);
             setGuestsList(JSON.parse(data.eventById.guests));
             const dateEvent = new Date(data.eventById.date);
-            const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US' });
+            const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US', monthFormat: 'long' });
             let parts = data.eventById.time.split(':');
             let hours = parts[0];
             let minutes = parts[1];
@@ -88,9 +92,7 @@ const EventPage = () => {
                 variables: { eventId: id },
             });
 
-            console.log('Deleted Event:', deleteData.deleteEvent);
-            // Добавь обработку успешного удаления мероприятия
-            // Перенаправление на главную страницу после удаления
+
             window.location.href = '/events';
         } catch (error: any) {
             console.error('Error deleting event:', error.message);
@@ -100,12 +102,9 @@ const EventPage = () => {
 
     const joinGuestHandler = async () => {
         const currentGuests = guestsList;
-        console.log('currentGuests', currentGuests)
         if (currentGuests.includes(parseInt(profileData.userId))) {
-            console.log('ОН УЖЕ В МЕРОПРИЯТИИ')
             try {
                 const updatedGuests = currentGuests.filter((guest) => {
-                    console.log("guest === profileData.userId", guest !== parseInt(profileData.userId))
                     return guest !== parseInt(profileData.userId)
                 });
                 const { data: joinData } = await updateEventFunction({
@@ -115,16 +114,13 @@ const EventPage = () => {
                 setGuestsList(updatedGuests)
                 setStateJoinText('Join Event')
 
-                console.log("updatedGuests", updatedGuests)
 
             } catch (error: any) {
                 console.error('Error joining event:', error.message);
             }
         } else {
-            console.log('ОН НОВЫЙ')
             try {
                 const updatedGuests = [...currentGuests, parseInt(profileData.userId)];
-                console.log(updatedGuests)
                 const { data: joinData } = await updateEventFunction({
                     variables: { eventId: id, guests: updatedGuests },
                 });
@@ -155,18 +151,28 @@ const EventPage = () => {
                         </div>
                     </div>
 
-                    <div className={style.eventInfoBlock}>
-                        <div className={style.eventInfoDate}>
-                            <img src={CalendarIcon} />
-                            <div>
-                                <p className={style.eventInfoDateText}>{newDate}</p>
-                                <p className={style.eventInfoTimeText}>{newTime}</p>
-                            </div>
+                    {isAuthor && (
+                        <div className={style.eventInfoBlock}>
+                            <Button
+                                color="primary"
+                                style={{  width: "100%",
+                                    height: "70px",
+                                    fontWeight: "700",
+                                    fontSize: "20px",
+                                    borderRadius: "20px",
+                                    border: "2px solid #fff",
+                                    marginTop: "20px",
+                                }}
+                                onClick={() => toggleEventSettingsModal()}
+                            >Event settings</Button>
                         </div>
-                        <div className={style.eventInfoLocation}>
-                            <img src={LocationIcon} />
-                            <p className={style.eventInfoLocationText}>{event.location}</p>
-                        </div>
+                    )}
+
+
+
+                    <div className={style.eventInfoBlock} style={{display: "flex", marginTop: "20px"}}>
+                        <CardEventPropertyBlock valueButton="Open Maps" value={event.location} toggleModal={() => alert('321')} label={"location"} icon={LocationRedColor} />
+                        <CardEventPropertyBlock withButton={false} value={newDate} value2={newTime} toggleModal={() => alert('321')} label={"date"} icon={TimeCircleBlue} />
                     </div>
 
                     <div className={style.eventInfoBlock}>
@@ -178,7 +184,7 @@ const EventPage = () => {
 
                     <div className={style.eventInfoBlock}>
                         <div className={style.eventInfoAuthor}>
-                            <h2 className={style.eventInfoAuthorTitle}>Author</h2>
+                            <h2 className={style.eventInfoAuthorTitle}>Organizer</h2>
                             <GuestCardList guest={event.authorEvent.userId} />
                         </div>
                     </div>
@@ -202,34 +208,9 @@ const EventPage = () => {
                         </div>
                     </div>
 
-                    <div className={style.eventInfoBlock}>
-                        <div className={style.eventInfoLocationSection}>
-                            <h2 className={style.eventInfoLocationSectionTitle}>Location</h2>
-                            <p className={style.eventInfoLocationSectionTextValue}>{event.location}</p>
-                        </div>
-                    </div>
-
-
                     <br />
                     <div className={isMobile ? style.eventControlBlockMobile : style.eventControlBlockDesktop}>
-                        {isAuthor && (
-                            <div className={style.eventInfoBlock}>
-                                <Link to="./edit">
-                                    <Button fullWidth={true} style={{
-                                        height: "70px",
-                                        fontWeight: "700",
-                                        fontSize: "18px",
-                                        borderRadius: "20px",
-                                        marginBottom: "10px"
-                                    }} color="primary">Edit info of Event</Button></Link>
-                                <Button color="danger" fullWidth={true} style={{
-                                    height: "70px",
-                                    fontWeight: "700",
-                                    fontSize: "18px",
-                                    borderRadius: "20px"
-                                }} onClick={() => handleDelete()}>Delete Event</Button>
-                            </div>
-                        ) || (
+                        {!isAuthor && (
                             <div className={style.eventControlSubblock}>
                                 <div className={style.eventControlCountGuests}>
                                     <h2>Бесплатно</h2>
@@ -247,6 +228,7 @@ const EventPage = () => {
                         )}
                     </div>
                     <ModalSuccessJoinedEvent event={event} />
+                    <EventSettingsModal />
                 </>
             )}
         </div>

@@ -36,3 +36,33 @@
     border-radius: 15px;
 }
 
+.eventListHeader {
+    display: flex;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.eventListTitle {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.eventListControls {
+    display: flex;
+}
+
+.eventListControlsButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    width: 58px;
+    height: 58px;
+    background: #EDEEF3;
+    border-radius: 50%;
+}

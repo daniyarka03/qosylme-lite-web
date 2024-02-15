@@ -1,17 +1,19 @@
-.main {
-
+.login-page {
+    padding: 0 3rem;
     @media (max-width: 768px) {
-        padding: 0 2rem;
+        padding: 0 4rem;
     }
 
     @media (max-width: 576px) {
-        padding: 0 1rem;
+        padding: 0 2rem;
     }
 }
-
-.login-page {
+.login-page-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 70px;
+    margin-bottom: 40px;
 }
-
 
 .login-page .field__email {
     margin-bottom: 1.5rem;

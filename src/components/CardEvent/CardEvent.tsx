@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardHeader, CardBody, CardFooter, Divider, Image, Button} from "@nextui-org/react";
+import {Card, CardHeader, CardBody, CardFooter, Divider, Image, Button, Skeleton} from "@nextui-org/react";
 import photo from '../../assets/image.jpg';
 import style from './CardEvent.module.css';
 import { Link } from 'react-router-dom';
@@ -25,6 +25,14 @@ const CardEvent = ({data}: CardEventProps) => {
         "#558FFF",
     ];
 
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(() => {
+        if (data) {
+            setIsLoaded(true);
+        }
+    }, [data]);
+
     const [isMobile, setIsMobile] = useState(false);
     const detectDeviceType = () => {
         setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
@@ -37,7 +45,6 @@ const CardEvent = ({data}: CardEventProps) => {
 
     const dateEvent = new Date(data.date);
     const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US' });
-    console.log(goodFormatDate)
 
     const [isFollowed, setIsFollowed] = React.useState(false);
     useEffect(() => {
@@ -51,16 +58,15 @@ const CardEvent = ({data}: CardEventProps) => {
     if (isMobile != null) {
 
         return isMobile ?
-            mobileVersionView({data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link})
+            mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link})
             :
-            desktopVersionView({data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link});
+            desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link});
     } else {
         return null;
-
     }
 };
 
-function mobileVersionView({data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
+function mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
     return (
         <Link to={"/event/" + data.eventId} style={{width: "100%"}}>
             <div className={style.cardBlock} style={{
@@ -85,7 +91,7 @@ function mobileVersionView({data, randomColor, goodFormatDate, style, LocationIc
     )
 }
 
-function desktopVersionView({data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
+function desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
     return (
         <div className={style.cardBlock} style={{
             background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.imageCover}) lightgray 50% / cover no-repeat`

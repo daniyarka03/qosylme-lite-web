@@ -3,6 +3,8 @@ import {Accordion, AccordionItem, Button} from "@nextui-org/react";
 import {Link} from "react-router-dom";
 import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
 //eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6bnVsbCwiZXhwIjoxNzA4NTYxOTA2LCJvcmlnSWF0IjoxNzA1OTY5OTA2fQ.uVZCUpcxUsVJ57o84lz2xx6hTTCJ8Lxh97IMHnBC5As
+
+import "./SettingsPage.css";
 const SettingsPage = () => {
 
     const logoutHandler = () => {
@@ -11,7 +13,7 @@ const SettingsPage = () => {
     }
 
     return (
-        <div>
+        <div className="settings-page">
             <Accordion>
                 <AccordionItem key="1" aria-label="Accordion 1" title="Account information">
                     <Link to="/profile/edit">

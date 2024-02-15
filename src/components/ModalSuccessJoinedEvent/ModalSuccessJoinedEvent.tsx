@@ -24,6 +24,7 @@ const ModalSuccessJoinedEvent = ({event}: ModalSuccessJoinedEventProps) => {
                 placement="auto"
                 onClose={toggleModal}
                 style={{margin: "18px"}}
+                backdrop={"blur"}
             >
                 <ModalContent>
                     <>
