@@ -1,0 +1,290 @@
+:root {
+    --text-color: #0b4373;
+    --background-hover: #E8F4FF;
+    --between-range: #81c5ff;
+    --invalid-range: #A885AA;
+    --invalid-range-hover: #884c8c;
+    --selected-date: #52aeff;
+    --current-date: #f7f9fb;
+}
+
+.Container {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    padding: 8px;
+    border: 1px #dbe2e8 solid;
+    border-radius: 4px;
+    color: var(--text-color);
+    background-image: linear-gradient(to top right, #fdfdfd, #ffffff);
+
+    @media (min-width: 768px) {
+        width: 350px;
+        padding: 16px;
+    }
+}
+
+.Header {
+    display: flex;
+    align-items: center;
+    height: 40px;
+
+    &:not(.HeaderYearsRange) {
+        & .HeaderText {
+            &:hover {
+                cursor: pointer;
+                background-color: var(--background-hover);
+            }
+        }
+    }
+
+    & .HeaderText {
+        order: 0;
+        border: none;
+        outline: none;
+        background: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: capitalize;
+        @media (min-width: 768px) {
+            font-size: 16px;
+        }
+    }
+
+    & .PrevButton,
+    & .NextButton {
+        width: 28px;
+        height: 28px;
+        border: none;
+        outline: none;
+        border-radius: 50%;
+        background-color: transparent;
+        &:hover {
+            cursor: pointer;
+            background-color: var(--background-hover);
+        }
+        &::before {
+            content: '';
+            display: block;
+            width: 5px;
+            height: 5px;
+            border-color: var(--text-color);
+            border-style: solid;
+            @media (min-width: 768px) {
+                width: 8px;
+                height: 8px;
+            }
+        }
+    }
+
+    & .PrevButton {
+        order: 1;
+        margin-left: auto;
+        &::before {
+            border-width: 2px 0 0 2px;
+            transform: rotate(-45deg) translate(3px, 3px);
+        }
+    }
+
+    & .NextButton {
+        order: 2;
+        margin-left: 16px;
+        &::before {
+            border-width: 2px 2px 0 0;
+            transform: rotate(45deg) translate(2px, -2px);
+            @media (min-width: 768px) {
+                transform: rotate(45deg) translate(1px, -1px);
+            }
+        }
+    }
+}
+
+.Body {
+    & .Days {
+        display: flex;
+        margin-top: 8px;
+        font-size: 10px;
+        font-weight: 900;
+        @media (min-width: 768px) {
+            font-size: 12px;
+        }
+
+        & .Day {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: calc(100% / 7);
+            height: 20px;
+            @media (min-width: 768px) {
+                height: 40px;
+            }
+        }
+    }
+
+    & .Cells {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 8px;
+
+        & .Cell {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            outline: none;
+            color: var(--text-color);
+            font-family: inherit;
+            background-color: transparent;
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index: -1;
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+        }
+
+        & .DayCell {
+            width: 40px;
+            height: 40px;
+            color: #9a9a9a;
+            @media (min-width: 768px) {
+                width: 50px;
+                height: 50px;
+            }
+            &::before {
+                border-radius: 50%;
+            }
+            &.DayBelongCurrentMonth {
+                &.ValidDate {
+                    color: inherit;
+                    &:hover {
+                        cursor: pointer;
+                    }
+                    &.CurrentDate {
+                        &::before {
+                            background-color: var(--current-date);
+                        }
+                    }
+                    &.SelectedDate {
+                        &, &.DayBelongCurrentMonth, &:hover {
+                            color: white;
+                        }
+                        &::before {
+                            background-color: var(--selected-date);
+                        }
+                    }
+                    &.BetweenRange,
+                    &.BetweenSelectedRange {
+                        &.ValidDate,
+                        &.InvalidDate {
+                            color: white;
+                            &:not(.StartRangeDate):not(.EndRangeDate) {
+                                &::before {
+                                    border-radius: 0;
+                                }
+                            }
+                        }
+                        &::before {
+                            background-color: var(--between-range);
+                        }
+                    }
+                    &.BetweenSelectedRange,
+                    &.MouseOverEndRange {
+                        &::before {
+                            background-color: var(--selected-date);
+                        }
+                    }
+                    &:not(.SelectedDate):not(.BetweenSelectedRange):not(.BetweenRange):hover {
+                        &::before {
+                            background-color: var(--background-hover);
+                        }
+                    }
+                    &.StartRangeDate {
+                        &::before {
+                            border-radius: 50% 0 0 50%;
+                            background-color: var(--selected-date);
+                        }
+                    }
+                    &.EndRangeDate {
+                        &::before {
+                            border-radius: 0 50% 50% 0;
+                            background-color: var(--selected-date);
+                        }
+                    }
+                    &.OverMaxRange,
+                    &.UnderMinRange:not(.SelectedDate),
+                    &.InvalidDateBetweenRange {
+                        &::before {
+                            background-color: var(--invalid-range);
+                        }
+                        &:hover {
+                            &::before {
+                                background-color: var(--invalid-range-hover);
+                            }
+                        }
+                    }
+                }
+                &.InvalidDate {
+                    &.InvalidDate {
+                        &::before {
+                            background-color: var(--invalid-range);
+                        }
+                    }
+                }
+            }
+        }
+
+        & .MonthCell {
+            width: calc(100% / 3);
+            height: 70px;
+            &.CurrentDate {
+                &::before {
+                    background-color: var(--current-date);
+                }
+            }
+            &:hover {
+                cursor: pointer;
+                &::before {
+                    background-color: var(--background-hover);
+                }
+            }
+            &.SelectedDate {
+                color: white;
+                &::before {
+                    background-color: var(--selected-date);
+                }
+            }
+        }
+
+        & .YearCell {
+            width: calc(100% / 4);
+            height: 70px;
+            &.CurrentDate {
+                &::before {
+                    background-color: var(--current-date);
+                }
+            }
+            &:hover {
+                cursor: pointer;
+                &::before {
+                    background-color: var(--background-hover);
+                }
+            }
+            &.SelectedDate {
+                color: white;
+                &::before {
+                    background-color: var(--selected-date);
+                }
+            }
+        }
+    }
+}

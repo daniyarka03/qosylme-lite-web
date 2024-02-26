@@ -1,11 +1,31 @@
-import React, {useEffect} from 'react';
-import {Button, Input, Modal, ModalBody, ModalContent, ModalHeader, Tab, Tabs} from "@nextui-org/react";
+import React, {useEffect, useState} from 'react';
+import {Button, Modal, ModalBody, ModalContent, ModalHeader} from "@nextui-org/react";
 import "./ChangeDateTimeEventModal.css";
 import {useModalChangeEventPropertiesStore} from "../../store/store";
-
+import dayjs from "dayjs";
 const ChangeDateTimeEventModal = () => {
 
-    const {isOpenDateModal, toggleDateModal} = useModalChangeEventPropertiesStore();
+    const {isOpenDateModal, toggleDateModal, date, time, toggleDate, toggleTime} = useModalChangeEventPropertiesStore();
+    const today = new Date();
+
+
+    const todayValue = {
+        year: today.getFullYear(),
+        month: today.getMonth() + 1,
+        day: today.getDate(),
+    };
+
+    const minimumDate = {
+        year: today.getFullYear(),
+        month: today.getMonth() + 1,
+        day: today.getDate(),
+    };
+
+    const [selectedDay, setSelectedDay] = useState(todayValue);
+
+    useEffect(() => {
+        toggleDate(`${selectedDay.year}-${selectedDay.month}-${selectedDay.day}`);
+    }, [selectedDay]);
 
     useEffect(() => {
         console.log("isOpenDateModal", isOpenDateModal)
@@ -20,6 +40,7 @@ const ChangeDateTimeEventModal = () => {
                 isOpen={isOpenDateModal}
                 placement="center"
                 onClose={toggleDateModal}
+                isDismissable={false}
             >
                 <ModalContent>
                     <>
@@ -32,20 +53,7 @@ const ChangeDateTimeEventModal = () => {
 
                                      }}>Change Date and Time event</ModalHeader>
                         <ModalBody >
-                            <Tabs color={"primary"}  style={{width: "100%"}} aria-label="Tabs colors" radius="full">
-                                <Tab title="Date" style={{width: "100%", height: "50px", fontSize: "18px", fontWeight: "700"}}>
-                                    <Input
-                                        type="date"
-                                        style={{width: "100%", height: "50px", fontSize: "18px", fontWeight: "700"}}
-                                    />
-                                </Tab>
-                                <Tab  title="Time" style={{width: "100%", height: "50px", fontSize: "18px", fontWeight: "700"}}>
-                                        <Input
-                                        type="time"
-                                        style={{width: "100%", height: "50px", fontSize: "18px", fontWeight: "700"}}
-                                    />
-                                </Tab>
-                            </Tabs>
+
 
                             <Button
                                 color="primary"
@@ -58,6 +66,7 @@ const ChangeDateTimeEventModal = () => {
                                     border: "2px solid #fff"}}
                                 onClick={() => changeDateValueHandler()}
                             >Done</Button>
+
                         </ModalBody>
 
                     </>

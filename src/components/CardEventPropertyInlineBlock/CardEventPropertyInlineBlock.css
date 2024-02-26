@@ -1,0 +1,40 @@
+.card-event-property-block {
+    width: 100%;
+    height: 100%;
+}
+.card-event-property-block .block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 30px;
+    margin: 5px;
+    background-color: #EDEEF3;
+    min-height: 200px;
+}
+
+@media (max-width: 768px) {
+    .card-event-property-block .block {
+        padding: 20px 0 20px 0;
+    }
+}
+
+.card-event-property-block .block .icon {
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-event-property-block .block .value {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+

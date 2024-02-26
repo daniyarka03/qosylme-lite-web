@@ -19,6 +19,10 @@ import CardEventPropertyBlock from "../../components/CardEventPropertyBlock/Card
 import ChangeDateTimeEventModal from "../../components/ChangeDateTimeEventModal/ChangeDateTimeEventModal";
 import ChangeLocationEventModal from "../../components/ChangeLocationEventModal/ChangeLocationEventModal";
 import {Link} from "react-router-dom";
+import {MobileDatePicker, MobileDateTimePicker, MobileTimePicker} from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+import CalendarComponent from "../../components/CalendarComponent/CalendarComponent";
+import CardEventPropertyInlineBlock from "../../components/CardEventPropertyInlineBlock/CardEventPropertyInlineBlock";
 
 const CreateEventPage = () => {
     const profileData = useInfoProfile();
@@ -27,18 +31,28 @@ const CreateEventPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        date: '',
+        date: '2023-05-20',
         time: '',
         location: '',
         image_cover: staticImage,
         userId: 0,
         guestIds: [],
     });
-
+    const defaultValue = {
+        year: 2019,
+        month: 10,
+        day: 5,
+    };
+    const defaultValueTime = {
+        hours: 12,
+        minutes: 0,
+    };
+    const [selectedDay, setSelectedDay] = useState<any>(defaultValue);
+    const [selectedDayTime, setSelectedDayTime] = useState<any>(defaultValueTime);
     const [titleValueState, setTitleValueState] = useState("Choose name event");
 
     const {toggleModal: toggleModalTitleEvent, titleValue} = useModalChangeTitleEventStore();
-    const {toggleImageModal, image, toggleDateModal, toggleLocationModal, location: locationValue} = useModalChangeEventPropertiesStore();
+    const {toggleImageModal, image, toggleDateModal, toggleLocationModal, location: locationValue, date: dateValue} = useModalChangeEventPropertiesStore();
 
 
     const {toggleModal} = useModalLoadingStore();
@@ -93,11 +107,31 @@ const CreateEventPage = () => {
         toggleImageModal();
     };
 
+    const today = new Date();
+    const todayDate = dayjs();
+
+    const hours = today.getHours().toString().padStart(2, '0');
+    const minutes = today.getMinutes().toString().padStart(2, '0');
+    const [openModalDate, setOpenModalDate] = useState(false)
+    const [openModalTime, setOpenModalTime] = useState(false)
+    const [dateValueState, setDateValueState] = useState<any>("");
+    const [timeValueState, setTimeValueState] = useState<String>("Time");
+    const todayValue = {
+        year: today.getFullYear(),
+        month: today.getMonth() + 1,
+        day: today.getDate(),
+    };
+
+
+
+
     const handleSubmit = async (e: any) => {
         toggleModal();
         e.preventDefault();
 
         formData.name = titleValueState;
+        formData.location = locationValue;
+        formData.time = timeValueState.toString();
 
         try {
             const { data, errors } = await createEvent({
@@ -120,6 +154,24 @@ const CreateEventPage = () => {
             [e.target.name]: e.target.value,
         });
     };
+
+    useEffect(() => {
+        const dateObj = new Date(selectedDay["$d"]);
+        const date = `${dateObj.getDate()}.${dateObj.getMonth() + 1}.${dateObj.getFullYear()}`;
+        const time = `${dateObj.getHours().toString().padStart(2, '0')}:${dateObj.getMinutes().toString().padStart(2, '0')}`;
+        setDateValueState(date);
+        setTimeValueState(time);
+    }, [selectedDay]);
+
+    const checkFunc = () => {
+        console.log("checkFunc")
+    }
+
+    useEffect(() => {
+        if (selectedDayTime) {
+            setTimeValueState(selectedDayTime["$H"] + ":" + selectedDayTime["$m"])
+        }
+    }, [selectedDayTime]);
 
     return (
         <div className={style.main}>
@@ -146,11 +198,26 @@ const CreateEventPage = () => {
                     </div>
                 </form>
 
-                <form onSubmit={handleSubmit}>
 
-                    <div style={{display: "flex"}}>
-                        <CardEventPropertyBlock value={locationValue} toggleModal={toggleLocationModal} label={"location"} icon={LocationRedColor} />
-                        <CardEventPropertyBlock toggleModal={toggleDateModal} label={"date"} icon={TimeCircleBlue} />
+
+                {/*    <MobileDatePicker*/}
+                {/*    label={'Date'}*/}
+                {/*    minDate={todayDate}*/}
+                {/*    className="change-date-time-modal__date-picker"*/}
+                {/*    defaultValue={dayjs(`${todayValue.year}-${todayValue.month}-${todayValue.day}`)}*/}
+                {/*/>*/}
+
+
+
+                {/*<MobileTimePicker onOpen={() => checkFunc()} label={'Hours'} openTo="hours" defaultValue={dayjs(`2022-04-17T${hours}:${minutes}`)} />*/}
+
+                <form onSubmit={handleSubmit}>
+                    <div className="flex">
+                        <CardEventPropertyInlineBlock value={dateValueState ? dateValueState : "Date"} toggleModal={() => setOpenModalDate(!openModalDate)} label={"Date"} icon={TimeCircleBlue} />
+                        <CardEventPropertyInlineBlock value={timeValueState ? timeValueState : "Time"} toggleModal={() => setOpenModalTime(!openModalDate)} label={"Time"} icon={TimeCircleBlue} />
+                    </div>
+                        <div>
+                        <CardEventPropertyInlineBlock value={locationValue} toggleModal={toggleLocationModal} label={"Location"} icon={LocationRedColor} />
                     </div>
 
                     <Textarea
@@ -180,88 +247,8 @@ const CreateEventPage = () => {
                         name="description"
                         value={formData.description} onChange={handleChange} required />
 
-                    <Input
-                        className={style.sectionInput}
-                        classNames={{
-                            input: [
-                                "bg-transparent",
-                                "text-black/90 dark:text-white/90",
-                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-                            ],
-                            innerWrapper: "bg-transparent",
-                            inputWrapper: [
-                                "bg-default-200/50",
-                                "dark:bg-default/60",
-                                "backdrop-blur-xl",
-                                "backdrop-saturate-200",
-                                "hover:bg-default-200/70",
-                                "focus-within:!bg-default-200/50",
-                                "dark:hover:bg-default/70",
-                                "group-data-[focused=true]:bg-default-200/50",
-                                "dark:group-data-[focused=true]:bg-default/60",
-                                "!cursor-text",
-                            ],
-                        }}
-                        label="Date"
-                        type="date"
-                        name="date"
-                        placeholder="Date"
-                        value={formData.date} onChange={handleChange} required />
 
-                    <Input
-                        className={style.sectionInput}
-                        placeholder="Time"
-                        classNames={{
-                            input: [
-                                "bg-transparent",
-                                "text-black/90 dark:text-white/90",
-                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-                            ],
-                            innerWrapper: "bg-transparent",
-                            inputWrapper: [
-                                "bg-default-200/50",
-                                "dark:bg-default/60",
-                                "backdrop-blur-xl",
-                                "backdrop-saturate-200",
-                                "hover:bg-default-200/70",
-                                "focus-within:!bg-default-200/50",
-                                "dark:hover:bg-default/70",
-                                "group-data-[focused=true]:bg-default-200/50",
-                                "dark:group-data-[focused=true]:bg-default/60",
-                                "!cursor-text",
-                            ],
-                        }}
-                        label="Time"
-                        type="time"
-                        name="time"
-                        value={formData.time} onChange={handleChange} required />
 
-                    <Input
-                        className={style.sectionInput}
-                        classNames={{
-                            input: [
-                                "bg-transparent",
-                                "text-black/90 dark:text-white/90",
-                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-                            ],
-                            innerWrapper: "bg-transparent",
-                            inputWrapper: [
-                                "bg-default-200/50",
-                                "dark:bg-default/60",
-                                "backdrop-blur-xl",
-                                "backdrop-saturate-200",
-                                "hover:bg-default-200/70",
-                                "focus-within:!bg-default-200/50",
-                                "dark:hover:bg-default/70",
-                                "group-data-[focused=true]:bg-default-200/50",
-                                "dark:group-data-[focused=true]:bg-default/60",
-                                "!cursor-text",
-                            ],
-                        }}
-                        label="Location"
-                        type="text"
-                        name="location"
-                        value={formData.location} onChange={handleChange} required />
 
 
 
@@ -275,11 +262,12 @@ const CreateEventPage = () => {
                                 fontSize: "20px",
                                 borderRadius: "20px",
                                 border: "2px solid #fff"
-                        }}
-                    >
-                        Create Event</Button>
+                        }}>
+                        Create Event
+                    </Button>
 
                 </form>
+
                 <Link to={"/profile"}>
                     <Button
                         color="danger"
@@ -292,6 +280,7 @@ const CreateEventPage = () => {
                             border: "2px solid #fff"
                         }}
                     >Cancel</Button>
+
                 </Link>
                 {error && <p>Error: {error.message}</p>}
                 <ModalLoading />
@@ -299,6 +288,9 @@ const CreateEventPage = () => {
                 <ChangeImageCoverEventModal />
                 <ChangeDateTimeEventModal />
                 <ChangeLocationEventModal />
+                <MobileDatePicker className={style.MobileTimeDatePicker} defaultValue={dayjs(`${todayValue.year}-${todayValue.month}-${todayValue.day}T${hours}:${minutes}`)} onChange={(date: any) => setSelectedDay(date)} open={openModalDate} onClose={() => setOpenModalDate(!openModalDate)} />
+                <MobileTimePicker className={style.MobileTimeDatePicker}  defaultValue={dayjs(`${todayValue.year}-${todayValue.month}-${todayValue.day}T${hours}:${minutes}`)} onChange={(date: any) => setSelectedDayTime(date)} open={openModalTime} onClose={() => setOpenModalTime(!openModalTime)} />
+
             </div></div>
     );
 };

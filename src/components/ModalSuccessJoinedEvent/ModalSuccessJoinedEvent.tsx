@@ -55,7 +55,7 @@ const ModalSuccessJoinedEvent = ({event}: ModalSuccessJoinedEventProps) => {
                                     size="lg"
                                     style={{ height: '4rem', fontWeight: 700, fontSize: '1.1rem', marginBottom: "20px" }}
                                 >
-                                    Check QR-ticket
+                                    Check ticket
                                 </Button>
                                 <Button
                                     className="modal-footer__button"

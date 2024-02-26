@@ -21,7 +21,9 @@ import style from "./components/CardEvent/CardEvent.module.css";
 import LocationIcon from "./assets/Location.svg";
 import ArrowIcon from "./assets/arrow.svg";
 import NotificationsPage from "./screens/NotificationsPage/NotificationsPage";
-
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import 'dayjs/locale/en-gb';
 function App() {
 
     const token = localStorage.getItem('token');
@@ -70,9 +72,8 @@ function App() {
 
     return (
         <ApolloProvider client={client}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
             <NextUIProvider>
-
-
 
                 <Router>
                     {
@@ -105,6 +106,7 @@ function App() {
                     </Routes>
                 </Router>
             </NextUIProvider>
+            </LocalizationProvider>
         </ApolloProvider>
     );
 }

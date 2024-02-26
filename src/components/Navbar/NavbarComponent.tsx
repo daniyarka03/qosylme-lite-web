@@ -37,17 +37,17 @@ const NavbarComponent = () => {
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 <NavbarItem  isActive={location.pathname === '/'}>
                     <Link color={location.pathname === '/' ? 'primary' : 'foreground'} href="/">
-                        Главная
+                        Home
                     </Link>
                 </NavbarItem>
                 <NavbarItem isActive={location.pathname === '/events'}>
                     <Link color={location.pathname === '/events' ? 'primary' : 'foreground'} href="/events" aria-current="page">
-                        Мероприятия
+                        Events
                     </Link>
                 </NavbarItem>
                 <NavbarItem  isActive={location.pathname === '/integrations'}>
                     <Link color={location.pathname === '/integrations' ? 'primary' : 'foreground'} href="#">
-                        Моменты
+                        Moments
                     </Link>
                 </NavbarItem>
             </NavbarContent>
@@ -56,18 +56,18 @@ const NavbarComponent = () => {
                     <NavbarItem>
                         <Link href="/profile">
                             <Button color="primary" className="font-bold">
-                                Профиль
+                                Profile
                             </Button>
                         </Link>
                     </NavbarItem>
                 ) : (
                     <>
                         <NavbarItem className="hidden lg:flex">
-                            <Link href="/login">Войти в аккаунт</Link>
+                            <Link href="/login">Login</Link>
                         </NavbarItem>
                         <NavbarItem>
                             <Button as={Link} color="primary" href="/register" variant="flat">
-                                Регистрация
+                                Register
                             </Button>
                         </NavbarItem>
                     </>
