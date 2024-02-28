@@ -86,6 +86,7 @@ const EventPage = () => {
     }, [data, profileData]);
 
 
+
     const handleDelete = async () => {
         try {
             const { data: deleteData } = await deleteEvent({
@@ -135,6 +136,11 @@ const EventPage = () => {
         }
     }
 
+        const handleGoogleMapsClick = (location: any) => {
+            const formattedAddress = encodeURIComponent(location);
+            window.open(`https://www.google.com/maps/search/?api=1&query=${formattedAddress}`, '_blank');
+        };
+
     return (
         <div className={`${style.eventBlock}`}>
             {isMobile && (<Link to={"/events"}><button className={style.eventButtonBack}><img src={ArrowBackIcon} /></button></Link>)}
@@ -171,7 +177,7 @@ const EventPage = () => {
 
 
                     <div className={style.eventInfoBlock} style={{display: "flex", marginTop: "20px"}}>
-                        <CardEventPropertyBlock valueButton="Open Maps" value={event.location} toggleModal={() => alert('321')} label={"location"} icon={LocationRedColor} />
+                        <CardEventPropertyBlock valueButton="Open Maps" value={(event.location).split(",")[0]} toggleModal={() => handleGoogleMapsClick(event.location)} label={"location"} icon={LocationRedColor} />
                         <CardEventPropertyBlock withButton={false} value={newDate} value2={newTime} toggleModal={() => alert('321')} label={"date"} icon={TimeCircleBlue} />
                     </div>
 

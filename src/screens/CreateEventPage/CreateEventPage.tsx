@@ -31,24 +31,18 @@ const CreateEventPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        date: '2023-05-20',
+        date: '',
         time: '',
         location: '',
         image_cover: staticImage,
         userId: 0,
         guestIds: [],
     });
-    const defaultValue = {
-        year: 2019,
-        month: 10,
-        day: 5,
-    };
-    const defaultValueTime = {
-        hours: 12,
-        minutes: 0,
-    };
-    const [selectedDay, setSelectedDay] = useState<any>(defaultValue);
-    const [selectedDayTime, setSelectedDayTime] = useState<any>(defaultValueTime);
+    const currentDate = new Date().toLocaleDateString('en-GB').split('/').join('.'); // Получаем текущую дату в формате "день.месяц.год"
+    const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); // Получаем текущее время в формате HH:MM
+
+    const [selectedDay, setSelectedDay] = useState<any>("");
+    const [selectedDayTime, setSelectedDayTime] = useState<any>();
     const [titleValueState, setTitleValueState] = useState("Choose name event");
 
     const {toggleModal: toggleModalTitleEvent, titleValue} = useModalChangeTitleEventStore();
@@ -112,10 +106,11 @@ const CreateEventPage = () => {
 
     const hours = today.getHours().toString().padStart(2, '0');
     const minutes = today.getMinutes().toString().padStart(2, '0');
+    console.log(currentDate)
     const [openModalDate, setOpenModalDate] = useState(false)
     const [openModalTime, setOpenModalTime] = useState(false)
-    const [dateValueState, setDateValueState] = useState<any>("");
-    const [timeValueState, setTimeValueState] = useState<String>("Time");
+    const [dateValueState, setDateValueState] = useState<any>(currentDate);
+    const [timeValueState, setTimeValueState] = useState<String>(currentTime);
     const todayValue = {
         year: today.getFullYear(),
         month: today.getMonth() + 1,
@@ -125,13 +120,24 @@ const CreateEventPage = () => {
 
 
 
+
+
     const handleSubmit = async (e: any) => {
         toggleModal();
         e.preventDefault();
+        const parts = dateValueState.split('.'); // Разделяем строку на части с помощью '.' в качестве разделителя
+        const day = parseInt(parts[0]); // Извлекаем часть с днем и преобразуем в целое число
+        const month = parseInt(parts[1]); // Извлекаем часть с месяцем
+        const year = parseInt(parts[2]); // Извлекаем часть с годом
+
+        const dateObject = new Date(Date.UTC(year, month - 1, day)); // Создаем объект Date в формате UTC
+        const formattedDate = dateObject.toISOString().split('T')[0];
 
         formData.name = titleValueState;
         formData.location = locationValue;
+        formData.date = formattedDate;
         formData.time = timeValueState.toString();
+
 
         try {
             const { data, errors } = await createEvent({
@@ -156,22 +162,20 @@ const CreateEventPage = () => {
     };
 
     useEffect(() => {
-        const dateObj = new Date(selectedDay["$d"]);
-        const date = `${dateObj.getDate()}.${dateObj.getMonth() + 1}.${dateObj.getFullYear()}`;
-        const time = `${dateObj.getHours().toString().padStart(2, '0')}:${dateObj.getMinutes().toString().padStart(2, '0')}`;
-        setDateValueState(date);
-        setTimeValueState(time);
-    }, [selectedDay]);
-
-    const checkFunc = () => {
-        console.log("checkFunc")
-    }
-
-    useEffect(() => {
         if (selectedDayTime) {
             setTimeValueState(selectedDayTime["$H"] + ":" + selectedDayTime["$m"])
         }
     }, [selectedDayTime]);
+
+    useEffect(() => {
+        if (selectedDay) {
+            const dateObj = new Date(selectedDay["$d"]);
+            const date = `${dateObj.getDate()}.${dateObj.getMonth() + 1}.${dateObj.getFullYear()}`;
+            setDateValueState(date);
+        }
+    }, [selectedDay]);
+
+    console.log(dateValueState)
 
     return (
         <div className={style.main}>
@@ -222,6 +226,9 @@ const CreateEventPage = () => {
 
                     <Textarea
                         className={style.sectionInput}
+                        minRows={10}
+                        radius={"full"}
+                        size={"lg"}
                         classNames={{
                             input: [
                                 "bg-transparent",
@@ -242,6 +249,7 @@ const CreateEventPage = () => {
                                 "!cursor-text",
                             ],
                         }}
+
                         label="About event"
                         type="text"
                         name="description"
@@ -261,7 +269,8 @@ const CreateEventPage = () => {
                                 fontWeight: "700",
                                 fontSize: "20px",
                                 borderRadius: "20px",
-                                border: "2px solid #fff"
+                                border: "2px solid #fff",
+                                marginBottom: "10px"
                         }}>
                         Create Event
                     </Button>
@@ -288,7 +297,7 @@ const CreateEventPage = () => {
                 <ChangeImageCoverEventModal />
                 <ChangeDateTimeEventModal />
                 <ChangeLocationEventModal />
-                <MobileDatePicker className={style.MobileTimeDatePicker} defaultValue={dayjs(`${todayValue.year}-${todayValue.month}-${todayValue.day}T${hours}:${minutes}`)} onChange={(date: any) => setSelectedDay(date)} open={openModalDate} onClose={() => setOpenModalDate(!openModalDate)} />
+                <MobileDatePicker className={style.MobileTimeDatePicker} minDate={dayjs(`${todayValue.year}-${todayValue.month}-${todayValue.day}T${hours}:${minutes}`)} defaultValue={dayjs(`${todayValue.year}-${todayValue.month}-${todayValue.day}T${hours}:${minutes}`)} onChange={(date: any) => setSelectedDay(date)} open={openModalDate} onClose={() => setOpenModalDate(!openModalDate)} />
                 <MobileTimePicker className={style.MobileTimeDatePicker}  defaultValue={dayjs(`${todayValue.year}-${todayValue.month}-${todayValue.day}T${hours}:${minutes}`)} onChange={(date: any) => setSelectedDayTime(date)} open={openModalTime} onClose={() => setOpenModalTime(!openModalTime)} />
 
             </div></div>

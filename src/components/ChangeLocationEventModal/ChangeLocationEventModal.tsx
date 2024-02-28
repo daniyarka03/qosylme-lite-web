@@ -3,13 +3,14 @@ import {Button, Input, Modal, ModalBody, ModalContent, ModalHeader, Tab, Tabs} f
 import "./ChangeLocationEventModal.css";
 import {useModalChangeEventPropertiesStore} from "../../store/store";
 import style from "../../screens/CreateEventPage/CreateEventPage.module.css";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 const ChangeLocationEventModal = () => {
 
     const {isOpenLocationModal, toggleLocationModal, toggleLocation} = useModalChangeEventPropertiesStore();
-    const [location, setLocation] = React.useState("")
+    const [location, setLocation] = React.useState<any>("")
     const changeLocationEventHandler = () => {
         toggleLocationModal();
-        toggleLocation(location);
+        toggleLocation(location.label);
     }
 
     return (
@@ -29,33 +30,27 @@ const ChangeLocationEventModal = () => {
                                          margin: "30px 0 20px 0"
 
                                      }}>Change Location</ModalHeader>
-                        <ModalBody >
-                            <Input
-                                className={style.sectionInput}
-                                classNames={{
-                                    input: [
-                                        "bg-transparent",
-                                        "text-black/90 dark:text-white/90",
-                                        "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-                                    ],
-                                    innerWrapper: "bg-transparent",
-                                    inputWrapper: [
-                                        "bg-default-200/50",
-                                        "dark:bg-default/60",
-                                        "backdrop-blur-xl",
-                                        "backdrop-saturate-200",
-                                        "hover:bg-default-200/70",
-                                        "focus-within:!bg-default-200/50",
-                                        "dark:hover:bg-default/70",
-                                        "group-data-[focused=true]:bg-default-200/50",
-                                        "dark:group-data-[focused=true]:bg-default/60",
-                                        "!cursor-text",
-                                    ],
+                        <ModalBody>
+                            <GooglePlacesAutocomplete
+                                apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}
+                                autocompletionRequest={{
+                                    componentRestrictions: {
+                                        country: "cz"
+                                    }
                                 }}
-                                label="Location"
-                                type="text"
-                                name="location"
-                                value={location} onChange={(e) => setLocation(e.target.value)} required />
+                                selectProps={{
+                                    value: location,
+                                    onChange: setLocation,
+                                    styles: {
+                                        input: (provided) => ({
+                                            ...provided,
+                                        }),
+                                    },
+                                    placeholder: 'Select location...',
+                                }}
+                                apiOptions={{ language: 'cz', region: 'cz' }}
+                                debounce={300}
+                            />
 
                             <Button
                                 color="primary"

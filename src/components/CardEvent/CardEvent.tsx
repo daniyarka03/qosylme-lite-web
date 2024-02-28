@@ -83,7 +83,7 @@ function mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, 
                 <div className={style.cardEventBody}>
                     <div className={style.cardEventContent}>
                         <h1 className={style.cardEventTitle}>{data.name}</h1>
-                        <p className={style.cardEventDate}>{data.location}</p>
+                        <p className={style.cardEventDate}>{(data.location).split(",")[0]}</p>
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@ function desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style,
             <div className={style.cardEventBody}>
                 <div className={style.cardEventContent}>
                     <h1 className={style.cardEventTitle}>{data.name}</h1>
-                    <p className={style.cardEventDate}>{data.location}</p>
+                    <p className={style.cardEventDate}>{(data.location).split(",")[0]}</p>
                 </div>
                 <div className={style.cardEventActions}>
                     <Link to={"/event/" + data.eventId} replace><button className={style.cardEventActionButton}><img src={ArrowIcon} alt=""/></button></Link>
