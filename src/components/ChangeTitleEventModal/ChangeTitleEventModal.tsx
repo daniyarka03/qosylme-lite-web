@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, CircularProgress, Modal, ModalBody, ModalContent, ModalHeader} from "@nextui-org/react";
 import {useModalChangeTitleEventStore} from "../../store/store";
 import "./ChangeTitleEventModal.css";
@@ -8,8 +8,12 @@ const ChangeTitleEventModal = () => {
     const {isOpen, toggleModal, titleValue, toggleTitleValue} = useModalChangeTitleEventStore();
     const [newTitleValue, setNewTitleValue] = React.useState("")
 
+    useEffect(() => {
+        if (titleValue) {
+            setNewTitleValue(titleValue);
+        }
+    }, [titleValue]);
     const changeTitleValueHandler = () => {
-        console.log(newTitleValue)
         toggleTitleValue(newTitleValue);
         toggleModal();
     }

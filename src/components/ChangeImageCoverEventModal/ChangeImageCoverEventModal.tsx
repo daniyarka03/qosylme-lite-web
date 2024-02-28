@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "./ChangeImageCoverEventModal.css";
 import {useModalChangeEventPropertiesStore} from "../../store/store";
 import {Button, Input, Modal, ModalBody, ModalContent, ModalHeader, Tab, Tabs} from "@nextui-org/react";
@@ -8,6 +8,10 @@ const ChangeImageCoverEventModal = () => {
 
     const {isOpenImageModal, toggleImageModal, image, toggleImage} = useModalChangeEventPropertiesStore();
     const [imageValue, setImageValue] = React.useState("")
+
+    useEffect(() => {
+        console.log(isOpenImageModal)
+    }, [isOpenImageModal]);
     const changeImageValueHandler = () => {
         toggleImage(imageValue);
         toggleImageModal();

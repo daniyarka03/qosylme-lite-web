@@ -84,45 +84,45 @@ const ProfilePage = () => {
                             </div>
                         </div>
 
-                        {/*<Tabs aria-label="Options" color="primary" variant="bordered">*/}
-                        {/*    <Tab*/}
-                        {/*        key="photos"*/}
-                        {/*        title={*/}
-                        {/*            <div className="flex items-center space-x-2">*/}
-                        {/*                <span>My created events</span>*/}
-                        {/*                <Chip size="sm" color="default">{myCreatedEvents.length}</Chip>*/}
-                        {/*            </div>*/}
-                        {/*        }*/}
-                        {/*    >*/}
+                        <Tabs aria-label="Options" color="primary" variant="bordered">
+                            <Tab
+                                key="photos"
+                                title={
+                                    <div className="flex items-center space-x-2">
+                                        <span>My created events</span>
+                                        <Chip size="sm" color="default">{myCreatedEvents.length}</Chip>
+                                    </div>
+                                }
+                            >
 
-                        {/*        <div className="profile__list-events">*/}
-                        {/*            <h2 className="profile__list-events__title">My created events</h2>*/}
-                        {/*            {myCreatedEvents && myCreatedEvents.map((event: any, index) => (*/}
-                        {/*                    <CardEvent style={{marginBottom: "40px"}} key={index} data={event} />*/}
-                        {/*                )*/}
-                        {/*            )}*/}
-                        {/*        </div>*/}
+                                <div className="profile__list-events">
+                                    <h2 className="profile__list-events__title">My created events</h2>
+                                    {myCreatedEvents && myCreatedEvents.map((event: any, index) => (
+                                            <CardEvent style={{marginBottom: "40px"}} key={index} data={event} />
+                                        )
+                                    )}
+                                </div>
 
-                        {/*    </Tab>*/}
-                        {/*    <Tab*/}
-                        {/*        key="music"*/}
-                        {/*        title={*/}
-                        {/*            <div className="flex items-center space-x-2">*/}
-                        {/*                <span>My Attended events</span>*/}
-                        {/*                <Chip size="sm" color="default">{events.length}</Chip>*/}
-                        {/*            </div>*/}
-                        {/*        }*/}
-                        {/*    >*/}
-                        {/*        <div className="profile__list-events">*/}
-                        {/*            <h2 className="profile__list-events__title">My next attended events</h2>*/}
-                        {/*            {events && events.map((event: any, index) => (*/}
-                        {/*                    <CardEvent style={{marginBottom: "40px"}} key={index} data={event} />*/}
-                        {/*                )*/}
-                        {/*            )}*/}
-                        {/*        </div>*/}
-                        {/*    </Tab>*/}
+                            </Tab>
+                            <Tab
+                                key="music"
+                                title={
+                                    <div className="flex items-center space-x-2">
+                                        <span>My Attended events</span>
+                                        <Chip size="sm" color="default">{events.length}</Chip>
+                                    </div>
+                                }
+                            >
+                                <div className="profile__list-events">
+                                    <h2 className="profile__list-events__title">My next attended events</h2>
+                                    {events && events.map((event: any, index) => (
+                                            <CardEvent style={{marginBottom: "40px"}} key={index} data={event} />
+                                        )
+                                    )}
+                                </div>
+                            </Tab>
 
-                        {/*</Tabs>*/}
+                        </Tabs>
 
 
                     </div>
