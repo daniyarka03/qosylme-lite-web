@@ -25,6 +25,7 @@ import NotificationsPage from "./screens/NotificationsPage/NotificationsPage";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/en-gb';
+import ChallengesPage from "./screens/ChallengesPage/ChallengesPage";
 
 setupIonicReact();
 
@@ -101,6 +102,7 @@ function App() {
                                 <Route path={"/notifications"} element={<NotificationsPage />} />
                                 <Route path="/settings" element={<SettingsPage />} />
                                 <Route path={"*"} element={<HomePage />} />
+                                <Route path={"/challenges"} element={<ChallengesPage />} />
                             </>
                         ) : (
                             <>

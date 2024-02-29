@@ -83,15 +83,17 @@ const ProfilePage = () => {
                                 <div className="profile__info-item">
                                     <span className="profile__info-item-value">{infoProfile.firstname + " " + infoProfile.lastname}</span>
                                 </div>
-                                <div className="profile__info-item">
+                                <div className="profile__info-item"  style={{marginTop: "10px"}}>
                                     {/*<div className="profile__info-username">*/}
                                     {/*    <span className="profile__info-item-value">{infoProfile.username}</span>*/}
                                     {/*</div>*/}
+                                    <Link to="/event/create"><Button color="primary">Create new event</Button></Link>
+
                                 </div>
                             </div>
                         </div>
 
-                        <Tabs style={{marginTop: "100px", height: "40px"}} classNames={{
+                        <Tabs style={{marginTop: "150px", height: "40px"}} classNames={{
                             tab: "panel__tab",
                             tabContent: "panel__tab-content",
                         }} fullWidth={true} size="lg" aria-label="Options" color="primary" variant="bordered">
