@@ -35,8 +35,7 @@ const ChangeTitleEventModal = () => {
 
                         }}>Change Title</ModalHeader>
                         <ModalBody >
-                            <input
-                                type="text"
+                            <textarea
                                 className="change-text-modal__input"
                                 placeholder="Your title here..."
                                 value={newTitleValue}

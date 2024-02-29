@@ -28,7 +28,8 @@
     left: 0;
     right: 0;
     top: 200px;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
 }
 
 .profile__info {
@@ -46,9 +47,9 @@
 
 .profile__list-events__title {
     font-size: 36px;
-    margin-top: 50px;
     font-weight: 700;
-    margin-bottom: 20px;
+
+
 }
 
 .profile-controls {
@@ -79,3 +80,18 @@
     align-items: center;
 }
 
+.panel__tab {
+    min-height: 60px;
+}
+
+.profile__list-events {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: 700;
+}
+
+.panel__tab-content {
+    font-weight: 700;
+}

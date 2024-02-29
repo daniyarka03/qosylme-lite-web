@@ -41,11 +41,14 @@ const SettingsPage = () => {
                         }}
                     >Delete account</Button>
                 </AccordionItem>
-                <AccordionItem key="2" aria-label="Accordion 2" title="Privacy settings">
-                    2
-                </AccordionItem>
-                <AccordionItem key="3" aria-label="Accordion 3" title="Appereance">
-                    3
+                {/*<AccordionItem key="2" aria-label="Accordion 2" title="Privacy settings">*/}
+                {/*    2*/}
+                {/*</AccordionItem>*/}
+                {/*<AccordionItem key="3" aria-label="Accordion 3" title="Appereance">*/}
+                {/*    3*/}
+                {/*</AccordionItem>*/}
+                <AccordionItem key="4" aria-label="Accordion 4" title="About company">
+                    <Link to="https://minimalism-page.notion.site/About-Qosylme-b8685057ef2047bdb7657659f928e795?pvs=4" target="_blank" rel="noopener noreferrer" className="settings-page__about-company">More about company: founders, history</Link>
                 </AccordionItem>
             </Accordion>
             <Button

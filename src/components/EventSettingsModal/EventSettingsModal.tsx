@@ -9,7 +9,7 @@ import DeleteIcon from "../../assets/Deleteicon.svg";
 import {Link} from "react-router-dom";
 const EventSettingsModal = () => {
 
-    const {isOpen, toggleModal} = useModalEventSettingsStore();
+    const {isOpen, toggleModal, togglePrivacyOption} = useModalEventSettingsStore();
 
     const onOpenChange = () => {
         toggleModal();
@@ -32,6 +32,11 @@ const EventSettingsModal = () => {
         toggleModal();
     }
 
+    const redirectPrivacyModal = () => {
+        toggleModal();
+        togglePrivacyOption();
+    }
+
 
     return (
         <div>
@@ -52,7 +57,7 @@ const EventSettingsModal = () => {
                                         <p>Edit event information</p>
                                     </div>
                                 </Link>
-                                <div className="event-settings-modal__item">
+                                <div className="event-settings-modal__item" onClick={() => redirectPrivacyModal()}>
                                     <div className="event-settings-modal__img">
                                         <img src={PrivacyIcon} alt=""/>
                                     </div>

@@ -75,6 +75,8 @@ interface IModalUpdateEventPropertiesStore {
 interface IModalEventSettingsStore {
     isOpen: boolean,
     toggleModal: () => void,
+    isOpenPrivacyOption: boolean,
+    togglePrivacyOption: () => void,
 }
 
 interface Guest {
@@ -115,6 +117,8 @@ export const useModalChangeTitleEventStore = create<IModalChangeTitleEventStore>
 export const useModalEventSettingsStore = create<IModalEventSettingsStore>((set) => ({
     isOpen: false,
     toggleModal: () => set((state) => ({ isOpen: !state.isOpen })),
+    isOpenPrivacyOption: false,
+    togglePrivacyOption: () => set((state) => ({ isOpenPrivacyOption: !state.isOpenPrivacyOption })),
 }));
 
 export const useModalChangeEventPropertiesStore = create<IModalChangeEventPropertiesStore>((set) => ({

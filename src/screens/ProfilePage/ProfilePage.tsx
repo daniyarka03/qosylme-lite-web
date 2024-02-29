@@ -39,9 +39,16 @@ const ProfilePage = () => {
                 console.log("myEvents", event.authorEvent.userId === infoProfile.userId)
                 return event.authorEvent.userId === infoProfile.userId;
             });
+
             if (newEvents && newMyEvents) {
-                setEvents(newEvents)
-                setMyCreatedEvents(newMyEvents)
+                const sortedEvents = newEvents.slice().sort((a: any, b: any) => {
+                    return new Date(a.date).getTime() - new Date(b.date).getTime();
+                });
+                const sortedMyEvents = newMyEvents.slice().sort((a: any, b: any) => {
+                    return new Date(a.date).getTime() - new Date(b.date).getTime();
+                });
+                setEvents(sortedEvents)
+                setMyCreatedEvents(sortedMyEvents)
             }
         }
     }, [allEvents.data, infoProfile]);
@@ -58,7 +65,7 @@ const ProfilePage = () => {
         <div className="main">
             {infoProfile && (
                 <>
-                    <BottomNavbar />
+                    {/*<BottomNavbar />*/}
                 <section className="section-profile">
                     <div className="container">
                         <div className="profile-cover">
@@ -84,7 +91,10 @@ const ProfilePage = () => {
                             </div>
                         </div>
 
-                        <Tabs aria-label="Options" color="primary" variant="bordered">
+                        <Tabs style={{marginTop: "100px", height: "40px"}} classNames={{
+                            tab: "panel__tab",
+                            tabContent: "panel__tab-content",
+                        }} fullWidth={true} size="lg" aria-label="Options" color="primary" variant="bordered">
                             <Tab
                                 key="photos"
                                 title={

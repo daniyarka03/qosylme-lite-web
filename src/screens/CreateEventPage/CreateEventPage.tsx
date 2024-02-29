@@ -229,11 +229,12 @@ const CreateEventPage = () => {
                         minRows={10}
                         radius={"full"}
                         size={"lg"}
+                        style={{ whiteSpace: 'pre-wrap' }}
                         classNames={{
                             input: [
                                 "bg-transparent",
                                 "text-black/90 dark:text-white/90",
-                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                                "placeholder:text-default-700/50 dark:placeholder:text-white/60"
                             ],
                             innerWrapper: "bg-transparent",
                             inputWrapper: [
@@ -253,8 +254,7 @@ const CreateEventPage = () => {
                         label="About event"
                         type="text"
                         name="description"
-                        value={formData.description} onChange={handleChange} required />
-
+                        value={formData.description} onChange={handleChange} />
 
 
 

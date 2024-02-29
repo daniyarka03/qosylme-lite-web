@@ -1,4 +1,5 @@
 import './App.css'
+import { setupIonicReact } from '@ionic/react';
 import { NextUIProvider } from "@nextui-org/react";
 import HomePage from "./screens/HomePage/HomePage";
 import React, {useEffect, useState} from "react";
@@ -24,6 +25,9 @@ import NotificationsPage from "./screens/NotificationsPage/NotificationsPage";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/en-gb';
+
+setupIonicReact();
+
 function App() {
 
     const token = localStorage.getItem('token');
@@ -79,6 +83,8 @@ function App() {
                     {
                         !isMobile && (
                             <NavbarComponent />
+                        ) || (
+                            <BottomNavbar />
                         )
                     }
                     <Routes>

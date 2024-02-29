@@ -1,5 +1,5 @@
 .bottom-navbar {
-    z-index: 9999;
+    z-index: 9;
     display: flex;
     position: fixed;
     justify-content: space-around;

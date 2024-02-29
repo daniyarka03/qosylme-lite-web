@@ -17,6 +17,16 @@ import CardEventPropertyBlock from "../../components/CardEventPropertyBlock/Card
 import LocationRedColor from "../../assets/LocationRedColor.svg";
 import TimeCircleBlue from "../../assets/TimeCircleBlueColor.svg";
 import EventSettingsModal from "../../components/EventSettingsModal/EventSettingsModal";
+import { Clipboard } from '@capacitor/clipboard'; // Import the Clipboard plugin
+import '@ionic/react/css/core.css';
+import ChangeSettingsPrivacyEventModal
+    from "../../components/ChangeSettingsPrivacyEventModal/ChangeSettingsPrivacyEventModal";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
+
+
+
 
 interface EventPageProps {
     eventId: number;
@@ -136,10 +146,32 @@ const EventPage = () => {
         }
     }
 
+
+
+
+
         const handleGoogleMapsClick = (location: any) => {
             const formattedAddress = encodeURIComponent(location);
             window.open(`https://www.google.com/maps/search/?api=1&query=${formattedAddress}`, '_blank');
         };
+
+
+       const notify = () => {
+
+       }
+
+        const shareEventHandler = async () => {
+            const currentUrl = window.location.href;
+            await Clipboard.write({
+                string: currentUrl
+            });
+            toast.info("URL copied!", {
+                position: "top-center",
+                autoClose: 1500,
+            });
+        }
+
+
 
     return (
         <div className={`${style.eventBlock}`}>
@@ -155,6 +187,21 @@ const EventPage = () => {
                                 <h1 className={style.cardEventTitle}>{event.name}</h1>
                             </div>
                         </div>
+                    </div>
+
+                    <div className={style.eventInfoBlock}>
+                        <Button
+                            color="primary"
+                            style={{  width: "100%",
+                                height: "70px",
+                                fontWeight: "700",
+                                fontSize: "20px",
+                                borderRadius: "20px",
+                                border: "2px solid #fff",
+                                marginTop: "20px",
+                            }}
+                            onClick={() => shareEventHandler()}
+                        >Share event</Button>
                     </div>
 
                     {isAuthor && (
@@ -184,7 +231,7 @@ const EventPage = () => {
                     <div className={style.eventInfoBlock}>
                         <div className={style.eventInfoDescription}>
                             <h2 className={style.eventInfoDescriptionTitle}>About event</h2>
-                            <p className={style.eventInfoDescriptionText}>{event.description}</p>
+                            <p style={{ whiteSpace: 'pre-wrap' }} className={style.eventInfoDescriptionText}>{event.description}</p>
                         </div>
                     </div>
 
@@ -198,7 +245,7 @@ const EventPage = () => {
                     <div className={style.eventInfoBlock}>
                         <div className={style.eventInfoAuthor}>
                             <h2 className={style.eventInfoAuthorTitle}>Guests</h2>
-                            { event.guests && (
+                            {event.guests && (
                                 <>
                                     {
                                         guestsList.length > 0 && (
@@ -235,6 +282,8 @@ const EventPage = () => {
                     </div>
                     <ModalSuccessJoinedEvent event={event} />
                     <EventSettingsModal />
+                    <ChangeSettingsPrivacyEventModal />
+                    <ToastContainer limit={1} />
                 </>
             )}
         </div>

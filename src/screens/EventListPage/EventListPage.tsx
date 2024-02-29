@@ -7,17 +7,25 @@ import {Input, Skeleton} from "@nextui-org/react";
 import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
 import searchIcon from "../../assets/Search.svg";
 import settingsGray from "../../assets/settingGray.svg";
+
+
 const EventListPage = () => {
 
     const {error, loading, data} = useQuery(SHOW_ALL_EVENTS, );
-    const [events, setEvents] = React.useState([]);
+    const [events, setEvents] = React.useState<any>([]);
     const [isLoaded, setIsLoaded] = React.useState(false);
 
 
 
     useEffect(() => {
         if (data) {
-            setEvents(data.events);
+
+            const sortedEvents = data.events.slice().sort((a: any, b: any) => {
+                return new Date(a.date).getTime() - new Date(b.date).getTime();
+            });
+
+
+            setEvents(sortedEvents);
             setIsLoaded(true);
         }
     }, [data]);
@@ -40,11 +48,11 @@ const EventListPage = () => {
             </div>
 
             <div className="flex flex-col items-center h-screen" style={{marginBottom: "100px"}}>
-                {events.map((item, index) => (
+                {events.map((item: any, index: number) => (
                     <CardEvent style={{marginBottom: "40px"}} key={`${item}-${index}`} data={item} />
                 ))}
             </div>
-            <BottomNavbar />
+            {/*<BottomNavbar />*/}
 
         </div>
     );

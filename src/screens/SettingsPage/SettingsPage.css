@@ -3,3 +3,14 @@
     width: 100%;
     margin: 0 auto;
 }
+
+.settings-page__about-company {
+    text-decoration: underline;
+    color: #5a5aff;
+    transition: 0.6s ease;
+}
+
+.settings-page__about-company:hover {
+    color: #1a1ac0;
+    font-size: 17px;
+}
