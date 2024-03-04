@@ -82,13 +82,14 @@ function App() {
 
                 <Router>
                     {
-                        !isMobile && (
+                        !isMobile && token && (
                             <NavbarComponent />
                         ) || (
                             <BottomNavbar />
                         )
                     }
                     <Routes>
+
 
                         {token ? (
                             <>

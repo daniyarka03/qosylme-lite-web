@@ -45,9 +45,14 @@ const NavbarComponent = () => {
                         Events
                     </Link>
                 </NavbarItem>
-                <NavbarItem  isActive={location.pathname === '/integrations'}>
-                    <Link color={location.pathname === '/integrations' ? 'primary' : 'foreground'} href="#">
-                        Moments
+                <NavbarItem  isActive={location.pathname === '/challenges'}>
+                    <Link color={location.pathname === '/challenges' ? 'primary' : 'foreground'} href="/challenges">
+                        Challenges
+                    </Link>
+                </NavbarItem>
+                <NavbarItem  isActive={location.pathname === '/notifications'}>
+                    <Link color={location.pathname === '/notifications' ? 'primary' : 'foreground'} href="/notifications">
+                        Notifications
                     </Link>
                 </NavbarItem>
             </NavbarContent>

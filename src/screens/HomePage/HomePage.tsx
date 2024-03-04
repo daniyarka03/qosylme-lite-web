@@ -1,20 +1,25 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Button} from "@nextui-org/react";
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import "./HomePage.css";
-import sunIcon from "../../assets/sun.png";
 import {useChangeFormatDate} from "../../hooks/useChangeFormatDate";
-import WorkIcon from "../../assets/Work2.svg";
 import DiscoveryIcon from "../../assets/Discovery.svg";
 import TicketIcon from "../../assets/Ticket.svg";
 import ReportIcon from "../../assets/Danger.svg";
 import StarIcon from "../../assets/Game.svg";
+import {useInfoProfile} from "../../hooks/useInfoProfile";
 const HomePage = () => {
 
     const dateEvent = new Date();
     const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US' });
+    const infoProfile = useInfoProfile();
+    const [firstname, setFirstname] = useState<string>("");
+
+    useEffect(() => {
+        if (infoProfile) {
+            setFirstname(infoProfile.firstname)
+        }
+    }, [infoProfile]);
 
 
     return (
@@ -25,7 +30,7 @@ const HomePage = () => {
 
                 </div>
                 <div className="row">
-                    <span className="row__name">Hello Andrew</span>
+                    <span className="row__name">Hello {firstname}</span>
                 </div>
             </div>
 

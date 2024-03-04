@@ -84,13 +84,30 @@
     min-height: 60px;
 }
 
-.profile__list-events {
+.profile__list-events:nth-child(1) {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     font-weight: 700;
 }
+
+.profile__attended-event {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px;
+    margin-top: 80px;
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 576px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+
 
 .panel__tab-content {
     font-weight: 700;

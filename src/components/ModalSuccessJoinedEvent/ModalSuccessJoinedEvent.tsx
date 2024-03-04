@@ -17,6 +17,11 @@ interface ModalSuccessJoinedEventProps {
 }
 const ModalSuccessJoinedEvent = ({event}: ModalSuccessJoinedEventProps) => {
     const {isOpen, toggleModal} = useModalSuccessJoinEventStore();
+
+    const redirectMyEvents = () => {
+        window.location.href = "/profile";
+    }
+
     return (
         <div className="modal-success-joined-event">
             <Modal
@@ -54,8 +59,9 @@ const ModalSuccessJoinedEvent = ({event}: ModalSuccessJoinedEventProps) => {
                                     fullWidth={true}
                                     size="lg"
                                     style={{ height: '4rem', fontWeight: 700, fontSize: '1.1rem', marginBottom: "20px" }}
+                                    onClick={() => redirectMyEvents()}
                                 >
-                                    Check ticket
+                                    Check my events
                                 </Button>
                                 <Button
                                     className="modal-footer__button"

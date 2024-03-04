@@ -45,6 +45,7 @@ const ChangeLocationEventModal = () => {
                                         input: (provided) => ({
                                             ...provided,
                                         }),
+
                                     },
                                     placeholder: 'Select location...',
                                 }}

@@ -10,6 +10,10 @@ import AvatarStaticImage from "../../assets/avatar-static.png";
 import SettingsIcon from "../../assets/Setting.svg";
 import LogoutIcon from "../../assets/Logout.svg";
 import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
+import CardEventMinimized from "../../components/CardEventMinimized/CardEventMinimized";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const ProfilePage = () => {
 
@@ -20,6 +24,14 @@ const ProfilePage = () => {
     const [isMobile, setIsMobile] = useState(false);
     const detectDeviceType = () => {
         setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
+    };
+
+    const settings = {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
     };
 
     useEffect(() => {
@@ -125,13 +137,12 @@ const ProfilePage = () => {
                                     </div>
                                 }
                             >
-                                <div className="profile__list-events">
-                                    <h2 className="profile__list-events__title">My next attended events</h2>
-                                    {events && events.map((event: any, index) => (
-                                            <CardEvent style={{marginBottom: "40px"}} key={index} data={event} />
-                                        )
-                                    )}
+                                <div className="profile__attended-event">
+                                        {events && events.map((event, index) => (
+                                            <CardEventMinimized key={index} data={event} />
+                                        ))}
                                 </div>
+
                             </Tab>
 
                         </Tabs>

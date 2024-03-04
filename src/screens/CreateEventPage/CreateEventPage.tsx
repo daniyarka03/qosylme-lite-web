@@ -39,11 +39,11 @@ const CreateEventPage = () => {
         guestIds: [],
     });
     const currentDate = new Date().toLocaleDateString('en-GB').split('/').join('.'); // Получаем текущую дату в формате "день.месяц.год"
-    const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); // Получаем текущее время в формате HH:MM
+    const currentTime = new Date().toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'}); // Получаем текущее время в формате HH:MM
 
     const [selectedDay, setSelectedDay] = useState<any>("");
     const [selectedDayTime, setSelectedDayTime] = useState<any>();
-    const [titleValueState, setTitleValueState] = useState("Choose name event");
+    const [titleValueState, setTitleValueState] = useState("Tap to change title");
 
     const {toggleModal: toggleModalTitleEvent, titleValue} = useModalChangeTitleEventStore();
     const {toggleImageModal, image, toggleDateModal, toggleLocationModal, location: locationValue, date: dateValue} = useModalChangeEventPropertiesStore();
@@ -163,9 +163,15 @@ const CreateEventPage = () => {
 
     useEffect(() => {
         if (selectedDayTime) {
-            setTimeValueState(selectedDayTime["$H"] + ":" + selectedDayTime["$m"])
+            const hours = selectedDayTime["$H"];
+            const minutes = selectedDayTime["$m"];
+
+            const formattedMinutes = minutes.toString().padStart(2, '0'); // Добавляем ведущий ноль, если минуты меньше 10
+
+            setTimeValueState(`${hours}:${formattedMinutes}`);
         }
     }, [selectedDayTime]);
+
 
     useEffect(() => {
         if (selectedDay) {

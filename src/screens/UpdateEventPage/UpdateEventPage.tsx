@@ -172,7 +172,12 @@ const UpdateEventPage = () => {
 
     useEffect(() => {
         if (selectedDayTime) {
-            setTimeValueState(selectedDayTime["$H"] + ":" + selectedDayTime["$m"])
+            const hours = selectedDayTime["$H"];
+            const minutes = selectedDayTime["$m"];
+
+            const formattedMinutes = minutes.toString().padStart(2, '0'); // Добавляем ведущий ноль, если минуты меньше 10
+
+            setTimeValueState(`${hours}:${formattedMinutes}`);
         }
     }, [selectedDayTime]);
 

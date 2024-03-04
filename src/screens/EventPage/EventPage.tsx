@@ -123,7 +123,11 @@ const EventPage = () => {
                 });
 
                 setGuestsList(updatedGuests)
-                setStateJoinText('Join Event')
+                setStateJoinText('Join Event');
+                toast.success("You left from event", {
+                    position: "top-center",
+                    autoClose: 1500,
+                });
 
 
             } catch (error: any) {
@@ -156,9 +160,7 @@ const EventPage = () => {
         };
 
 
-       const notify = () => {
 
-       }
 
         const shareEventHandler = async () => {
             const currentUrl = window.location.href;
