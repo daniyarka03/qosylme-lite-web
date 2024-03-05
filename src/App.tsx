@@ -40,7 +40,6 @@ function App() {
         detectDeviceType();
         // Добавляем прослушиватель изменения размера окна для реакции на изменение типа устройства
         window.addEventListener('resize', detectDeviceType);
-        console.log("IsMobile", isMobile)
         // Убираем прослушиватель при размонтировании компонента
         return () => window.removeEventListener('resize', detectDeviceType);
     }, []);
@@ -72,7 +71,6 @@ function App() {
         ]),
     });
 
-    console.log("IsMobile", isMobile)
 
 
     return (

@@ -9,6 +9,7 @@ import CardEvent from "../../components/CardEvent/CardEvent";
 import AvatarStaticImage from "../../assets/avatar-static.png";
 import SettingsIcon from "../../assets/Setting.svg";
 import LogoutIcon from "../../assets/Logout.svg";
+import EditIconComponent from "../../EditIconComponent";
 import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
 import CardEventMinimized from "../../components/CardEventMinimized/CardEventMinimized";
 import Slider from 'react-slick';
@@ -48,7 +49,6 @@ const ProfilePage = () => {
                 return event.guests.includes(infoProfile.userId);
             });
             const newMyEvents = events.filter((event: any) => {
-                console.log("myEvents", event.authorEvent.userId === infoProfile.userId)
                 return event.authorEvent.userId === infoProfile.userId;
             });
 
@@ -69,9 +69,7 @@ const ProfilePage = () => {
         window.location.href = '/';
     }
 
-    if (events) {
-        console.log(events)
-    }
+
 
     return (
         <div className="main">
@@ -99,7 +97,7 @@ const ProfilePage = () => {
                                     {/*<div className="profile__info-username">*/}
                                     {/*    <span className="profile__info-item-value">{infoProfile.username}</span>*/}
                                     {/*</div>*/}
-                                    <Link to="/event/create"><Button color="primary">Create new event</Button></Link>
+                                    <Link to="/profile/edit"><Button color="primary" style={{fontWeight: 500}} startContent={<EditIconComponent />}>Edit profile</Button></Link>
 
                                 </div>
                             </div>

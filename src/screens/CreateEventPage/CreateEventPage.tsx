@@ -70,13 +70,10 @@ const CreateEventPage = () => {
     }, [titleValueState]);
 
     useEffect(() => {
-        console.log("titleValue", titleValue)
         if (titleValue) {
            setTitleValueState(titleValue);
-            console.log("formData", formData)
         }
         if (image) {
-            console.log("image", image)
             setFormData({
                 ...formData,
                 image_cover: image,
@@ -106,7 +103,6 @@ const CreateEventPage = () => {
 
     const hours = today.getHours().toString().padStart(2, '0');
     const minutes = today.getMinutes().toString().padStart(2, '0');
-    console.log(currentDate)
     const [openModalDate, setOpenModalDate] = useState(false)
     const [openModalTime, setOpenModalTime] = useState(false)
     const [dateValueState, setDateValueState] = useState<any>(currentDate);
@@ -149,7 +145,6 @@ const CreateEventPage = () => {
 
             window.location.href = `/event/${data.createEvent.event.eventId}`;
         } catch (error: any) {
-            console.error('Error creating event:', error.message);
             // Добавь обработку ошибок
         }
     };
@@ -181,7 +176,6 @@ const CreateEventPage = () => {
         }
     }, [selectedDay]);
 
-    console.log(dateValueState)
 
     return (
         <div className={style.main}>

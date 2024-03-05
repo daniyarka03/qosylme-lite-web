@@ -9,9 +9,7 @@ const ChangeImageCoverEventModal = () => {
     const {isOpenImageModal, toggleImageModal, image, toggleImage} = useModalChangeEventPropertiesStore();
     const [imageValue, setImageValue] = React.useState("")
 
-    useEffect(() => {
-        console.log(isOpenImageModal)
-    }, [isOpenImageModal]);
+
     const changeImageValueHandler = () => {
         toggleImage(imageValue);
         toggleImageModal();

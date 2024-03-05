@@ -27,9 +27,7 @@ const ChangeDateTimeEventModal = () => {
         toggleDate(`${selectedDay.year}-${selectedDay.month}-${selectedDay.day}`);
     }, [selectedDay]);
 
-    useEffect(() => {
-        console.log("isOpenDateModal", isOpenDateModal)
-    }, []);
+
     const changeDateValueHandler = () => {
         toggleDateModal();
     }
