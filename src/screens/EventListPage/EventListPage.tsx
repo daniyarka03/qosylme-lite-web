@@ -47,7 +47,7 @@ const EventListPage = () => {
                 </div>
             </div>
 
-            <div className="flex flex-col items-center h-screen" style={{marginBottom: "100px"}}>
+            <div className="flex flex-col items-center h-screen" style={{marginBottom: "400px"}}>
                 {events.map((item: any, index: number) => (
                     <CardEvent style={{marginBottom: "40px"}} key={`${item}-${index}`} data={item} />
                 ))}

@@ -56,6 +56,7 @@ const EventPage = () => {
     const [isAuthor, setIsAuthor] = React.useState(false);
     const [newDate, setNewDate] = React.useState('');
     const [newTime, setNewTime] = React.useState('');
+    const [shareEventValue, setShareEventValue] = React.useState('Share Event');
     const profileData = useInfoProfile();
     const {toggleModal} = useModalSuccessJoinEventStore();
         const [isMobile, setIsMobile] = useState(false);
@@ -171,6 +172,7 @@ const EventPage = () => {
                 position: "top-center",
                 autoClose: 1500,
             });
+            setShareEventValue('Copied URL');
         }
 
 
@@ -203,7 +205,7 @@ const EventPage = () => {
                                 marginTop: "20px",
                             }}
                             onClick={() => shareEventHandler()}
-                        >Share event</Button>
+                        >{shareEventValue}</Button>
                     </div>
 
                     {isAuthor && (

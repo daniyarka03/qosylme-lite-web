@@ -1,9 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { Link, useLocation } from "react-router-dom";
-import HomeIcon from "../../assets/Home.svg";
-import ExploreIcon from "../../assets/Discovery.svg";
-import NotificationIcon from "../../assets/Notification.svg";
-import ProfileIcon from "../../assets/Profile.svg";
+
+import HomeIcon from "../../assets/Iconly/Regular/Bold/Home.svg";
+import ExploreIcon from "../../assets/Iconly/Regular/Bold/Discovery.svg";
+import NotificationIcon from "../../assets/Iconly/Regular/Bold/Notification.svg";
+import ProfileIcon from "../../assets/Iconly/Regular/Bold/Profile.svg";
+import PlusIcon from "../../assets/Iconly/Regular/Bold/Plus.svg";
+
+import HomeOutlineIcon from "../../assets/Iconly/Regular/Light/Home.svg";
+import ExploreOutlineIcon from "../../assets/Iconly/Regular/Light/Discovery.svg";
+import NotificationOutlineIcon from "../../assets/Iconly/Regular/Light/Notification.svg";
+import ProfileOutlineIcon from "../../assets/Iconly/Regular/Light/Profile.svg";
+import PlusOutlineIcon from "../../assets/Iconly/Regular/Light/Plus.svg";
 import "./BottomNavbar.css";
 
 const BottomNavbar = () => {
@@ -26,17 +34,20 @@ const BottomNavbar = () => {
         <>
             {isMobile && (
                 <div className="bottom-navbar">
-                    <Link to={"/"} className={location.pathname === "/" ? "bottom-navbar-item bottom-navbar__active" : "bottom-navbar-item"}>
-                        <img className="bottom-navbar__icon" src={HomeIcon} />
+                    <Link to={"/"} className={"bottom-navbar-item"}>
+                        <img className="bottom-navbar__icon" src={location.pathname === "/" ? HomeIcon : HomeOutlineIcon} />
                     </Link>
-                    <Link to={"/events"} className={location.pathname === "/events" ? "bottom-navbar-item bottom-navbar__active" : "bottom-navbar-item"}>
-                        <img className="bottom-navbar__icon" src={ExploreIcon} />
+                    <Link to={"/events"} className={"bottom-navbar-item"}>
+                        <img className="bottom-navbar__icon" src={location.pathname === "/events" ? ExploreIcon : ExploreOutlineIcon} />
                     </Link>
-                    <Link to={"/notifications"} className={location.pathname === "/notifications" ? "bottom-navbar-item bottom-navbar__active" : "bottom-navbar-item"}>
-                        <img className="bottom-navbar__icon" src={NotificationIcon} />
+                    <Link to={"/event/create"} className={"bottom-navbar-item"}>
+                        <img className="bottom-navbar__icon" src={location.pathname === "/event/create" ? PlusIcon : PlusOutlineIcon} />
                     </Link>
-                    <Link to={"/profile"} className={location.pathname === "/profile" ? "bottom-navbar-item bottom-navbar__active" : "bottom-navbar-item"}>
-                        <img className="bottom-navbar__icon" src={ProfileIcon} />
+                    <Link to={"/notifications"} className={"bottom-navbar-item"}>
+                        <img className="bottom-navbar__icon" src={location.pathname === "/notifications" ? NotificationIcon : NotificationOutlineIcon} />
+                    </Link>
+                    <Link to={"/profile"} className={"bottom-navbar-item"}>
+                        <img className="bottom-navbar__icon" src={location.pathname === "/profile" ? ProfileIcon : ProfileOutlineIcon} />
                     </Link>
                 </div>
             ) || null}

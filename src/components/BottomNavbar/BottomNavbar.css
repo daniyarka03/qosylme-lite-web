@@ -5,26 +5,17 @@
     justify-content: space-around;
     align-items: center;
     max-width: 600px;
-    width: 90%;
-    height: 80px;
-    background: #3035E2;
+    width: 100%;
+    height: 90px;
+    background: #F7F8FB;
     margin: 0 auto;
     left: 0;
     right: 0;
-    bottom: 20px;
-    border-radius: 200px;
+    bottom: -2px;
+    box-shadow: 0 -10px 10px -20px rgba(0, 0, 0, 0.6);
 }
 
-.bottom-navbar__active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 70px;
-    height: 70px;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
 
-}
 
 .bottom-navbar__active-circle {
     position: absolute;
@@ -38,6 +29,13 @@
 }
 
 .bottom-navbar__icon {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
+    opacity: 0.7;
 }
+
+.bottom-navbar__active .bottom-navbar__icon {
+    opacity: 1;
+    filter: brightness(90%) saturate(0%);
+}
+
