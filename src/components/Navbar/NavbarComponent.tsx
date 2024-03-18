@@ -10,6 +10,7 @@ import {
     NavbarMenuItem, NavbarMenu, Image
 } from "@nextui-org/react";
 import Logo from '../../assets/logo.png';
+import HomeIcon from "../../assets/Iconly/Regular/Bold/Home.svg";
 
 const NavbarComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -37,6 +38,7 @@ const NavbarComponent = () => {
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 <NavbarItem  isActive={location.pathname === '/'}>
                     <Link color={location.pathname === '/' ? 'primary' : 'foreground'} href="/">
+                        {/*<img src={HomeIcon} /> Home*/}
                         Home
                     </Link>
                 </NavbarItem>
