@@ -18,7 +18,6 @@ import LocationRedColor from "../../assets/LocationRedColor.svg";
 import TimeCircleBlue from "../../assets/TimeCircleBlueColor.svg";
 import EventSettingsModal from "../../components/EventSettingsModal/EventSettingsModal";
 import { Clipboard } from '@capacitor/clipboard'; // Import the Clipboard plugin
-import '@ionic/react/css/core.css';
 import ChangeSettingsPrivacyEventModal
     from "../../components/ChangeSettingsPrivacyEventModal/ChangeSettingsPrivacyEventModal";
 import { toast, ToastContainer } from 'react-toastify';
@@ -48,7 +47,7 @@ const EventPage = () => {
     // @ts-ignore
     if (id !== undefined) {
         const { error, loading, data } = useQuery(SHOW_EVENT_BY_ID, {
-            variables: { eventId: parseInt(id) },
+            variables: { eventId: id },
         });
     const {toggleModal: toggleEventSettingsModal} = useModalEventSettingsStore();
     const [updateEventFunction, {data: data2}] = useMutation(UPDATE_EVENT_JOIN_FUNCTION);
@@ -77,22 +76,23 @@ const EventPage = () => {
     const [guestsList, setGuestsList] = React.useState<number[]>([]);
     useEffect(() => {
         if (data) {
-            setEvent(data.eventById);
-            setGuestsList(JSON.parse(data.eventById.guests));
-            const dateEvent = new Date(data.eventById.date);
+            const event = data.getEventById;
+            setEvent(event);
+            setGuestsList(event.guests);
+            const dateEvent = new Date(event.date);
             const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US', monthFormat: 'long' });
-            let parts = data.eventById.time.split(':');
+            let parts = event.time.split(':');
             let hours = parts[0];
             let minutes = parts[1];
             let formattedTime = hours + ":" + minutes;
             setNewDate(goodFormatDate);
             setNewTime(formattedTime);
-            if (profileData && data.eventById.authorEvent.userId === profileData.userId) {
-                setIsAuthor(true);
-            }
-            if (profileData && JSON.parse(data.eventById.guests).includes(parseInt(profileData.userId))) {
-                setStateJoinText('Leave Event')
-            }
+            // if (profileData && event.author_event.user_id === profileData.user_id) {
+            //     setIsAuthor(true);
+            // }
+            // if (profileData && event.guests.includes((profileData.user_id)) {
+            //     setStateJoinText('Leave Event')
+            // }
         }
     }, [data, profileData]);
 
@@ -242,7 +242,7 @@ const EventPage = () => {
                     <div className={style.eventInfoBlock}>
                         <div className={style.eventInfoAuthor}>
                             <h2 className={style.eventInfoAuthorTitle}>Organizer</h2>
-                            <GuestCardList guest={event.authorEvent.userId} />
+                            <GuestCardList guest={event.author_event} />
                         </div>
                     </div>
 

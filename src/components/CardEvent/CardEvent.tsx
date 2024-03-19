@@ -68,7 +68,7 @@ const CardEvent = ({data}: CardEventProps) => {
 
 function mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
     return (
-        <Link to={"/event/" + data.eventId} style={{width: "100%"}}>
+        <Link to={"/event/" + data.event_id} style={{width: "100%"}}>
             <div className={style.cardBlock} style={{
                 background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.imageCover}) lightgray 50% / cover no-repeat`
             }}>
@@ -110,7 +110,7 @@ function desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style,
                     <p className={style.cardEventDate}>{(data.location).split(",")[0]}</p>
                 </div>
                 <div className={style.cardEventActions}>
-                    <Link to={"/event/" + data.eventId} replace><button className={style.cardEventActionButton}><img src={ArrowIcon} alt=""/></button></Link>
+                    <Link to={"/event/" + data.event_id} replace><button className={style.cardEventActionButton}><img src={ArrowIcon} alt=""/></button></Link>
                 </div>
             </div>
         </div>

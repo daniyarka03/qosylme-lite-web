@@ -26,6 +26,7 @@
     "dayjs": "^1.11.10",
     "framer-motion": "^10.16.16",
     "graphql": "^16.8.1",
+    "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-places-autocomplete": "^4.0.1",

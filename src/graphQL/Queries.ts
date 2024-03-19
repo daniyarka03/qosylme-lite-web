@@ -3,80 +3,105 @@ import {gql} from "@apollo/client";
 
 export const SHOW_ALL_EVENTS = gql`
     query {
-    events {
-        eventId
-        name
-        description
-        location
-        date
-        imageCover
-        authorEvent {
-            userId
-            firstname
-            lastname
-            email
+        getEvents {
+            event_id
+            name
+            description
+            location
+            date
+            image_cover
+            author_event {
+                user_id
+                firstname
+                lastname
+                email
+            }
+            guests {
+                user_id
+                firstname
+                lastname
+                email
+            }
         }
-        guests
     }
-}
-    `;
-
-// export const SHOW_ALL_EVENTS = gql`
-//     query GetEvents ($first: Int!) {
-//     events(first: $first) {
-//         eventId
-//         name
-//         description
-//         location
-//         date
-//         imageCover
-//         authorEvent {
-//             userId
-//             firstname
-//             lastname
-//             email
-//         }
-//         guests
-//     }
-// }
-//     `;
+`;
 
 export const SHOW_EVENT_BY_ID = gql`
-  query GetEventById($eventId: Int!) {
-    eventById(eventId: $eventId) {
-      eventId
+  query getEventById($eventId: String!) {
+    getEventById(id: $eventId) {
+      event_id
       name
       description
       date
       time
       location
-      imageCover
-      authorEvent {
-        userId
+      image_cover
+      author_event {
+        user_id
         email
         firstname
         lastname
       }
-      guests
+      guests {
+        user_id
+        email
+        firstname
+        lastname
+      }
     }
   }
 `;
 
-export const GET_CURRENT_USER = gql`
-query {
-  loggedIn {
-    userId,
-    firstname
-    lastname,
-    email
-  }
-}
+export const GET_CREATED_EVENTS = gql`
+    query getEventsByUser($userId: String!) {
+        getEventsByUser(userId: $userId) {
+            event_id
+            name
+            description
+            date
+            time
+            location
+            image_cover
+            author_event {
+                user_id
+                email
+                firstname
+                lastname
+            }
+        }
+    }
+`;
+
+export const GET_ATTENDED_EVENTS = gql`
+    query getUserById($userId: String!) {
+        getUserById(id: $userId) {
+            user_id
+              firstname
+              lastname
+              email
+            attendedEvents {
+                event_id
+                name
+                description
+                location
+                date
+                time
+                image_cover
+                author_event {
+                    user_id
+                    firstname
+                    lastname
+                    email
+                }
+            }
+        }
+    }
 `;
 
 export const GET_USERS = gql`
 query {
-  users {
-    userId
+  getUsers {
+    user_id
     firstname
     lastname
     email
@@ -85,29 +110,13 @@ query {
 `;
 
 export const GET_USER_BY_ID = gql`
-  query GetUserById($userId: ID!) {
-    user (userId: $userId) {
-      userId
+  query getUserById($userId: String!) {
+    getUserById (id: $userId) {
+      user_id
       firstname
       lastname
       email
-      
     }
   }
 `;
 
-// events {
-//   eventId
-//   name
-//   description
-//   location
-//   date
-//   imageCover
-//   authorEvent {
-//     userId
-//     firstname
-//     lastname
-//     email
-//   }
-//   guests
-// }

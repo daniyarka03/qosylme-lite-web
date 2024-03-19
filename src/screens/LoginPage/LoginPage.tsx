@@ -16,16 +16,15 @@ const LoginPage = () => {
             const result = await login({ variables: { email, password } });
 
             // Получаем токен из результата мутации
-            const token = result.data.tokenAuthWithUser.token;
+            const token = result.data.login.token;
+            const refreshToken = result.data.login.refreshToken;
             //
             // // Устанавливаем токен в localStorage
             localStorage.setItem('token', `${token}`);
+            localStorage.setItem('refreshToken', `${refreshToken}`);
             window.location.href = '/';
 
-            // Дополнительные действия при успешном входе
-            // Например, перенаправление пользователя на другую страницу
         } catch (error) {
-            // Обработка ошибок при входе
             console.log(error);
         }
     };

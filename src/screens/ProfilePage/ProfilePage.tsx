@@ -3,7 +3,12 @@ import "./ProfilePage.css";
 import {Avatar, Button, Chip, Image, Tab, Tabs} from "@nextui-org/react";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import {useQuery} from "@apollo/client";
-import {GET_CURRENT_USER, SHOW_ALL_EVENTS} from "../../graphQL/Queries";
+import {
+    GET_ATTENDED_EVENTS,
+    GET_CREATED_EVENTS,
+    GET_USER_BY_ID,
+    SHOW_ALL_EVENTS
+} from "../../graphQL/Queries";
 import {Link} from "react-router-dom";
 import CardEvent from "../../components/CardEvent/CardEvent";
 import AvatarStaticImage from "../../assets/avatar-static.png";
@@ -15,11 +20,42 @@ import CardEventMinimized from "../../components/CardEventMinimized/CardEventMin
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import {jwtDecode} from "jwt-decode";
+
+interface Event {
+    getEvents: {
+        event_id: number,
+        name: string,
+        description: string,
+        location: string,
+        date: string,
+        image_cover: string,
+        author_event: {
+            user_id: number,
+            firstname: string,
+            lastname: string,
+            email: string,
+        },
+        guests: {
+            user_id: number,
+            firstname: string,
+            lastname: string,
+            email: string,
+        }[]
+    }
+
+}
 
 const ProfilePage = () => {
 
     const infoProfile = useInfoProfile();
-    const allEvents = useQuery(SHOW_ALL_EVENTS);
+    const decodedToken: any = jwtDecode(localStorage.getItem('token') || "");
+    const {data} = useQuery(GET_ATTENDED_EVENTS, {
+        variables: {
+            userId: decodedToken.userId
+        }
+    });
+    const [profile, setProfile] = useState<any>(null);
     const [events, setEvents] = React.useState([]);
     const [myCreatedEvents, setMyCreatedEvents] = React.useState([]);
     const [isMobile, setIsMobile] = useState(false);
@@ -35,6 +71,9 @@ const ProfilePage = () => {
         slidesToScroll: 1,
     };
 
+
+
+
     useEffect(() => {
         detectDeviceType();
         // Добавляем прослушиватель изменения размера окна для реакции на изменение типа устройства
@@ -42,28 +81,56 @@ const ProfilePage = () => {
         // Убираем прослушиватель при размонтировании компонента
         return () => window.removeEventListener('resize', detectDeviceType);
     }, []);
-    useEffect(() => {
-        if (allEvents.data && infoProfile) {
-            const events = allEvents.data.events;
-            const newEvents = events.filter((event: any) => {
-                return event.guests.includes(infoProfile.userId);
-            });
-            const newMyEvents = events.filter((event: any) => {
-                return event.authorEvent.userId === infoProfile.userId;
-            });
 
-            if (newEvents && newMyEvents) {
-                const sortedEvents = newEvents.slice().sort((a: any, b: any) => {
+
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            const events = data.getUserById.attendedEvents;
+            const sortedEvents = events.slice().sort((a: any, b: any) => {
                     return new Date(a.date).getTime() - new Date(b.date).getTime();
-                });
-                const sortedMyEvents = newMyEvents.slice().sort((a: any, b: any) => {
-                    return new Date(a.date).getTime() - new Date(b.date).getTime();
-                });
-                setEvents(sortedEvents)
-                setMyCreatedEvents(sortedMyEvents)
-            }
-        }
-    }, [allEvents.data, infoProfile]);
+             });
+             setEvents(sortedEvents)
+            console.log(data.getUserById)
+        }, 2000);
+
+        // if (data.getUserById.attendedEvents) {
+        //     const events = data.getUserById.attendedEvents;
+        //     const sortedEvents = events.slice().sort((a: any, b: any) => {
+        //         return new Date(a.date).getTime() - new Date(b.date).getTime();
+        //     });
+        //     setEvents(sortedEvents)
+        // }
+        // if (attendedEvents.getEvents && infoProfile) {
+        //     const events = attendedEvents.getEvents;
+        //     const newEvents = events.filter((event: any) => {
+        //         return event.guests.includes(infoProfile.userId);
+        //     });
+        //
+        //     const {data} = useQuery(GET_CREATED_EVENTS, {
+        //         variables: {
+        //             userId: infoProfile.userId
+        //         }
+        //     });
+        //
+        //     console.log(data.getEventsByUserId)
+        //
+        //     const newMyEvents = data.getEventsByUserId;
+        //
+        //
+        //     if (newEvents && newMyEvents) {
+        //         const sortedEvents = newEvents.slice().sort((a: any, b: any) => {
+        //             return new Date(a.date).getTime() - new Date(b.date).getTime();
+        //         });
+        //         const sortedMyEvents = newMyEvents.slice().sort((a: any, b: any) => {
+        //             return new Date(a.date).getTime() - new Date(b.date).getTime();
+        //         });
+        //         setEvents(sortedEvents)
+        //         setMyCreatedEvents(sortedMyEvents)
+        //     }
+        // }
+    }, [infoProfile]);
     const logoutHandler = () => {
         localStorage.removeItem('token');
         window.location.href = '/';
