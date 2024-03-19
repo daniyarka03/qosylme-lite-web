@@ -31,11 +31,12 @@ interface EventPageProps {
     eventId: number;
     name: string;
     description: string;
-    imageCover: string;
+    image_cover: string;
     location: string;
     date: string;
     time: string;
     guests: string;
+    author_event: string;
     authorEvent: {
         userId: number;
         firstname: string;
@@ -183,7 +184,7 @@ const EventPage = () => {
             {event && (
                 <>
                     <div className={style.cardBlock} style={{
-                        background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.92) 100%), url(${event.imageCover}) lightgray 50% / cover no-repeat`,
+                        background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.92) 100%), url(${event.image_cover}) lightgray 50% / cover no-repeat`,
                         borderRadius: isMobile ? "0 0 30px 30px" : "20px"
                     }}>
                         <div className={style.cardEventBody}>

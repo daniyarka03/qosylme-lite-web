@@ -41,23 +41,21 @@ export const GET_USER_INFO = gql`
 `;
 
 export const CREATE_EVENT = gql`
-  mutation createEvent($name: String!, $description: String!, $date: Date!, $time: Time!, $location: String!, $image_cover: String!, $userId: ID!, $guestIds: [ID]!) {
-    createEvent( name: $name, description: $description, date: $date, time: $time, location: $location, imageCover: $image_cover, userId: $userId, guestIds: $guestIds) {
-      event {
-        eventId
+  mutation createEvent($name: String!, $description: String!, $date: String!, $time: String!, $location: String!, $image_cover: String!, $userId: String!, $guestIds: [String]!) {
+    createEvent( name: $name, description: $description, date: $date, time: $time, location: $location, image_cover: $image_cover, author_event_id: $userId, guests_ids: $guestIds) {
+        event_id
         name
         description
         date
         time
         location
-        imageCover
-        authorEvent {
-            userId
+        image_cover
+        author_event {
+            user_id
             email
             firstname
             lastname
         }
-      }
     }
   }
 `;
