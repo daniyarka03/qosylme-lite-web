@@ -47,7 +47,7 @@ const ModalSuccessJoinedEvent = ({event}: ModalSuccessJoinedEventProps) => {
                                         removeWrapper
                                         alt="Card background"
                                         className="z-0 w-full h-full object-cover blur-darken-image"
-                                        src={event.imageCover}
+                                        src={event.image_cover}
                                     />
                             </Card>
                         </ModalBody>

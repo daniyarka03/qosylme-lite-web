@@ -3,7 +3,12 @@ import {Link, useParams} from 'react-router-dom';
 import {Button} from '@nextui-org/react';
 import style from './EventPage.module.css';
 import { SHOW_EVENT_BY_ID } from '../../graphQL/Queries';
-import {DELETE_EVENT, UPDATE_EVENT_JOIN_FUNCTION} from '../../graphQL/Mutations';
+import {
+    ADD_GUEST_TO_EVENT,
+    DELETE_EVENT,
+    DELETE_GUEST_FROM_EVENT,
+    UPDATE_EVENT_JOIN_FUNCTION
+} from '../../graphQL/Mutations';
 import {useMutation, useQuery} from '@apollo/client';
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import ModalSuccessJoinedEvent from "../../components/ModalSuccessJoinedEvent/ModalSuccessJoinedEvent";
@@ -35,13 +40,27 @@ interface EventPageProps {
     location: string;
     date: string;
     time: string;
-    guests: string;
+    guests: {
+        user_id: string;
+        firstname: string;
+        lastname: string;
+        email: string;
+    }[];
     author_event: string;
     authorEvent: {
         userId: number;
         firstname: string;
     }
 }
+
+interface Guest {
+    user_id: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+}
+
+
 
 const EventPage = () => {
     const { id } = useParams();
@@ -74,6 +93,8 @@ const EventPage = () => {
 
     const [event, setEvent] = React.useState<EventPageProps | null>(null);
     const [deleteEvent, { loading: deleteLoading, error: deleteError }] = useMutation(DELETE_EVENT);
+    const [updateGuestsEvent, { loading: updateLoading, error: updateError }] = useMutation(ADD_GUEST_TO_EVENT);
+    const [deleteGuestsEvent, { loading: deleteGuestsLoading, error: deleteGuestsError }] = useMutation(DELETE_GUEST_FROM_EVENT);
     const [guestsList, setGuestsList] = React.useState<number[]>([]);
     useEffect(() => {
         if (data) {
@@ -88,9 +109,16 @@ const EventPage = () => {
             let formattedTime = hours + ":" + minutes;
             setNewDate(goodFormatDate);
             setNewTime(formattedTime);
-            // if (profileData && event.author_event.user_id === profileData.user_id) {
-            //     setIsAuthor(true);
-            // }
+            if (event && profileData && event.author_event.user_id === profileData.user_id) {
+                setIsAuthor(true);
+            } else {
+                if (profileData && event.guests.find((guest: any) => guest.user_id === profileData.user_id)) {
+                    setStateJoinText('Leave Event')
+                } else {
+                    setStateJoinText('Join Event')
+                }
+            }
+            // const myGuest = event && event.guests && event.guests.find(guest => guest.user_id === profileData.user_id);
             // if (profileData && event.guests.includes((profileData.user_id)) {
             //     setStateJoinText('Leave Event')
             // }
@@ -113,42 +141,34 @@ const EventPage = () => {
         }
     };
 
-    const joinGuestHandler = async () => {
-        const currentGuests = guestsList;
-        if (currentGuests.includes(parseInt(profileData.userId))) {
-            try {
-                const updatedGuests = currentGuests.filter((guest) => {
-                    return guest !== parseInt(profileData.userId)
-                });
-                const { data: joinData } = await updateEventFunction({
-                    variables: { eventId: id, guests: updatedGuests },
-                });
+    const joinGuestHandler = async  () => {
 
-                setGuestsList(updatedGuests)
-                setStateJoinText('Join Event');
+        const currentGuests = guestsList;
+
+
+        if (currentGuests && currentGuests.find((guest: any) => guest.user_id === profileData.user_id)) {
+            const { data: deleteData } = await deleteGuestsEvent({
+                variables: { eventId: id, guestId: profileData.user_id },
+            });
+            if (deleteData && deleteData.deleteEventGuest) {
+                setGuestsList(deleteData.deleteEventGuest.guests);
                 toast.success("You left from event", {
                     position: "top-center",
                     autoClose: 1500,
                 });
-
-
-            } catch (error: any) {
-                console.error('Error joining event:', error.message);
             }
-        } else {
-            try {
-                const updatedGuests = [...currentGuests, parseInt(profileData.userId)];
-                const { data: joinData } = await updateEventFunction({
-                    variables: { eventId: id, guests: updatedGuests },
-                });
+            setStateJoinText('Join Event');
+        }
 
-                setGuestsList(updatedGuests)
-                setStateJoinText('Leave Event')
+        if (currentGuests && !currentGuests.find((guest: any) => guest.user_id === profileData.user_id)) {
+            const { data: joinData } = await updateGuestsEvent({
+                variables: { eventId: id, guests: [profileData.user_id] },
+            });
+            if (joinData && joinData.updateEventGuests) {
+                setGuestsList(joinData.updateEventGuests.guests);
                 toggleModal();
-
-            } catch (error: any) {
-                console.error('Error joining event:', error.message);
             }
+            setStateJoinText('Leave Event');
         }
     }
 

@@ -133,18 +133,57 @@ export const REFRESH_TOKEN = gql`
 `;
 
 export const UPDATE_EVENT_JOIN_FUNCTION = gql`
-  mutation updateEvent(
-    $eventId: ID!
-    $guests: [ID!]
-  ) {
-    updateEvent(
-      eventId: $eventId
-      guests: $guests
-    ) {
-      event {
+  mutation updateEvent($eventId: ID!, $guests: [ID!]) {
+    updateEvent(event_id: $eventId, guests: $guests) {
         eventId
         guests
-      }
     }
   }
+`;
+
+export const SINGLE_UPLOAD_FILE = gql`
+    mutation singleUploadFile($file: Upload!) {
+        singleUploadFile(file: $file)
+    }
+    `;
+
+export const GET_GUESTS_BY_EVENT = gql`
+    query getEventById($eventId: String!) {
+        getEventById(id: $eventId) {
+            guests {
+                user_id
+                email
+                firstname
+                lastname
+            }
+        }
+    }
+`;
+
+export const ADD_GUEST_TO_EVENT = gql`
+    mutation updateEventGuests($eventId: String!, $guests: [String!]!) {
+        updateEventGuests(id: $eventId, guests: $guests) {
+            event_id
+            guests {
+                user_id
+                email
+                firstname
+                lastname
+            }
+        }
+    }
+`;
+
+export const DELETE_GUEST_FROM_EVENT = gql`
+    mutation deleteEventGuest($eventId: String!, $guestId: String!) {
+        deleteEventGuest(eventId: $eventId, guestId: $guestId) {
+            event_id
+            guests {
+                user_id
+                email
+                firstname
+                lastname
+            }
+        }
+    }
 `;
