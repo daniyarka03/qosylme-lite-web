@@ -35,7 +35,7 @@ const EditProfilePage = () => {
     useEffect(() => {
         if (profileData) {
             setUserInfo(profileData);
-            setUserId(profileData.userId);
+            setUserId(profileData.user_id);
             setEmail(profileData.email);
             setFirstname(profileData.firstname);
             setLastname(profileData.lastname);
@@ -64,25 +64,7 @@ const EditProfilePage = () => {
                 },
             });
 
-            try {
-                // Выполняем мутацию для входа
-                const result = await refreshToken({ variables: { refreshToken: localStorage.getItem('refreshToken') } });
-
-                // Получаем токен из результата мутации
-                const token = result.data.refreshToken.token;
-                const refreshTokenData = result.data.refreshToken.refreshToken;
-                //
-                // // Устанавливаем токен в localStorage
-                localStorage.setItem('token', `${token}`);
-                localStorage.setItem('refreshToken', `${refreshTokenData}`);
-                window.location.href = '/';
-
-                // Дополнительные действия при успешном входе
-                // Например, перенаправление пользователя на другую страницу
-            } catch (error) {
-                // Обработка ошибок при входе
-                console.log(error);
-            }
+            window.location.href = '/profile';
 
             console.log('Updated User:', updateUserData.updateUser.user);
             // Handle success or update UI accordingly

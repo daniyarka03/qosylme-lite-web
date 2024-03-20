@@ -70,7 +70,7 @@ function mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, 
     return (
         <Link to={"/event/" + data.event_id} style={{width: "100%"}}>
             <div className={style.cardBlock} style={{
-                background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.imageCover}) lightgray 50% / cover no-repeat`
+                background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.image_cover}) lightgray 50% / cover no-repeat`
             }}>
                 <div className={style.cardEventHeader}>
                     <div className={style.cardEventLocation} style={{background: randomColor}}>
@@ -94,7 +94,7 @@ function mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, 
 function desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
     return (
         <div className={style.cardBlock} style={{
-            background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.imageCover}) lightgray 50% / cover no-repeat`
+            background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.image_cover}) lightgray 50% / cover no-repeat`
         }}>
             <div className={style.cardEventHeader}>
                 <div className={style.cardEventLocation} style={{background: randomColor}}>

@@ -104,14 +104,12 @@ export const DELETE_EVENT = gql`
 
 // Update User Mutation
 export const UPDATE_USER = gql`
-  mutation updateUser($userId: ID!, $email: String, $firstname: String, $lastname: String, $password: String) {
-    updateUser(userId: $userId, email: $email, firstname: $firstname, lastname: $lastname, password: $password) {
-      user {
-        userId
+  mutation updateUser($userId: String!, $email: String!, $firstname: String!, $lastname: String!) {
+    updateUser(id: $userId, email: $email, firstname: $firstname, lastname: $lastname) {
+        user_id
         email
         firstname
         lastname
-      }
     }
   }
 `;
