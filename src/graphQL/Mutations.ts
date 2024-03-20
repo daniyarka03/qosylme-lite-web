@@ -64,32 +64,30 @@ export const CREATE_EVENT = gql`
 
 export const UPDATE_EVENT = gql`
   mutation updateEvent(
-    $eventId: ID!
+    $eventId: String!
     $name: String!
     $description: String!
-    $date: Date!
-    $time: Time!
+    $date: String!
+    $time: String!
     $location: String!
     $image_cover: String!
   ) {
     updateEvent(
-      eventId: $eventId
+      id: $eventId
       name: $name
       description: $description
       date: $date
       time: $time
       location: $location
-      imageCover: $image_cover
+      image_cover: $image_cover
     ) {
-      event {
-        eventId
+        event_id
         name
         description
         date
         time
         location
-        imageCover
-      }
+        image_cover
     }
   }
 `;

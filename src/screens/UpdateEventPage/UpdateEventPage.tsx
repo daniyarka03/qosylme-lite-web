@@ -60,9 +60,9 @@ const UpdateEventPage = () => {
     useEffect(() => {
         // Функция для определения размера шрифта
         const calculateFontSize = () => {
-            if (titleValueState.length <= 20) {
+            if (titleValueState && titleValueState.length <= 20) {
                 return '40px';
-            } else if (titleValueState.length > 20) {
+            } else if (titleValueState && titleValueState.length > 20) {
                 return '30px';
             }
             return '40px';
@@ -88,21 +88,21 @@ const UpdateEventPage = () => {
     console.log(hours)
 
     const { loading, error, data } = useQuery(SHOW_EVENT_BY_ID, {
-        variables: { eventId: parseInt(id) },
+        variables: { eventId: id },
     });
 
     const [updateEvent, { loading: updateLoading, error: updateError }] = useMutation(UPDATE_EVENT);
 
     useEffect(() => {
-        if (!loading && data && data.eventById) {
-            const { name, description, date, time, location, imageCover } = data.eventById;
-            setFormData({ name, description, date, time, location, image_cover: imageCover });
+        if (!loading && data && data.getEventById.event_id) {
+            const { name, description, date, time, location, image_cover } = data.getEventById;
+            setFormData({ name, description, date, time, location, image_cover: image_cover });
             setTitleValueState(name);
             setDateValueState(date.split("-").reverse().join("."));
             setTimeValueState(time.split(":").slice(0, 2).join(":"));
             setDescription(description);
             setLocation(location);
-            setImageCover(imageCover);
+            setImageCover(image_cover);
             setHours(time.split(":").slice(0, 1).join(":"))
             setMinutes(time.split(":").slice(1, 2).join(":"))
 
@@ -150,7 +150,7 @@ const UpdateEventPage = () => {
         try {
             const { data: updateData } = await updateEvent({
                 variables: {
-                    eventId: typeof id === 'string' ? parseInt(id, 10) : 0,
+                    eventId: id,
                     ...formData,
                 },
             });
