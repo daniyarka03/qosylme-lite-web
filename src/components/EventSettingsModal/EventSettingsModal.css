@@ -1,0 +1,32 @@
+.event-settings-modal__item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #E5E5E5;
+    padding: 20px 0;
+    gap: 0;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18px;
+    transition: 0.2s ease;
+}
+
+.event-settings-modal__item:hover {
+    background: #F0F0F0;
+    border-radius: 20px;
+}
+
+.event-settings-modal__img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    background: #7F82ED;
+    margin-right: 30px;
+}
+
+.event-settings-modal__img-delete {
+    background: #F31260;
+}
+

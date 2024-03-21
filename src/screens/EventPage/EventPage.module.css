@@ -1,0 +1,191 @@
+
+
+.eventBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 200px;
+}
+
+.eventTitle {
+    display: block;
+    font-size: 36px;
+    font-weight: 700;
+    margin-top: 40px;
+    float: left;
+}
+
+.eventImage {
+    width: 800px;
+    height: 500px;
+    object-fit: cover;
+}
+
+.cardBlock {
+    position: relative;
+    width: 500px;
+    height: 400px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    z-index: 1;
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+}
+
+.cardEventBody {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardEventTitle {
+    font-size: 40px;
+    color: #fff;
+    font-weight: 800;
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    line-height: 40.813px;
+    right: 40px;
+    word-break: break-all;
+
+}
+
+.eventInfoBlock {
+    width: 100%;
+    max-width: 500px;
+}
+
+
+.eventInfoDate {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.eventInfoLocation {
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    gap: 10px;
+}
+
+.eventInfoDateText {
+    font-size: 20px;
+    color: #25084B;
+    font-weight: 700;
+}
+
+.eventInfoTimeText {
+    font-size: 15px;
+    color: #8A8A8A;
+    font-weight: 600;
+}
+
+.eventInfoLocationText {
+    font-size: 20px;
+    color: #25084B;
+    font-weight: 700;
+}
+
+.eventInfoDescription {
+    padding: 10px 20px 10px 20px;
+    border-radius: 30px;
+    margin: 5px;
+    background-color: #EDEEF3;
+    min-height: 200px;
+    margin-top: 15px;
+    word-break: break-all;
+
+}
+
+.eventInfoDescriptionTitle {
+    font-size: 24px;
+    color: #000;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.eventInfoDescriptionText {
+    width: 100%;
+    max-width: 500px;
+}
+
+.eventInfoAuthorTitle, .eventInfoLocationSectionTitle {
+    font-size: 24px;
+    color: #000;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.eventInfoLocationSectionTextValue {
+
+}
+
+.eventBlockButton {
+
+}
+
+.eventControlBlockDesktop {
+    width: 100%;
+    background: #0070F0;
+    max-width: 500px;
+    position: fixed;
+    bottom: 10px;
+    border-radius: 20px;
+}
+
+.eventControlBlockMobile {
+    width: 100%;
+    background: #0070F0;
+    max-width: 500px;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+}
+
+.eventControlSubblock {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.eventControlCountGuests h2 {
+    font-size: 20px;
+    color: #fff;
+    font-weight: 700;
+}
+
+.eventControlCountGuests p {
+    font-size: 15px;
+    color: #fff;
+}
+
+.eventButtonBack {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 20px;
+    top: 20px;
+    background: rgba(0, 0, 0, 0.53);
+    width: 55px;
+    height: 55px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    position: absolute;
+    z-index: 2;
+}
+
+
+
+@media (max-width: 768px) {
+    .eventInfoBlock {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

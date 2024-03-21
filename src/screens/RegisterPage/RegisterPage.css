@@ -1,0 +1,65 @@
+
+.register-page {
+    @media (max-width: 768px) {
+        padding: 0 2rem;
+    }
+
+    @media (max-width: 576px) {
+        padding: 0 2rem;
+    }
+}
+
+.register-page-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 70px;
+    margin-bottom: 40px;
+}
+
+
+.register-page .field__email {
+    margin-bottom: 1.5rem;
+}
+
+.register-page .auth-block {
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.register-page .auth-block .title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-align: left;
+    margin-top: 100px;
+
+    @media (max-width: 768px) {
+        font-size: 1.2rem;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 1rem;
+    }
+}
+
+.register-page .auth-block .btn__login {
+    width: 100%;
+    padding: 30px 0;
+    margin-bottom: 1rem;
+    margin-top: 3rem;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 15px;
+}
+
+.register-page .auth-block .subspan__signup {
+    display: block;
+    text-align: center;
+}
+
+.register-page .auth-block .subspan__signup-link {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #5a5aff;
+}

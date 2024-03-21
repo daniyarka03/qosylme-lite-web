@@ -1,0 +1,41 @@
+.bottom-navbar {
+    z-index: 9;
+    display: flex;
+    position: fixed;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 600px;
+    width: 100%;
+    height: 90px;
+    background: #F7F8FB;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    box-shadow: 0 -10px 10px -20px rgba(0, 0, 0, 0.6);
+}
+
+
+
+.bottom-navbar__active-circle {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottom-navbar__icon {
+    width: 30px;
+    height: 30px;
+    opacity: 0.7;
+}
+
+.bottom-navbar__active .bottom-navbar__icon {
+    opacity: 1;
+    filter: brightness(90%) saturate(0%);
+}
+

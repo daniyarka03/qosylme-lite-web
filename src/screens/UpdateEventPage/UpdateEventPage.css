@@ -1,0 +1,15 @@
+.update-event-page {
+
+    @media (max-width: 768px) {
+        padding: 0 2rem;
+    }
+
+    @media (max-width: 576px) {
+        padding: 0 1rem;
+    }
+
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-bottom: 200px;
+}

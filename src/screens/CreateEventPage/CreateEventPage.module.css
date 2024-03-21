@@ -1,0 +1,76 @@
+.main {
+
+    @media (max-width: 768px) {
+        padding: 0 2rem;
+    }
+
+    @media (max-width: 576px) {
+        padding: 0 1rem;
+    }
+}
+
+.sectionCreateEvent {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-bottom: 200px;
+}
+
+.sectionCreateEvent h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.sectionCreateEvent .sectionInput {
+    margin-bottom: 1.5rem;
+    margin-top: 20px;
+}
+
+.cardBlock {
+    position: relative;
+    width: 500px;
+    height: 400px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    background-size: cover;
+    z-index: 1;
+    border-radius: 30px; /* Optional: Add rounded corners */
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+}
+
+.cardEventBody {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardEventTitle {
+    color: #fff;
+    font-weight: 800;
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    line-height: 38.813px;
+    right: 40px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    word-break: break-word;
+}
+
+.cardEventTitle:hover {
+    transform: scale(1.02);
+}
+
+.eventInfoBlock {
+    width: 100%;
+    max-width: 500px;
+}
+
+.MobileTimeDatePicker {
+    visibility: hidden;
+}

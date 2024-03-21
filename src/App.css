@@ -2,7 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 
-.block {
-    width: 400px;
-    margin: 0 auto;
+body {
 }
