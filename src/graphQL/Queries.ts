@@ -75,24 +75,24 @@ export const GET_CREATED_EVENTS = gql`
 export const GET_ATTENDED_EVENTS = gql`
     query getUserById($userId: String!) {
         getUserById(id: $userId) {
-            user_id
+              user_id
               firstname
               lastname
               email
-            attendedEvents {
-                event_id
-                name
-                description
-                location
-                date
-                time
-                image_cover
-                author_event {
-                    user_id
-                    firstname
-                    lastname
-                    email
-                }
+                attendedEvents {
+                    event_id
+                    name
+                    description
+                    location
+                    date
+                    time
+                    image_cover
+                    author_event {
+                        user_id
+                        firstname
+                        lastname
+                        email
+                    }
             }
         }
     }

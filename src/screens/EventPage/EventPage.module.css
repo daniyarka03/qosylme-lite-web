@@ -51,6 +51,7 @@
     left: 20px;
     line-height: 40.813px;
     right: 40px;
+    word-break: break-all;
 
 }
 
@@ -98,6 +99,8 @@
     background-color: #EDEEF3;
     min-height: 200px;
     margin-top: 15px;
+    word-break: break-all;
+
 }
 
 .eventInfoDescriptionTitle {

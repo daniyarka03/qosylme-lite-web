@@ -14,9 +14,9 @@ const CardEventMinimized = ({data}: any) => {
 
     return (
         <div style={{margin: "0 auto"}}>
-            <Link to={"/event/" + data.eventId} style={{width: "100%"}}>
+            <Link to={"/event/" + data.event_id} style={{width: "100%"}}>
                 <div className={style.cardBlock} style={{
-                    background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.imageCover}) lightgray 50% / cover no-repeat`
+                    background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.image_cover}) lightgray 50% / cover no-repeat`
                 }}>
                     <div className={style.cardEventHeader}>
                         <div className={style.cardEventLocation}>
