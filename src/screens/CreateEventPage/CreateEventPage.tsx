@@ -27,7 +27,7 @@ import CardEventPropertyInlineBlock from "../../components/CardEventPropertyInli
 const CreateEventPage = () => {
     const profileData = useInfoProfile();
     //const staticImage = "https://images.unsplash.com/photo-1683009427513-28e163402d16";
-    const staticImage = imageCover;
+    const staticImage = import.meta.env.VITE_SERVER_URL + "/uploads/events/static/default_1.jpg";
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -85,7 +85,7 @@ const CreateEventPage = () => {
           if (profileData) {
             setFormData({
                 ...formData,
-                    userId: parseInt(profileData.userId),
+                    userId: profileData.user_id,
             })
         }
     }, [profileData]);
@@ -128,7 +128,6 @@ const CreateEventPage = () => {
 
         const dateObject = new Date(Date.UTC(year, month - 1, day)); // Создаем объект Date в формате UTC
         const formattedDate = dateObject.toISOString().split('T')[0];
-
         formData.name = titleValueState;
         formData.location = locationValue;
         formData.date = formattedDate;
@@ -142,10 +141,9 @@ const CreateEventPage = () => {
                 },
             });
 
-
-            window.location.href = `/event/${data.createEvent.event.eventId}`;
+            window.location.href = `/event/${data.createEvent.event_id}`;
         } catch (error: any) {
-            // Добавь обработку ошибок
+            console.log(error)
         }
     };
 

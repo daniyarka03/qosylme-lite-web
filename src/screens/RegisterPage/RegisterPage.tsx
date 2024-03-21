@@ -32,28 +32,16 @@ const RegisterPage = () => {
                 },
             });
 
-            try {
-                // Выполняем мутацию для входа
-                const result = await login({variables: {email, password}});
-
-                // Получаем токен из результата мутации
-                const token = result.data.tokenAuthWithUser.token;
-                const refreshToken = result.data.tokenAuthWithUser.refreshToken;
-                //
-                // // Устанавливаем токен в localStorage
-                localStorage.setItem('token', `${token}`);
-                localStorage.setItem('refreshToken', `${refreshToken}`);
-                window.location.href = '/';
-
-                // Дополнительные действия при успешном входе
-                // Например, перенаправление пользователя на другую страницу
-            } catch (error) {
-                // Обработка ошибок при входе
-                console.log(error);
-            }
+            console.log(data.signup.token)
 
 
-            // Добавь обработку успешного создания мероприятия
+            const token = data.signup.token;
+            const refreshToken = data.signup.refreshToken;
+
+            localStorage.setItem('token', `${token}`);
+            localStorage.setItem('refreshToken', `${refreshToken}`);
+            window.location.href = '/';
+
         } catch (error: any) {
             console.error('Error creating user:', error.message);
             // Добавь обработку ошибок

@@ -11,7 +11,7 @@ import settingsGray from "../../assets/settingGray.svg";
 
 const EventListPage = () => {
 
-    const {error, loading, data} = useQuery(SHOW_ALL_EVENTS, );
+    const {error, loading, data} = useQuery(SHOW_ALL_EVENTS);
     const [events, setEvents] = React.useState<any>([]);
     const [isLoaded, setIsLoaded] = React.useState(false);
 
@@ -19,8 +19,7 @@ const EventListPage = () => {
 
     useEffect(() => {
         if (data) {
-
-            const sortedEvents = data.events.slice().sort((a: any, b: any) => {
+            const sortedEvents = data.getEvents.slice().sort((a: any, b: any) => {
                 return new Date(a.date).getTime() - new Date(b.date).getTime();
             });
 
@@ -49,7 +48,8 @@ const EventListPage = () => {
 
             <div className="flex flex-col items-center h-screen" style={{marginBottom: "400px"}}>
                 {events.map((item: any, index: number) => (
-                    <CardEvent style={{marginBottom: "40px"}} key={`${item}-${index}`} data={item} />
+                  <>
+                      <CardEvent style={{marginBottom: "40px"}} key={`${item}-${index}`} data={item} /></>
                 ))}
             </div>
             {/*<BottomNavbar />*/}
