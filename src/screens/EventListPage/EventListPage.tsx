@@ -6,7 +6,7 @@ import {SHOW_ALL_EVENTS} from "../../graphQL/Queries";
 import {Input, Skeleton} from "@nextui-org/react";
 import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
 import searchIcon from "../../assets/Search.svg";
-import settingsGray from "../../assets/Search.svg";
+import settingsGray from "../../assets/SettingGray.svg";
 
 
 const EventListPage = () => {
