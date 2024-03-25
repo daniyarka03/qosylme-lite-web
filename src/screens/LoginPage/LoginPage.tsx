@@ -9,12 +9,12 @@ const LoginPage = () => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [login, { data, loading, error }] = useMutation(LOGIN_MUTATION);
+    const [errors, setErrors] = React.useState<string>('');
 
     const loginHandler = async () => {
         try {
             // Выполняем мутацию для входа
             const result = await login({ variables: { email, password } });
-
             // Получаем токен из результата мутации
             const token = result.data.login.token;
             const refreshToken = result.data.login.refreshToken;
@@ -24,7 +24,8 @@ const LoginPage = () => {
             localStorage.setItem('refreshToken', `${refreshToken}`);
             window.location.href = '/';
 
-        } catch (error) {
+        } catch (error: any) {
+            setErrors(error.toString());
             console.log(error);
         }
     };
@@ -77,6 +78,7 @@ const LoginPage = () => {
                     }} label="Password" className="field__password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     <Button color="primary" className="btn__login" onClick={loginHandler} >Login</Button>
                     <span className="subspan__signup">If you don't have account? <Link to="/register" className="subspan__signup-link">Create account</Link></span>
+                    {errors && <p className="error__message">{errors}</p>}
                 </div>
             </div>
         </>

@@ -5,7 +5,7 @@ import "./EventSettingsModal.css";
 import EditIcon from "../../assets/EditIcon.svg";
 import PrivacyIcon from "../../assets/SecurityIcon.svg";
 import GuestsIcon from "../../assets/UsersWhiteIcon.svg";
-import DeleteIcon from "../../assets/Deleteicon.svg";
+import DeleteIcon from "../../assets/DeleteIcon.svg";
 import {Link} from "react-router-dom";
 const EventSettingsModal = () => {
 
