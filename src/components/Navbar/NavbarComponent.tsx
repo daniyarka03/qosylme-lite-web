@@ -9,7 +9,7 @@ import {
     NavbarMenuToggle,
     NavbarMenuItem, NavbarMenu, Image
 } from "@nextui-org/react";
-import Logo from '../../assets/logo.png';
+import Logo from '../../assets/Logo.png';
 import HomeIcon from "../../assets/Iconly/Regular/Bold/Home.svg";
 
 const NavbarComponent = () => {
