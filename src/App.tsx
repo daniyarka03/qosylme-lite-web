@@ -10,7 +10,7 @@ import NavbarComponent from "./components/Navbar/NavbarComponent";
 import EventPage from "./screens/EventPage/EventPage";
 import LoginPage from "./screens/LoginPage/LoginPage";
 import RegisterPage from "./screens/RegisterPage/RegisterPage";
-import {ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache} from "@apollo/client";
+import {ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache, useQuery} from "@apollo/client";
 import {onError} from "@apollo/client/link/error";
 import ProfilePage from "./screens/ProfilePage/ProfilePage";
 import CreateEventPage from "./screens/CreateEventPage/CreateEventPage";
@@ -26,6 +26,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/en-gb';
 import ChallengesPage from "./screens/ChallengesPage/ChallengesPage";
+import CheckingValideToken from "./components/CheckingValideToken";
 
 setupIonicReact();
 
@@ -33,9 +34,11 @@ function App() {
 
     const token = localStorage.getItem('token');
     const [isMobile, setIsMobile] = useState(false);
+
     const detectDeviceType = () => {
         setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
     };
+
     useEffect(() => {
         detectDeviceType();
         // Добавляем прослушиватель изменения размера окна для реакции на изменение типа устройства
@@ -79,6 +82,7 @@ function App() {
             <NextUIProvider>
 
                 <Router>
+                    <CheckingValideToken />
                     {
                         !isMobile && token && (
                             <NavbarComponent />

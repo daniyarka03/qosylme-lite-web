@@ -120,3 +120,10 @@ export const GET_USER_BY_ID = gql`
   }
 `;
 
+export const VERIFY_TOKEN = gql`
+    query verifyToken ($token: String!) {
+        verifyToken (token: $token) {
+           user_id
+        }
+    }
+`;
