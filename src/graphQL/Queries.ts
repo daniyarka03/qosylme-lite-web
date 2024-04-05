@@ -127,3 +127,17 @@ export const VERIFY_TOKEN = gql`
         }
     }
 `;
+
+export const GET_CHALLENGES = gql`
+    query {
+        getChallenges {
+            challenge_id
+            name
+            description
+            deadline
+            xp_award
+            coins_award
+            image_cover
+        }
+    }
+`;

@@ -190,7 +190,7 @@ const ProfilePage = () => {
                                     key="music"
                                     title={
                                         <div className="flex items-center space-x-2">
-                                            <span>My Attended events</span>
+                                            <span>My Attending events</span>
                                             <Chip size="sm" color="default">{events.length}</Chip>
                                         </div>
                                     }
