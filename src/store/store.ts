@@ -17,6 +17,11 @@ interface IModalSuccessJoinEventStore {
     toggleModal: () => void
 }
 
+interface IModalSuccessJoinChallengeStore {
+    isOpen: boolean
+    toggleModal: () => void
+}
+
 interface IModalChangeTitleEventStore {
     isOpen: boolean
     toggleModal: () => void
@@ -103,6 +108,11 @@ export const useModalLoadingStore = create<IModalLoadingStore>((set) => ({
 }));
 
 export const useModalSuccessJoinEventStore = create<IModalSuccessJoinEventStore>((set) => ({
+    isOpen: false,
+    toggleModal: () => set((state) => ({ isOpen: !state.isOpen })),
+}));
+
+export const useModalSuccessJoinChallengeStore = create<IModalSuccessJoinChallengeStore>((set) => ({
     isOpen: false,
     toggleModal: () => set((state) => ({ isOpen: !state.isOpen })),
 }));

@@ -16,6 +16,8 @@ import {
     DELETE_PARTICIPATION_CHALLENGE
 } from "../../graphQL/Mutations";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
+import ModalSuccessJoinedChallenge from "../../components/ModalSuccessJoinedChallenge/ModalSuccessJoinedChallenge";
+import {useModalSuccessJoinChallengeStore, useModalSuccessJoinEventStore} from "../../store/store";
 
 interface ChallengePageProps {
     name: string;
@@ -39,20 +41,20 @@ const ChallengePage = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [fontSizeTitle, setFontSizeTitle] = useState('40px');
     const [bottomMarginsRewards, setBottomMarginsRewards] = useState('80px');
-    const [stateJoinText, setStateJoinText] = React.useState('Join Event');
+    const [stateJoinText, setStateJoinText] = React.useState('Join challenge');
     const h1Ref = useRef(null);
     const [addParticipantChallenge, { loading: updateLoading, error: updateError }] = useMutation(ADD_PARTICIPATION_CHALLENGE);
     const [deleteParticipantChallenge, { loading: deleteGuestsLoading, error: deleteGuestsError }] = useMutation(DELETE_PARTICIPATION_CHALLENGE);
     const [participantsChallenge, setParticipantsChallenge] = useState<any[]>([]);
-
+    const {toggleModal} = useModalSuccessJoinChallengeStore();
     useEffect(() => {
         if (data) {
             setChallenge(data.getChallengeById)
             setParticipantsChallenge(data.getChallengeById.participants)
             if (profileData && data.getChallengeById.participants.find((guest: any) => guest.user.user_id === profileData.user_id)) {
-                setStateJoinText('Leave Event')
+                setStateJoinText('Leave challenge')
             } else {
-                setStateJoinText('Join Event')
+                setStateJoinText('Join challenge')
             }
         }
     }, [data]);
@@ -162,7 +164,7 @@ const ChallengePage = () => {
                         autoClose: 1500,
                     });
                 }
-                setStateJoinText('Join Event');
+                setStateJoinText('Join challenge');
             }
 
             if (participants && !participants.find((guest: any) => guest.user.user_id === profileData.user_id)) {
@@ -172,9 +174,9 @@ const ChallengePage = () => {
                 });
                 if (joinData && joinData.createChallengeParticipant) {
                     setParticipantsChallenge([...participantsChallenge, joinData.createChallengeParticipant]);
-                    // toggleModal();
+                    toggleModal();
                 }
-                setStateJoinText('Leave Event');
+                setStateJoinText('Leave challenge');
             }
     }
 
@@ -222,10 +224,12 @@ const ChallengePage = () => {
                                            fontSize: "18px",
                                            borderRadius: "20px",
                                            border: "2px solid #fff"
-                                       }}  className={style.eventBlockButton} color={stateJoinText === "Join Event" ? "primary" : "danger"} onClick={() => joinChallengeHandler()}>{stateJoinText}</Button>
+                                       }}  className={style.eventBlockButton} color={stateJoinText === "Join challenge" ? "primary" : "danger"} onClick={() => joinChallengeHandler()}>{stateJoinText}</Button>
                                    </div>
                            </div>
+
                            <ToastContainer limit={1} />
+                           <ModalSuccessJoinedChallenge challenge={challenge} />
                        </>
                     )}
                 </div>
