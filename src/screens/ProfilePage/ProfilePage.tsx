@@ -4,7 +4,7 @@ import {Avatar, Button, Chip, Image, Tab, Tabs} from "@nextui-org/react";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import {useQuery} from "@apollo/client";
 import {
-    GET_ATTENDED_EVENTS, GET_CREATED_EVENTS
+    GET_ATTENDED_EVENTS, GET_CREATED_EVENTS, GET_USERS_CHALLENGES
 } from "../../graphQL/Queries";
 import {Link} from "react-router-dom";
 import CardEvent from "../../components/CardEvent/CardEvent";
@@ -20,6 +20,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import {jwtDecode} from "jwt-decode";
 import PlusIconComponent from "../../components/PlusIconComponent";
+import ChallengeCard from "../../components/ChallengeCard/ChallengeCard";
 
 interface Event {
     getEvents: {
@@ -59,10 +60,16 @@ const ProfilePage = () => {
             userId: decodedToken.userId
         }
     });
+    const {data: usersChallenges, error: challengeError} = useQuery(GET_USERS_CHALLENGES, {
+        variables: {
+            userId: decodedToken.userId
+        }
+    });
     const [profile, setProfile] = useState<any>(null);
     const [events, setEvents] = React.useState([]);
     const [myCreatedEvents, setMyCreatedEvents] = React.useState([]);
     const [isMobile, setIsMobile] = useState(false);
+    const [usersChallengesList, setUsersChallengesList] = useState<any>(null);
     const detectDeviceType = () => {
         setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
     };
@@ -84,6 +91,13 @@ const ProfilePage = () => {
     }, []);
 
     useEffect(() => {
+        console.log(challengeError)
+        if (usersChallenges) {
+            setUsersChallengesList(usersChallenges.getUserById.participatedChallenges)
+        }
+    }, [usersChallenges]);
+
+    useEffect(() => {
         try {
             if (infoProfile && decodedToken && attendedEvents && attendedEvents.getUserById.attendedEvents) {
                 const events = attendedEvents.getUserById.attendedEvents;
@@ -103,6 +117,8 @@ const ProfilePage = () => {
         localStorage.removeItem('token');
         window.location.href = '/';
     }
+
+
 
 
     return (
@@ -171,14 +187,13 @@ const ProfilePage = () => {
                                     key="photos"
                                     title={
                                         <div className="flex items-center space-x-2">
-                                            <span>My created events</span>
+                                            <span>My events</span>
                                             <Chip size="sm" color="default">{myCreatedEvents.length}</Chip>
                                         </div>
                                     }
                                 >
 
                                     <div className="profile__list-events">
-                                        <h2 className="profile__list-events__title">My created events</h2>
                                         {myCreatedEvents && myCreatedEvents.map((event: any, index) => (
                                                 <CardEvent style={{marginBottom: "40px"}} key={index} data={event}/>
                                             )
@@ -190,7 +205,7 @@ const ProfilePage = () => {
                                     key="music"
                                     title={
                                         <div className="flex items-center space-x-2">
-                                            <span>My Attending events</span>
+                                            <span>Attending events</span>
                                             <Chip size="sm" color="default">{events.length}</Chip>
                                         </div>
                                     }
@@ -198,6 +213,21 @@ const ProfilePage = () => {
                                     <div className="profile__attended-event">
                                         {events && events.map((event, index) => (
                                             <CardEventMinimized key={index} data={event}/>
+                                        ))}
+                                    </div>
+                                </Tab>
+                                <Tab
+                                    key="challenge"
+                                    title={
+                                        <div className="flex items-center space-x-2">
+                                            <span>My Challenges</span>
+                                            <Chip size="sm" color="default">{usersChallengesList ? usersChallengesList.length : ""}</Chip>
+                                        </div>
+                                    }
+                                >
+                                    <div className="profile__challenges">
+                                        {usersChallengesList && usersChallengesList.map((item: any) => (
+                                            <ChallengeCard challenge_id={item.challenge.challenge_id} title={item.challenge.name} description={item.challenge.description} deadline={item.challenge.deadline} xp={item.challenge.xp_award} coins={item.challenge.coins_award} image_cover={item.challenge.image_cover} />
                                         ))}
                                     </div>
                                 </Tab>

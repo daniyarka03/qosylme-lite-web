@@ -14,7 +14,7 @@ interface ChallengeCardProps {
     image_cover: string;
 }
 const ChallengeCard = ({title, description, deadline, xp, coins, image_cover, challenge_id}: ChallengeCardProps) => {
-
+    console.log(title)
     const dateEvent = new Date(deadline);
     const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US' });
     const splittedDate = goodFormatDate.split(' ');

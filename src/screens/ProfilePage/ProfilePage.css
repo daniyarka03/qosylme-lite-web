@@ -17,8 +17,10 @@
 }
 
 .profile-cover {
+    position: relative;
     background: #55A3FF;
     height: 300px;
+    z-index: -11;
 }
 
 .profile {
@@ -30,6 +32,7 @@
     top: 200px;
     min-height: 100vh;
     height: 100%;
+    z-index: -1;
 }
 
 .profile__info {
@@ -45,10 +48,11 @@
     font-size: 24px;
 }
 
+
+
 .profile__list-events__title {
     font-size: 36px;
     font-weight: 700;
-
 
 }
 
@@ -90,6 +94,16 @@
     align-items: center;
     flex-direction: column;
     font-weight: 700;
+    margin-top: 80px;
+}
+
+.profile__challenges {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: 700;
+    margin-top: 50px;
 }
 
 .profile__attended-event {
