@@ -27,6 +27,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/en-gb';
 import ChallengesPage from "./screens/ChallengesPage/ChallengesPage";
 import CheckingValideToken from "./components/CheckingValideToken";
+import ChallengePage from "./screens/ChallengePage/ChallengePage";
 
 setupIonicReact();
 
@@ -106,6 +107,7 @@ function App() {
                                 <Route path="/settings" element={<SettingsPage />} />
                                 <Route path={"*"} element={<HomePage />} />
                                 <Route path={"/challenges"} element={<ChallengesPage />} />
+                                <Route path={"/challenge/:id"} element={<ChallengePage />} />
                             </>
                         ) : (
                             <>

@@ -141,3 +141,17 @@ export const GET_CHALLENGES = gql`
         }
     }
 `;
+
+export const GET_CHALLENGE_ONE = gql`
+    query getChallengeById($challengeId: String!) {
+        getChallengeById(id: $challengeId) {
+            challenge_id
+            name
+            description
+            deadline
+            xp_award
+            coins_award
+            image_cover
+        }
+    }
+`;
