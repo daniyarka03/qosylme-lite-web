@@ -185,3 +185,42 @@ export const DELETE_GUEST_FROM_EVENT = gql`
         }
     }
 `;
+
+export const ADD_PARTICIPATION_CHALLENGE = gql`
+    mutation createChallengeParticipant($userId: String!, $challengeId: String!) {
+        createChallengeParticipant(user_id: $userId, challenge_id: $challengeId) {
+            participated_id
+            user {
+                user_id
+                email
+                firstname
+                lastname
+            }
+            challenge {
+                challenge_id
+                name
+                description
+            }
+        }
+    }
+`;
+
+export const DELETE_PARTICIPATION_CHALLENGE = gql`
+    mutation deleteChallengeParticipant($participatedId: String!) {
+        deleteChallengeParticipant(participated_id: $participatedId) {
+            participated_id
+            user {
+                user_id
+                email
+                firstname
+                lastname
+            }
+            challenge {
+                challenge_id
+                name
+                description
+            }
+        }
+    }
+`;
+

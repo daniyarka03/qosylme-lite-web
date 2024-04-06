@@ -1,11 +1,21 @@
 import React, {useEffect, useRef, useState} from 'react';
 import "./ChallengePage.css";
 import {Link, useParams} from "react-router-dom";
-import {useQuery} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import {GET_CHALLENGE_ONE} from "../../graphQL/Queries";
 import ArrowBackIcon from "../../assets/ArrowBack.svg";
 import style from "../EventPage/EventPage.module.css";
 import Logo from "../../assets/Logo.png";
+import {Button} from "@nextui-org/react";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import {
+    ADD_GUEST_TO_EVENT,
+    ADD_PARTICIPATION_CHALLENGE,
+    DELETE_GUEST_FROM_EVENT,
+    DELETE_PARTICIPATION_CHALLENGE
+} from "../../graphQL/Mutations";
+import {useInfoProfile} from "../../hooks/useInfoProfile";
 
 interface ChallengePageProps {
     name: string;
@@ -15,21 +25,35 @@ interface ChallengePageProps {
     coins_award: number;
     image_cover: string;
     photos: string[];
+    participants: any[];
 }
 const ChallengePage = () => {
 
+    const profileData = useInfoProfile();
     const {id} = useParams();
     const {data, loading} = useQuery(GET_CHALLENGE_ONE, {
         variables: {challengeId: id}
     });
+
     const [challenge, setChallenge] = useState<ChallengePageProps>();
     const [isMobile, setIsMobile] = useState(false);
     const [fontSizeTitle, setFontSizeTitle] = useState('40px');
     const [bottomMarginsRewards, setBottomMarginsRewards] = useState('80px');
+    const [stateJoinText, setStateJoinText] = React.useState('Join Event');
     const h1Ref = useRef(null);
+    const [addParticipantChallenge, { loading: updateLoading, error: updateError }] = useMutation(ADD_PARTICIPATION_CHALLENGE);
+    const [deleteParticipantChallenge, { loading: deleteGuestsLoading, error: deleteGuestsError }] = useMutation(DELETE_PARTICIPATION_CHALLENGE);
+    const [participantsChallenge, setParticipantsChallenge] = useState<any[]>([]);
+
     useEffect(() => {
         if (data) {
             setChallenge(data.getChallengeById)
+            setParticipantsChallenge(data.getChallengeById.participants)
+            if (profileData && data.getChallengeById.participants.find((guest: any) => guest.user.user_id === profileData.user_id)) {
+                setStateJoinText('Leave Event')
+            } else {
+                setStateJoinText('Join Event')
+            }
         }
     }, [data]);
 
@@ -112,6 +136,48 @@ const ChallengePage = () => {
         return tempDiv.innerHTML;
     };
 
+    useEffect(() => {
+        console.log("participantsChallenge: ", participantsChallenge)
+    }, [participantsChallenge]);
+    const joinChallengeHandler  = async () => {
+            const participants = participantsChallenge;
+            console.log(participants)
+            console.log("Deleting: ", participants && participants.find((guest: any) => guest.user.user_id === profileData.user_id))
+            console.log("Creating: ", participants && !participants.find((guest: any) => guest.user.user_id === profileData.user_id))
+            if (participants && participants.find((guest: any) => guest.user.user_id === profileData.user_id)) {
+                const participated_id = participants.find((guest: any) => guest.user.user_id === profileData.user_id).participated_id;
+                console.log(participated_id)
+
+                const { data: deleteData } = await deleteParticipantChallenge({
+                    variables: { participatedId: participated_id },
+                });
+
+                if (deleteData && deleteData.deleteChallengeParticipant) {
+                    console.log("participantsChallenge:", participantsChallenge)
+                    const deletedParticipant = participantsChallenge.filter((participant: any) => participant.user.user_id !== profileData.user_id);
+                    console.log("deletedParticipant: ", deletedParticipant)
+                    setParticipantsChallenge(deletedParticipant);
+                    toast.success("You left from event", {
+                        position: "top-center",
+                        autoClose: 1500,
+                    });
+                }
+                setStateJoinText('Join Event');
+            }
+
+            if (participants && !participants.find((guest: any) => guest.user.user_id === profileData.user_id)) {
+                console.log("Joined")
+                const { data: joinData } = await addParticipantChallenge({
+                    variables: { userId: profileData.user_id, challengeId: id}
+                });
+                if (joinData && joinData.createChallengeParticipant) {
+                    setParticipantsChallenge([...participantsChallenge, joinData.createChallengeParticipant]);
+                    // toggleModal();
+                }
+                setStateJoinText('Leave Event');
+            }
+    }
+
     return (
         <div>
             {loading ? <p>Loading...</p> : (
@@ -143,6 +209,23 @@ const ChallengePage = () => {
                                    <p dangerouslySetInnerHTML={{ __html: sanitizeHTML(challenge.description) }} style={{ whiteSpace: 'pre-wrap' }} className="challenge-page__description-text"></p>
                                </div>
                            </div>
+                           <div className={isMobile ? "challenge-page__join-mobile" : "challenge-page__join-desktop"}>
+                                   <div className="challenge-page__subblock">
+                                       <div className="challenge-page__count-users">
+                                           <h2>Бесплатно</h2>
+                                           {/*<p>Количество гостей: {guestsList.length}</p>*/}
+                                       </div>
+                                       <Button  style={{
+                                           width: "45%",
+                                           height: "70px",
+                                           fontWeight: "700",
+                                           fontSize: "18px",
+                                           borderRadius: "20px",
+                                           border: "2px solid #fff"
+                                       }}  className={style.eventBlockButton} color={stateJoinText === "Join Event" ? "primary" : "danger"} onClick={() => joinChallengeHandler()}>{stateJoinText}</Button>
+                                   </div>
+                           </div>
+                           <ToastContainer limit={1} />
                        </>
                     )}
                 </div>

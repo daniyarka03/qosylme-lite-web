@@ -64,6 +64,11 @@
     max-width: 500px;
 }
 
+.challenge-page__description-text ul {
+    list-style-type: disc;
+    margin-left: 30px;
+}
+
 .challenge-page__header-rewards {
     display: flex;
     position: absolute;
@@ -127,4 +132,41 @@
     color: #000;
     font-weight: 700;
     margin-top: 20px;
+}
+
+.challenge-page__join-desktop {
+    width: 100%;
+    background: #0070F0;
+    max-width: 500px;
+    position: fixed;
+    bottom: 10px;
+    border-radius: 20px;
+}
+
+.challenge-page__join-mobile {
+    width: 100%;
+    background: #0070F0;
+    max-width: 500px;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+}
+
+.challenge-page__subblock {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+
+
+.challenge-page__count-users h2 {
+    font-size: 20px;
+    color: #fff;
+    font-weight: 700;
+}
+
+.challenge-page__count-users p {
+    font-size: 15px;
+    color: #fff;
 }

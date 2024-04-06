@@ -152,6 +152,15 @@ export const GET_CHALLENGE_ONE = gql`
             xp_award
             coins_award
             image_cover
+            participants {
+                participated_id
+                user {
+                    user_id
+                    email
+                    firstname
+                    lastname
+                }
+            }
         }
     }
 `;
