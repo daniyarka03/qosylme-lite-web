@@ -21,6 +21,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import {jwtDecode} from "jwt-decode";
 import PlusIconComponent from "../../components/PlusIconComponent";
 import ChallengeCard from "../../components/ChallengeCard/ChallengeCard";
+import {motion} from "framer-motion";
 
 interface Event {
     getEvents: {
@@ -60,7 +61,7 @@ const ProfilePage = () => {
             userId: decodedToken.userId
         }
     });
-    const {data: usersChallenges, error: challengeError} = useQuery(GET_USERS_CHALLENGES, {
+    const {data: usersChallenges} = useQuery(GET_USERS_CHALLENGES, {
         variables: {
             userId: decodedToken.userId
         }
@@ -90,16 +91,10 @@ const ProfilePage = () => {
         return () => window.removeEventListener('resize', detectDeviceType);
     }, []);
 
-    useEffect(() => {
-        console.log(challengeError)
-        if (usersChallenges) {
-            setUsersChallengesList(usersChallenges.getUserById.participatedChallenges)
-        }
-    }, [usersChallenges]);
 
     useEffect(() => {
         try {
-            if (infoProfile && decodedToken && attendedEvents && attendedEvents.getUserById.attendedEvents) {
+            if (infoProfile && decodedToken && attendedEvents && attendedEvents.getUserById) {
                 const events = attendedEvents.getUserById.attendedEvents;
                 setEvents(events)
             }
@@ -108,6 +103,14 @@ const ProfilePage = () => {
                 const events = createdEvents.getEventsByUser;
                 setMyCreatedEvents(events)
             }
+
+            // console.log(usersChallenges)
+            //
+            // if (infoProfile && decodedToken && usersChallenges) {
+            //     console.log(usersChallenges)
+            //     // const challenges = usersChallenges.getUserById;
+            //     // setUsersChallengesList(challenges.participatedChallenges)
+            // }
         } catch (error) {
             console.error('Error fetching attended events:', error);
         }
@@ -122,7 +125,9 @@ const ProfilePage = () => {
 
 
     return (
-        <div className="main">
+        <div
+
+            className="main">
             {infoProfile && (
                 <>
                     {/*<BottomNavbar />*/}
@@ -132,7 +137,14 @@ const ProfilePage = () => {
 
                             </div>
                             <div className="profile">
-                                <div className="profile__image">
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                        duration: 0.8,
+                                        delay: 0.5,
+                                        ease: [0, 0.71, 0.2, 1.01]}}
+                                    className="profile__image">
                                     <Avatar style={{
                                         top: "-80px",
                                         left: 0,
@@ -142,22 +154,51 @@ const ProfilePage = () => {
                                         width: "146px",
                                         height: "146px"
                                     }} src={AvatarStaticImage}/>
-                                </div>
+                                </motion.div>
                                 <div className="profile-controls">
                                     <Link to="/settings">
-                                        <button className="profile-settings__button"><img src={SettingsIcon} alt=""/>
-                                        </button>
+                                        <motion.button
+                                            initial={{ opacity: 0, scale: 0.5 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{
+                                                duration: 0.8,
+                                                delay: 0.7,
+                                                ease: [0, 0.71, 0.2, 1.01]}}
+                                            className="profile-settings__button"><img src={SettingsIcon} alt=""/>
+                                        </motion.button>
                                     </Link>
                                     {!isMobile &&
-                                        <button onClick={logoutHandler} className="profile-logout__button"><img
-                                            src={LogoutIcon} alt=""/></button>}
+                                        <motion.button
+                                            initial={{ opacity: 0, scale: 0.5 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{
+                                                duration: 0.8,
+                                                delay: 0.8,
+                                                ease: [0, 0.71, 0.2, 1.01]}}
+                                            onClick={logoutHandler} className="profile-logout__button"><img
+                                            src={LogoutIcon} alt=""/></motion.button>}
                                 </div>
                                 <div className="profile__info">
-                                    <div className="profile__info-item">
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.5 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{
+                                            duration: 1,
+                                            delay: 0.6,
+                                            ease: [0, 0.71, 0.2, 1.01]}}
+                                        className="profile__info-item">
                                         <span
+
                                             className="profile__info-item-value">{infoProfile.firstname + " " + infoProfile.lastname}</span>
-                                    </div>
-                                    <div className="profile__info-item" style={{marginTop: "10px"}}>
+                                    </motion.div>
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.5 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{
+                                            duration: 1,
+                                            delay: 0.8,
+                                            ease: [0, 0.71, 0.2, 1.01]}}
+                                        className="profile__info-item" style={{marginTop: "10px"}}>
                                         {/*<div className="profile__info-username">*/}
                                         {/*    <span className="profile__info-item-value">{infoProfile.username}</span>*/}
                                         {/*</div>*/}
@@ -175,63 +216,72 @@ const ProfilePage = () => {
                                             </Link>
                                         }
 
-                                    </div>
+                                    </motion.div>
                                 </div>
                             </div>
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                    duration: 0.8,
+                                    delay: 1,
+                                    ease: [0, 0.71, 0.2, 1.01]}}
+                            >
+                                <Tabs style={{marginTop: "150px", height: "40px"}} classNames={{
+                                    tab: "panel__tab",
+                                    tabContent: "panel__tab-content",
+                                }} fullWidth={true} size="lg" aria-label="Options" color="primary" variant="light">
+                                    <Tab
+                                        key="photos"
+                                        title={
+                                            <div className="flex items-center space-x-2">
+                                                <span>My events</span>
+                                                <Chip size="sm" color="default">{myCreatedEvents.length}</Chip>
+                                            </div>
+                                        }
+                                    >
 
-                            <Tabs style={{marginTop: "150px", height: "40px"}} classNames={{
-                                tab: "panel__tab",
-                                tabContent: "panel__tab-content",
-                            }} fullWidth={true} size="lg" aria-label="Options" color="primary" variant="bordered">
-                                <Tab
-                                    key="photos"
-                                    title={
-                                        <div className="flex items-center space-x-2">
-                                            <span>My events</span>
-                                            <Chip size="sm" color="default">{myCreatedEvents.length}</Chip>
+                                        <div className="profile__list-events">
+                                            {myCreatedEvents && myCreatedEvents.map((event: any, index) => (
+                                                    <CardEvent style={{marginBottom: "40px"}} key={index} data={event}/>
+                                                )
+                                            )}
                                         </div>
-                                    }
-                                >
 
-                                    <div className="profile__list-events">
-                                        {myCreatedEvents && myCreatedEvents.map((event: any, index) => (
-                                                <CardEvent style={{marginBottom: "40px"}} key={index} data={event}/>
-                                            )
-                                        )}
-                                    </div>
+                                    </Tab>
+                                    <Tab
+                                        key="music"
+                                        title={
+                                            <div className="flex items-center space-x-2">
+                                                <span>Attending events</span>
+                                                <Chip size="sm" color="default">{events.length}</Chip>
+                                            </div>
+                                        }
+                                    >
+                                        <div className="profile__attended-event">
+                                            {events && events.map((event, index) => (
+                                                <CardEventMinimized key={index} data={event}/>
+                                            ))}
+                                        </div>
+                                    </Tab>
+                                    <Tab
+                                        key="challenge"
+                                        title={
+                                            <div className="flex items-center space-x-2">
+                                                <span>My Challenges</span>
+                                                <Chip size="sm" color="default">{usersChallengesList ? usersChallengesList.length : ""}</Chip>
+                                            </div>
+                                        }
+                                    >
+                                        <div className="profile__challenges">
+                                            {/*{usersChallengesList && usersChallengesList.map((item: any) => (*/}
+                                            {/*    <ChallengeCard challenge_id={item.challenge.challenge_id} title={item.challenge.name} description={item.challenge.description} deadline={item.challenge.deadline} xp={item.challenge.xp_award} coins={item.challenge.coins_award} image_cover={item.challenge.image_cover} />*/}
+                                            {/*))}*/}
+                                        </div>
+                                    </Tab>
+                                </Tabs>
+                            </motion.div>
 
-                                </Tab>
-                                <Tab
-                                    key="music"
-                                    title={
-                                        <div className="flex items-center space-x-2">
-                                            <span>Attending events</span>
-                                            <Chip size="sm" color="default">{events.length}</Chip>
-                                        </div>
-                                    }
-                                >
-                                    <div className="profile__attended-event">
-                                        {events && events.map((event, index) => (
-                                            <CardEventMinimized key={index} data={event}/>
-                                        ))}
-                                    </div>
-                                </Tab>
-                                <Tab
-                                    key="challenge"
-                                    title={
-                                        <div className="flex items-center space-x-2">
-                                            <span>My Challenges</span>
-                                            <Chip size="sm" color="default">{usersChallengesList ? usersChallengesList.length : ""}</Chip>
-                                        </div>
-                                    }
-                                >
-                                    <div className="profile__challenges">
-                                        {usersChallengesList && usersChallengesList.map((item: any) => (
-                                            <ChallengeCard challenge_id={item.challenge.challenge_id} title={item.challenge.name} description={item.challenge.description} deadline={item.challenge.deadline} xp={item.challenge.xp_award} coins={item.challenge.coins_award} image_cover={item.challenge.image_cover} />
-                                        ))}
-                                    </div>
-                                </Tab>
-                            </Tabs>
                         </div>
                     </section>
                 </>

@@ -23,6 +23,7 @@ import {MobileDatePicker, MobileDateTimePicker, MobileTimePicker} from "@mui/x-d
 import dayjs from "dayjs";
 import CalendarComponent from "../../components/CalendarComponent/CalendarComponent";
 import CardEventPropertyInlineBlock from "../../components/CardEventPropertyInlineBlock/CardEventPropertyInlineBlock";
+import {motion} from "framer-motion";
 
 const CreateEventPage = () => {
     const profileData = useInfoProfile();
@@ -176,11 +177,27 @@ const CreateEventPage = () => {
 
 
     return (
-        <div className={style.main}>
+        <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+                duration: 0.8,
+                delay: 0.5,
+                ease: [0, 0.71, 0.2, 1.01],
+            }}
+            className={style.main}>
             <div className={style.sectionCreateEvent}>
                 <h2>Create Event</h2>
 
-                <form onSubmit={handleSubmit}>
+                <motion.form
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                        duration: 0.8,
+                        delay: 0.7,
+                        ease: [0, 0.71, 0.2, 1.01],
+                    }}
+                    onSubmit={handleSubmit}>
                     <div className={style.cardBlock} style={{
                         background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.92) 100%), url(${formData.image_cover}) lightgray 50% / cover no-repeat`
                     }}>
@@ -198,7 +215,7 @@ const CreateEventPage = () => {
                             </div>
                         </div>
                     </div>
-                </form>
+                </motion.form>
 
 
 
@@ -215,12 +232,36 @@ const CreateEventPage = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="flex">
-                        <CardEventPropertyInlineBlock value={dateValueState ? dateValueState : "Date"} toggleModal={() => setOpenModalDate(!openModalDate)} label={"Date"} icon={TimeCircleBlue} />
-                        <CardEventPropertyInlineBlock value={timeValueState ? timeValueState : "Time"} toggleModal={() => setOpenModalTime(!openModalDate)} label={"Time"} icon={TimeCircleBlue} />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.8,
+                                ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                            style={{width: "100%"}}><CardEventPropertyInlineBlock value={dateValueState ? dateValueState : "Date"} toggleModal={() => setOpenModalDate(!openModalDate)} label={"Date"} icon={TimeCircleBlue} /></motion.div>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.9,
+                                ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                            style={{width: "100%"}}><CardEventPropertyInlineBlock value={timeValueState ? timeValueState : "Time"} toggleModal={() => setOpenModalTime(!openModalDate)} label={"Time"} icon={TimeCircleBlue} /></motion.div>
                     </div>
-                        <div>
-                        <CardEventPropertyInlineBlock value={locationValue} toggleModal={toggleLocationModal} label={"Location"} icon={LocationRedColor} />
-                    </div>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 1,
+                                ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                        >
+                            <CardEventPropertyInlineBlock value={locationValue} toggleModal={toggleLocationModal} label={"Location"} icon={LocationRedColor} />
+                        </motion.div>
 
                     <Textarea
                         className={style.sectionInput}
@@ -298,7 +339,7 @@ const CreateEventPage = () => {
                 <MobileDatePicker className={style.MobileTimeDatePicker} minDate={dayjs(`${todayValue.year}-${todayValue.month}-${todayValue.day}T${hours}:${minutes}`)} defaultValue={dayjs(`${todayValue.year}-${todayValue.month}-${todayValue.day}T${hours}:${minutes}`)} onChange={(date: any) => setSelectedDay(date)} open={openModalDate} onClose={() => setOpenModalDate(!openModalDate)} />
                 <MobileTimePicker className={style.MobileTimeDatePicker}  defaultValue={dayjs(`${todayValue.year}-${todayValue.month}-${todayValue.day}T${hours}:${minutes}`)} onChange={(date: any) => setSelectedDayTime(date)} open={openModalTime} onClose={() => setOpenModalTime(!openModalTime)} />
 
-            </div></div>
+            </div></motion.div>
     );
 };
 

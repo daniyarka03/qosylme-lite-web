@@ -18,6 +18,7 @@ import {
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import ModalSuccessJoinedChallenge from "../../components/ModalSuccessJoinedChallenge/ModalSuccessJoinedChallenge";
 import {useModalSuccessJoinChallengeStore, useModalSuccessJoinEventStore} from "../../store/store";
+import {motion} from "framer-motion";
 
 interface ChallengePageProps {
     name: string;
@@ -181,7 +182,12 @@ const ChallengePage = () => {
     }
 
     return (
-        <div>
+        <motion.div initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                        duration: 0.8,
+                        delay: 0.4,
+                        ease: [0, 0.71, 0.2, 1.01]}}>
             {loading ? <p>Loading...</p> : (
                 <div className="challenge-page">
                     {isMobile && (<Link to={"/events"}><button className="challenge-page__back-button"><img src={ArrowBackIcon} /></button></Link>)}
@@ -193,25 +199,59 @@ const ChallengePage = () => {
                            }}>
                                <div className="challenge-page__header-content">
                                    <div className="challenge-page__header-rewards" style={{bottom: bottomMarginsRewards}}>
-                                       <div className="challenge-page__reward-coins">
+                                       <motion.div
+                                           initial={{ opacity: 0, scale: 0.5 }}
+                                           animate={{ opacity: 1, scale: 1 }}
+                                           transition={{
+                                               duration: 0.8,
+                                               delay: 0.7,
+                                               ease: [0, 0.71, 0.2, 1.01]}}
+                                           className="challenge-page__reward-coins">
                                            <span><img src={Logo} />{challenge.coins_award} qcoins</span>
-                                       </div>
-                                       <div className="challenge-page__reward-xp">
+                                       </motion.div>
+                                       <motion.div
+                                           initial={{ opacity: 0, scale: 0.5 }}
+                                           animate={{ opacity: 1, scale: 1 }}
+                                           transition={{
+                                               duration: 0.8,
+                                               delay: 0.8,
+                                               ease: [0, 0.71, 0.2, 1.01]}}
+                                           className="challenge-page__reward-xp">
                                            <span>{challenge.xp_award} XP</span>
-                                       </div>
+                                       </motion.div>
                                    </div>
                                    <div className="challenge-page__title-block">
-                                       <h1 ref={h1Ref} className="challenge-page__title" style={{fontSize: fontSizeTitle}}>{challenge.name}</h1>
+                                       <motion.h1 initial={{ opacity: 0, scale: 0.5 }}
+                                                  animate={{ opacity: 1, scale: 1 }}
+                                                  transition={{
+                                                      duration: 0.8,
+                                                      delay: 0.5,
+                                                      ease: [0, 0.71, 0.2, 1.01]}}  ref={h1Ref} className="challenge-page__title" style={{fontSize: fontSizeTitle}}>{challenge.name}</motion.h1>
                                    </div>
                                </div>
                            </div>
-                           <div className="challenge-page__info-block">
-                               <div className="challenge-page__description">
+                           <div
+                               className="challenge-page__info-block">
+                               <motion.div
+                                   initial={{ opacity: 0, scale: 0.5 }}
+                                   animate={{ opacity: 1, scale: 1 }}
+                                   transition={{
+                                       duration: 0.8,
+                                       delay: 0.6,
+                                       ease: [0, 0.71, 0.2, 1.01]}}
+                                   className="challenge-page__description">
                                    <h2 className="challenge-page__description-title">About challenge</h2>
                                    <p dangerouslySetInnerHTML={{ __html: sanitizeHTML(challenge.description) }} style={{ whiteSpace: 'pre-wrap' }} className="challenge-page__description-text"></p>
-                               </div>
+                               </motion.div>
                            </div>
-                           <div className={isMobile ? "challenge-page__join-mobile" : "challenge-page__join-desktop"}>
+                           <motion.div
+                               initial={{ opacity: 0, scale: 0.5 }}
+                               animate={{ opacity: 1, scale: 1 }}
+                               transition={{
+                                   duration: 0.8,
+                                   delay: 1.2,
+                                   ease: [0, 0.71, 0.2, 1.01]}}
+                               className={isMobile ? "challenge-page__join-mobile" : "challenge-page__join-desktop"}>
                                    <div className="challenge-page__subblock">
                                        <div className="challenge-page__count-users">
                                            <h2>Бесплатно</h2>
@@ -226,7 +266,7 @@ const ChallengePage = () => {
                                            border: "2px solid #fff"
                                        }}  className={style.eventBlockButton} color={stateJoinText === "Join challenge" ? "primary" : "danger"} onClick={() => joinChallengeHandler()}>{stateJoinText}</Button>
                                    </div>
-                           </div>
+                           </motion.div>
 
                            <ToastContainer limit={1} />
                            <ModalSuccessJoinedChallenge challenge={challenge} />
@@ -235,7 +275,7 @@ const ChallengePage = () => {
                 </div>
 
             )}
-        </div>
+        </motion.div>
     );
 };
 

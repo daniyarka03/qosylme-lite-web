@@ -7,11 +7,20 @@ import ScientistImage from "../../assets/scientist.png";
 import {useQuery} from "@apollo/client";
 import {GET_CHALLENGES} from "../../graphQL/Queries";
 import ChallengeCard from "../../components/ChallengeCard/ChallengeCard";
+import {motion} from "framer-motion";
+
 const ChallengesPage = () => {
     const {data} = useQuery(GET_CHALLENGES);
     return (
         <>
-            <div className={"challenges-page"}>
+            <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                    duration: 0.8,
+                    delay: 0.5,
+                    ease: [0, 0.71, 0.2, 1.01]}}
+                className={"challenges-page"}>
                 <h2 className="challenges-page__title">Challenges</h2>
                 <div className="challenges-page__content">
                     {!data && (
@@ -23,7 +32,14 @@ const ChallengesPage = () => {
                     </div>
                     )}
                 </div>
-                <div className="challenges-page__with-content">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                        duration: 0.8,
+                        delay: 0.8,
+                        ease: [0, 0.71, 0.2, 1.01]}}
+                    className="challenges-page__with-content">
                     {data && data.getChallenges.map((challenge: any) => (
                             <ChallengeCard
                                 challenge_id={challenge.challenge_id}
@@ -35,8 +51,8 @@ const ChallengesPage = () => {
                                 image_cover={challenge.image_cover}
                             />
                     ))}
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
             <BottomNavbar />
         </>
     );

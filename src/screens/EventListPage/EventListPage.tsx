@@ -7,7 +7,7 @@ import {Input, Skeleton} from "@nextui-org/react";
 import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
 import searchIcon from "../../assets/Search.svg";
 import settingsGray from "../../assets/SettingGray.svg";
-
+import { motion } from "framer-motion";
 
 const EventListPage = () => {
 
@@ -30,7 +30,16 @@ const EventListPage = () => {
     }, [data]);
 
     return (
-        <div className={style.main}>
+
+        <motion.div
+            className={style.main}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+                duration: 0.8,
+                delay: 0.5,
+                ease: [0, 0.71, 0.2, 1.01]
+        }}>
             <div className={style.eventListHeader}>
                 <h1 className={style.eventListTitle}>
                     Events
@@ -46,15 +55,27 @@ const EventListPage = () => {
                 </div>
             </div>
 
-            <div className="flex flex-col items-center h-screen" style={{marginBottom: "400px"}}>
+            <motion.div  initial={{ opacity: 0, scale: 0.5 }}
+                         animate={{ opacity: 1, scale: 1 }}
+                         transition={{
+                             delay: 1.2,
+                             duration: 0.3,
+                             ease: [0, 0.71, 0.2, 1.01],
+                             scale: {
+                                 type: "spring",
+                                 damping: 3,
+                                 stiffness: 100,
+                                 restDelta: 0.001
+                             }
+                         }}  className="flex flex-col items-center h-screen" style={{marginBottom: "400px"}}>
                 {events.map((item: any, index: number) => (
                   <>
                       <CardEvent style={{marginBottom: "40px"}} key={`${item}-${index}`} data={item} /></>
                 ))}
-            </div>
+            </motion.div>
             {/*<BottomNavbar />*/}
 
-        </div>
+        </motion.div>
     );
 };
 

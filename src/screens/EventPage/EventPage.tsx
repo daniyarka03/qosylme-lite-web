@@ -27,6 +27,7 @@ import ChangeSettingsPrivacyEventModal
     from "../../components/ChangeSettingsPrivacyEventModal/ChangeSettingsPrivacyEventModal";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { motion } from "framer-motion";
 
 
 
@@ -199,7 +200,16 @@ const EventPage = () => {
 
 
     return (
-        <div className={`${style.eventBlock}`}>
+        <motion.div
+            className={`${style.eventBlock}`}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+                duration: 0.8,
+                delay: 0.5,
+                ease: [0, 0.71, 0.2, 1.01],
+            }}
+        >
             {isMobile && (<Link to={"/events"}><button className={style.eventButtonBack}><img src={ArrowBackIcon} /></button></Link>)}
             {event && (
                 <>
@@ -214,23 +224,45 @@ const EventPage = () => {
                         </div>
                     </div>
 
-                    <div className={style.eventInfoBlock}>
-                        <Button
-                            color="primary"
-                            style={{  width: "100%",
-                                height: "70px",
-                                fontWeight: "700",
-                                fontSize: "20px",
-                                borderRadius: "20px",
-                                border: "2px solid #fff",
-                                marginTop: "20px",
-                            }}
-                            onClick={() => shareEventHandler()}
-                        >{shareEventValue}</Button>
-                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 0.7,
+                            ease: [0, 0.71, 0.2, 1.01],
+                        }}
+                        className={style.eventInfoBlock}>
+                        <motion.div
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.9 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 8 }}
+                        >
+                            <Button
+                                color="primary"
+                                style={{  width: "100%",
+                                    height: "70px",
+                                    fontWeight: "700",
+                                    fontSize: "20px",
+                                    borderRadius: "20px",
+                                    border: "2px solid #fff",
+                                    marginTop: "20px",
+                                }}
+                                onClick={() => shareEventHandler()}
+                            >{shareEventValue}</Button>
+                        </motion.div>
+
+                    </motion.div>
 
                     {isAuthor && (
-                        <div className={style.eventInfoBlock}>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.9,
+                                ease: [0, 0.71, 0.2, 1.01]}}
+                            className={style.eventInfoBlock}>
                             <Button
                                 color="primary"
                                 style={{  width: "100%",
@@ -243,15 +275,21 @@ const EventPage = () => {
                                 }}
                                 onClick={() => toggleEventSettingsModal()}
                             >Event settings</Button>
-                        </div>
+                        </motion.div>
                     )}
 
 
 
-                    <div className={style.eventInfoBlock} style={{display: "flex", marginTop: "20px"}}>
+                    <motion.div  initial={{ opacity: 0, scale: 0.5 }}
+                                 animate={{ opacity: 1, scale: 1 }}
+                                 transition={{
+                                     duration: 0.8,
+                                     delay: 1.2,
+                                     ease: [0, 0.71, 0.2, 1.01],
+                                 }} className={style.eventInfoBlock} style={{display: "flex", marginTop: "20px"}}>
                         <CardEventPropertyBlock valueButton="Open Maps" value={(event.location).split(",")[0]} toggleModal={() => handleGoogleMapsClick(event.location)} label={"location"} icon={LocationRedColor} />
                         <CardEventPropertyBlock withButton={false} value={newDate} value2={newTime} toggleModal={() => alert('321')} label={"date"} icon={TimeCircleBlue} />
-                    </div>
+                    </motion.div>
 
                     <div className={style.eventInfoBlock}>
                         <div className={style.eventInfoDescription}>
@@ -287,7 +325,15 @@ const EventPage = () => {
                     </div>
 
                     <br />
-                    <div className={isMobile ? style.eventControlBlockMobile : style.eventControlBlockDesktop}>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 1.5,
+                            ease: [0, 0.71, 0.2, 1.01],
+                        }}
+                        className={isMobile ? style.eventControlBlockMobile : style.eventControlBlockDesktop}>
                         {!isAuthor && (
                             <div className={style.eventControlSubblock}>
                                 <div className={style.eventControlCountGuests}>
@@ -304,14 +350,14 @@ const EventPage = () => {
                                 }}  className={style.eventBlockButton} color={stateJoinText === "Join Event" ? "primary" : "danger"} onClick={() => joinGuestHandler()}>{stateJoinText}</Button>
                             </div>
                         )}
-                    </div>
+                    </motion.div>
                     <ModalSuccessJoinedEvent event={event} />
                     <EventSettingsModal />
                     <ChangeSettingsPrivacyEventModal />
                     <ToastContainer limit={1} />
                 </>
             )}
-        </div>
+        </motion.div>
     );
     }
     return null;
