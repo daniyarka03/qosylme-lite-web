@@ -58,15 +58,9 @@ const EventListPage = () => {
             <motion.div  initial={{ opacity: 0, scale: 0.5 }}
                          animate={{ opacity: 1, scale: 1 }}
                          transition={{
-                             delay: 1.2,
-                             duration: 0.3,
-                             ease: [0, 0.71, 0.2, 1.01],
-                             scale: {
-                                 type: "spring",
-                                 damping: 3,
-                                 stiffness: 100,
-                                 restDelta: 0.001
-                             }
+                             duration: 0.8,
+                             delay: 0.7,
+                             ease: [0, 0.71, 0.2, 1.01]
                          }}  className="flex flex-col items-center h-screen" style={{marginBottom: "400px"}}>
                 {events.map((item: any, index: number) => (
                   <>

@@ -70,10 +70,7 @@ const CardEvent = ({data}: CardEventProps) => {
 function mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
     return (
         <Link to={"/event/" + data.event_id} style={{width: "100%"}}>
-            <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            <div
                 className={style.cardBlock} style={{
                 background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.image_cover}) lightgray 50% / cover no-repeat`
             }}>
@@ -91,7 +88,7 @@ function mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, 
                         <p className={style.cardEventDate}>{(data.location).split(",")[0]}</p>
                     </div>
                 </div>
-            </motion.div>
+            </div>
         </Link>
     )
 }

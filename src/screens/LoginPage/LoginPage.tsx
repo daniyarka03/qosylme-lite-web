@@ -35,8 +35,7 @@ const LoginPage = () => {
             <div className="login-page">
                 <div className="auth-block">
                     <h2 className="login-page-title">Login</h2>
-
-                    <Input type="email"  classNames={{
+6                    <Input type="email"  classNames={{
                         input: [
                             "bg-transparent",
                             "text-black/90 dark:text-white/90",

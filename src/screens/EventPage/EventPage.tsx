@@ -186,7 +186,7 @@ const EventPage = () => {
 
 
         const shareEventHandler = async () => {
-            const currentUrl = window.location.href;
+            const currentUrl = "https://qosyl.me/event/" + id;
             await Clipboard.write({
                 string: currentUrl
             });

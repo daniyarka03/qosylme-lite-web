@@ -28,7 +28,7 @@ import {motion} from "framer-motion";
 const CreateEventPage = () => {
     const profileData = useInfoProfile();
     //const staticImage = "https://images.unsplash.com/photo-1683009427513-28e163402d16";
-    const staticImage = import.meta.env.VITE_SERVER_URL + "/uploads/events/static/default_1.jpg";
+    const staticImage = import.meta.env.VITE_SERVER_URL + "uploads/events/static/default_1.jpg";
     const [formData, setFormData] = useState({
         name: '',
         description: '',

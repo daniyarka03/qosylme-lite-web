@@ -10,6 +10,16 @@ import StarIcon from "../../assets/Game.svg";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import {motion} from "framer-motion";
 import style from "../EventListPage/EventListPage.module.css";
+import { useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
+
+const UPLOAD_FILE = gql`
+  mutation singleUploadFile($file: Upload!) {
+    singleUploadFile(file: $file) {
+        name
+    }
+  }
+`;
 const HomePage = () => {
 
     const dateEvent = new Date();
@@ -22,7 +32,23 @@ const HomePage = () => {
             setFirstname(infoProfile.firstname)
         }
     }, [infoProfile]);
+    const [file, setFile] = useState(null);
+    const [uploadFile] = useMutation(UPLOAD_FILE);
 
+    const handleFileChange = (event: any) => {
+        const selectedFile = event.target.files[0];
+        setFile(selectedFile);
+    };
+
+    const handleUpload = async () => {
+        try {
+            console.log(file)
+            const { data } = await uploadFile({ variables: { file: file } });
+            console.log('File uploaded successfully:', data);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    };
 
     return (
         <>
@@ -120,6 +146,9 @@ const HomePage = () => {
                     </motion.div>
                 </div>
 
+
+                <input type="file" onChange={handleFileChange} />
+                <button onClick={handleUpload}>Upload File</button>
             </motion.div>
             <BottomNavbar />
         </>
