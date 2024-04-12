@@ -160,9 +160,9 @@ const ChallengePage = () => {
                     const deletedParticipant = participantsChallenge.filter((participant: any) => participant.user.user_id !== profileData.user_id);
                     console.log("deletedParticipant: ", deletedParticipant)
                     setParticipantsChallenge(deletedParticipant);
-                    toast.success("You left from event", {
+                    toast.success("You left from challenge", {
                         position: "top-center",
-                        autoClose: 1500,
+                        autoClose: 800,
                     });
                 }
                 setStateJoinText('Join challenge');

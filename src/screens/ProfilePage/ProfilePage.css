@@ -104,6 +104,7 @@
     flex-direction: column;
     font-weight: 700;
     margin-top: 50px;
+    position: relative;
 }
 
 .profile__attended-event {

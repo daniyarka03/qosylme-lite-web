@@ -10,7 +10,7 @@ import NavbarComponent from "./components/Navbar/NavbarComponent";
 import EventPage from "./screens/EventPage/EventPage";
 import LoginPage from "./screens/LoginPage/LoginPage";
 import RegisterPage from "./screens/RegisterPage/RegisterPage";
-import {ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache, useQuery} from "@apollo/client";
+import {ApolloClient, ApolloLink, ApolloProvider, from, HttpLink, InMemoryCache, useQuery} from "@apollo/client";
 import {onError} from "@apollo/client/link/error";
 import ProfilePage from "./screens/ProfilePage/ProfilePage";
 import CreateEventPage from "./screens/CreateEventPage/CreateEventPage";
@@ -28,17 +28,16 @@ import 'dayjs/locale/en-gb';
 import ChallengesPage from "./screens/ChallengesPage/ChallengesPage";
 import CheckingValideToken from "./components/CheckingValideToken";
 import ChallengePage from "./screens/ChallengePage/ChallengePage";
-
 setupIonicReact();
 
 function App() {
 
     const token = localStorage.getItem('token');
     const [isMobile, setIsMobile] = useState(false);
-
     const detectDeviceType = () => {
         setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
     };
+
 
     useEffect(() => {
         detectDeviceType();
@@ -64,15 +63,13 @@ function App() {
         }
     });
 
+    const httpLink = new HttpLink({
+        uri: import.meta.env.VITE_SERVER_URL_GRAPHQL,
+        credentials: 'include',
+    });
     const client = new ApolloClient({
         cache: new InMemoryCache(),
-        link: from([
-            errorLink,
-            new HttpLink({
-                uri: import.meta.env.VITE_SERVER_URL_GRAPHQL,
-                credentials: 'include',
-            }),
-        ]),
+        link: httpLink
     });
 
 

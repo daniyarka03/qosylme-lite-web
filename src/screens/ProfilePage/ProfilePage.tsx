@@ -4,7 +4,7 @@ import {Avatar, Button, Chip, Image, Tab, Tabs} from "@nextui-org/react";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import {useQuery} from "@apollo/client";
 import {
-    GET_ATTENDED_EVENTS, GET_CREATED_EVENTS, GET_USERS_CHALLENGES
+    GET_ATTENDED_EVENTS, GET_CREATED_EVENTS, GET_USER_BY_ID, GET_USERS_CHALLENGES
 } from "../../graphQL/Queries";
 import {Link} from "react-router-dom";
 import CardEvent from "../../components/CardEvent/CardEvent";
@@ -61,7 +61,7 @@ const ProfilePage = () => {
             userId: decodedToken.userId
         }
     });
-    const {data: usersChallenges} = useQuery(GET_USERS_CHALLENGES, {
+    const {data: usersChallenges} = useQuery(GET_USER_BY_ID, {
         variables: {
             userId: decodedToken.userId
         }
@@ -106,11 +106,11 @@ const ProfilePage = () => {
 
             // console.log(usersChallenges)
             //
-            // if (infoProfile && decodedToken && usersChallenges) {
-            //     console.log(usersChallenges)
-            //     // const challenges = usersChallenges.getUserById;
-            //     // setUsersChallengesList(challenges.participatedChallenges)
-            // }
+            console.log(usersChallenges)
+            if (infoProfile && decodedToken && usersChallenges) {
+                console.log()
+                setUsersChallengesList(usersChallenges.getUserById.participatedChallenges)
+            }
         } catch (error) {
             console.error('Error fetching attended events:', error);
         }
@@ -241,12 +241,19 @@ const ProfilePage = () => {
                                         }
                                     >
 
-                                        <div className="profile__list-events">
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.5 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{
+                                                duration: 0.8,
+                                                delay: 0.2,
+                                                ease: [0, 0.71, 0.2, 1.01]}}
+                                            className="profile__list-events">
                                             {myCreatedEvents && myCreatedEvents.map((event: any, index) => (
                                                     <CardEvent style={{marginBottom: "40px"}} key={index} data={event}/>
                                                 )
                                             )}
-                                        </div>
+                                        </motion.div>
 
                                     </Tab>
                                     <Tab
@@ -273,11 +280,18 @@ const ProfilePage = () => {
                                             </div>
                                         }
                                     >
-                                        <div className="profile__challenges">
-                                            {/*{usersChallengesList && usersChallengesList.map((item: any) => (*/}
-                                            {/*    <ChallengeCard challenge_id={item.challenge.challenge_id} title={item.challenge.name} description={item.challenge.description} deadline={item.challenge.deadline} xp={item.challenge.xp_award} coins={item.challenge.coins_award} image_cover={item.challenge.image_cover} />*/}
-                                            {/*))}*/}
-                                        </div>
+                                        <motion.div className="profile__challenges"
+                                                    initial={{ opacity: 0, scale: 0.5 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    transition={{
+                                                        duration: 0.8,
+                                                        delay: 0.2,
+                                                        ease: [0, 0.71, 0.2, 1.01]}}
+                                        >
+                                            {usersChallengesList && usersChallengesList.map((item: any) => (
+                                                <ChallengeCard challenge_id={item.challenge.challenge_id} title={item.challenge.name} description={item.challenge.description} deadline={item.challenge.deadline} xp={item.challenge.xp_award} coins={item.challenge.coins_award} image_cover={item.challenge.image_cover} />
+                                            ))}
+                                        </motion.div>
                                     </Tab>
                                 </Tabs>
                             </motion.div>

@@ -116,6 +116,18 @@ export const GET_USER_BY_ID = gql`
       firstname
       lastname
       email
+      participatedChallenges {
+                participated_id
+                challenge {
+                    challenge_id
+                    name
+                    description
+                    deadline
+                    xp_award
+                    coins_award
+                    image_cover
+                }
+            }
     }
   }
 `;
