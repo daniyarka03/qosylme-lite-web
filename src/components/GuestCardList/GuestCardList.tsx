@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useQuery} from "@apollo/client";
 import {GET_USER_BY_ID, GET_USERS} from "../../graphQL/Queries";
 import "./GuestCardList.css";
+import {Avatar} from "@nextui-org/react";
 
 interface GuestCardListProps {
     guest: any;
@@ -20,7 +21,8 @@ const GuestCardList = ({guest}: GuestCardListProps) => {
         <div>
             <div className="guest-card-list">
                 <div className="guest-card" key={guest.id}>
-                    <img src={"https://i.pinimg.com/236x/4d/99/b9/4d99b9e808b5ef5bd317b389c4c75120.jpg"} alt="avatar" />
+                    <Avatar style={{   width: "50px",
+                        height: "50px"}} src={import.meta.env.VITE_SERVER_URL + guest.avatar} alt="avatar" />
                     <p>{guest.firstname + " " + guest.lastname}</p>
                 </div>
             </div>

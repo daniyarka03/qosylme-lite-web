@@ -71,7 +71,7 @@ const EditProfilePage = () => {
     const {toggleModal} = useModalLoadingStore();
 
     const [image, setImage] = useState(null);
-    const [preview, setPreview] = useState('');
+    const [preview, setPreview] = useState<any>('');
     const [uploadFile] = useMutation(UPLOAD_FILE);
 
     const handleFileChange = async (event: any) => {

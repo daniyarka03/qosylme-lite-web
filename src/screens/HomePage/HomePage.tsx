@@ -41,7 +41,7 @@ const HomePage = () => {
     const infoProfile = useInfoProfile();
     const [firstname, setFirstname] = useState<string>("");
     const [image, setImage] = useState(null);
-    const [preview, setPreview] = useState('');
+    const [preview, setPreview] = useState<any>('');
     useEffect(() => {
         if (infoProfile) {
             setFirstname(infoProfile.firstname)

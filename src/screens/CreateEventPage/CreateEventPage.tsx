@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { useMutation } from '@apollo/client';
-import { CREATE_EVENT } from '../../graphQL/Mutations';
+import {CREATE_EVENT, UPLOAD_FILE} from '../../graphQL/Mutations';
 import ModalLoading from "../../components/ModalLoading/ModalLoading";
 import imageCover from "../../assets/image2.jpg";
 import {
+    useImageModalStore,
     useModalChangeEventPropertiesStore,
     useModalChangeTitleEventStore,
     useModalLoadingStore
@@ -24,10 +25,10 @@ import dayjs from "dayjs";
 import CalendarComponent from "../../components/CalendarComponent/CalendarComponent";
 import CardEventPropertyInlineBlock from "../../components/CardEventPropertyInlineBlock/CardEventPropertyInlineBlock";
 import {motion} from "framer-motion";
+import Compressor from "compressorjs";
 
 const CreateEventPage = () => {
     const profileData = useInfoProfile();
-    //const staticImage = "https://images.unsplash.com/photo-1683009427513-28e163402d16";
     const staticImage = import.meta.env.VITE_SERVER_URL + "uploads/events/static/default_1.jpg";
     const [formData, setFormData] = useState({
         name: '',
@@ -52,7 +53,9 @@ const CreateEventPage = () => {
 
     const {toggleModal} = useModalLoadingStore();
     const [fontSizeTitle, setFontSizeTitle] = useState('40px');
+    const [imageCover, setImageCover] = useState("");
 
+    const {imagePreview, setImagePreview, setImageEvent, imageEvent} = useImageModalStore();
     const [createEvent, { loading, error }] = useMutation(CREATE_EVENT);
 
     useEffect(() => {
@@ -117,11 +120,40 @@ const CreateEventPage = () => {
 
 
 
+    const [uploadFile] = useMutation(UPLOAD_FILE);
 
+
+
+
+    const handleUpload = async () => {
+        try {
+            if (imageEvent) {
+                const base64Image = imagePreview.split(',')[1];
+                try {
+                    const uploadedImage = await uploadFile({ variables: { file: base64Image } });
+                    console.log('Image uploaded successfully: ');
+                    return uploadedImage.data.singleUploadFile; // Вернуть имя загруженного файла
+                } catch (error) {
+                    console.error('Error uploading image', error);
+                    // Обработка ошибки при загрузке изображения
+                    throw error; // Передать ошибку дальше
+                }
+            } else {
+                console.error('No image selected');
+                // Обработка случая, когда изображение не выбрано
+                return null; // Если изображение не выбрано, вернуть null
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            throw error; // Передать ошибку дальше
+        }
+    };
 
     const handleSubmit = async (e: any) => {
         toggleModal();
         e.preventDefault();
+        const uploadedImageName = await handleUpload();
+
         const parts = dateValueState.split('.'); // Разделяем строку на части с помощью '.' в качестве разделителя
         const day = parseInt(parts[0]); // Извлекаем часть с днем и преобразуем в целое число
         const month = parseInt(parts[1]); // Извлекаем часть с месяцем
@@ -133,7 +165,7 @@ const CreateEventPage = () => {
         formData.location = locationValue;
         formData.date = formattedDate;
         formData.time = timeValueState.toString();
-
+        formData.image_cover = uploadedImageName;
 
         try {
             const { data, errors } = await createEvent({
@@ -174,6 +206,12 @@ const CreateEventPage = () => {
             setDateValueState(date);
         }
     }, [selectedDay]);
+
+    useEffect(() => {
+        if (imagePreview) {
+            formData.image_cover = imagePreview;
+        }
+    }, [imagePreview]);
 
 
     return (

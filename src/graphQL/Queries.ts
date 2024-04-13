@@ -37,12 +37,14 @@ export const SHOW_EVENT_BY_ID = gql`
       location
       image_cover
       author_event {
+        avatar
         user_id
         email
         firstname
         lastname
       }
       guests {
+        avatar    
         user_id
         email
         firstname

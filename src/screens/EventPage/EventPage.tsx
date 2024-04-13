@@ -93,6 +93,7 @@ const EventPage = () => {
         }, []);
 
     const [event, setEvent] = React.useState<EventPageProps | null>(null);
+    const [eventImageCover, setEventImageCover] = React.useState<string>('');
     const [deleteEvent, { loading: deleteLoading, error: deleteError }] = useMutation(DELETE_EVENT);
     const [updateGuestsEvent, { loading: updateLoading, error: updateError }] = useMutation(ADD_GUEST_TO_EVENT);
     const [deleteGuestsEvent, { loading: deleteGuestsLoading, error: deleteGuestsError }] = useMutation(DELETE_GUEST_FROM_EVENT);
@@ -100,6 +101,11 @@ const EventPage = () => {
     useEffect(() => {
         if (data) {
             const event = data.getEventById;
+            if (!/^https?:\/\//i.test(event.image_cover)) {
+                setEventImageCover(import.meta.env.VITE_SERVER_URL + event.image_cover)
+            } else {
+                setEventImageCover(event.image_cover);
+            }
             setEvent(event);
             setGuestsList(event.guests);
             const dateEvent = new Date(event.date);
@@ -214,7 +220,7 @@ const EventPage = () => {
             {event && (
                 <>
                     <div className={style.cardBlock} style={{
-                        background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.92) 100%), url(${event.image_cover}) lightgray 50% / cover no-repeat`,
+                        background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.92) 100%), url(${eventImageCover}) lightgray 50% / cover no-repeat`,
                         borderRadius: isMobile ? "0 0 30px 30px" : "20px"
                     }}>
                         <div className={style.cardEventBody}>

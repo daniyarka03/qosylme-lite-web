@@ -88,6 +88,13 @@ interface Guest {
     id: number;
 }
 
+interface  IStoreImageModal {
+    imagePreview: string;
+    setImagePreview: (imagePreview: string) => void;
+    imageEvent: string;
+    setImageEvent: (imageEvent: string) => void;
+}
+
 
 interface IStoreGuests {
     guests: Guest[];
@@ -101,6 +108,13 @@ export const useStore = create<IStore>((set) => ({
     increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
     removeAllBears: () => set({ bears: 0 }),
 }))
+
+export const useImageModalStore = create<IStoreImageModal>((set) => ({
+    imageEvent: '',
+    setImageEvent: (imageEvent) => set({ imageEvent }),
+    imagePreview: '',
+    setImagePreview: (imagePreview) => set({ imagePreview }),
+}));
 
 export const useModalLoadingStore = create<IModalLoadingStore>((set) => ({
     isOpen: false,
