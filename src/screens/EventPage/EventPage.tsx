@@ -65,6 +65,7 @@ interface Guest {
 
 const EventPage = () => {
     const { id } = useParams();
+    const token = localStorage.getItem('token');
     // @ts-ignore
     if (id !== undefined) {
         const { error, loading, data } = useQuery(SHOW_EVENT_BY_ID, {
@@ -340,7 +341,7 @@ const EventPage = () => {
                             ease: [0, 0.71, 0.2, 1.01],
                         }}
                         className={isMobile ? style.eventControlBlockMobile : style.eventControlBlockDesktop}>
-                        {!isAuthor && (
+                        {!isAuthor && token && (
                             <div className={style.eventControlSubblock}>
                                 <div className={style.eventControlCountGuests}>
                                     <h2>Бесплатно</h2>

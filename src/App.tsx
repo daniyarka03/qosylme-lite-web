@@ -82,10 +82,10 @@ function App() {
                 <Router>
                     <CheckingValideToken />
                     {
-                        !isMobile && token && (
-                            <NavbarComponent />
-                        ) || (
+                        isMobile && (
                             <BottomNavbar />
+                        ) || (
+                            <NavbarComponent />
                         )
                     }
                     <Routes>
@@ -111,6 +111,8 @@ function App() {
                                 <Route path="/login" element={<LoginPage />} />
                                 <Route path="/register" element={<RegisterPage />} />
                                 <Route path={"*"} element={<LoginPage />} />
+                                <Route path="/events" element={<EventListPage />} />
+                                <Route path="/event/:id" element={<EventPage />} />
                             </>
                         )}
                     </Routes>

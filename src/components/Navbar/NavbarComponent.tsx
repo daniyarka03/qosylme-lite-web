@@ -47,6 +47,8 @@ const NavbarComponent = () => {
                         Events
                     </Link>
                 </NavbarItem>
+                {token ? (
+                    <>
                 <NavbarItem  isActive={location.pathname === '/challenges'}>
                     <Link color={location.pathname === '/challenges' ? 'primary' : 'foreground'} href="/challenges">
                         Challenges
@@ -57,6 +59,8 @@ const NavbarComponent = () => {
                         Notifications
                     </Link>
                 </NavbarItem>
+                    </>
+                    ) : null}
             </NavbarContent>
             <NavbarContent justify="end">
                 {token ? (
