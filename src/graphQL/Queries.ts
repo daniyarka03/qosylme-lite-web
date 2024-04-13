@@ -113,6 +113,7 @@ export const GET_USER_BY_ID = gql`
   query getUserById($userId: String!) {
     getUserById (id: $userId) {
       user_id
+      avatar
       firstname
       lastname
       email

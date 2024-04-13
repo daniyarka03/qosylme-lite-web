@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {useMutation, useQuery} from "@apollo/client";
-import {DELETE_USER, GET_USER_INFO, REFRESH_TOKEN, UPDATE_USER} from "../../graphQL/Mutations";
+import {DELETE_USER, GET_USER_INFO, REFRESH_TOKEN, UPDATE_USER, UPLOAD_FILE} from "../../graphQL/Mutations";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
-import {Button, Input} from "@nextui-org/react";
+import {Avatar, Button, Input} from "@nextui-org/react";
 import ModalLoading from "../../components/ModalLoading/ModalLoading";
 import {useModalLoadingStore} from "../../store/store";
 import "./EditProfilePage.css";
+import Compressor from "compressorjs";
 
 
 interface IFormData {
+    avatar: string;
     email: string;
     firstname: string;
     lastname: string;
@@ -21,11 +23,29 @@ const EditProfilePage = () => {
     const [userInfo, setUserInfo] = useState();
     const [userId, setUserId] = useState();
     const [formData, setFormData] = useState({
+        avatar: '',
         email: '',
         firstname: '',
         lastname: '',
         password: '',
     });
+
+    const compressImage = (file: any) => {
+        return new Promise((resolve, reject) => {
+            new Compressor(file, {
+                quality: 0.9, // Качество сжатия (от 0 до 1)
+                maxWidth: 1024, // Максимальная ширина изображения
+                maxHeight: 1024, // Максимальная высота изображения
+                mimeType: 'image/jpeg', // Тип MIME для сжатого изображения
+                success: (compressedFile) => {
+                    resolve(compressedFile);
+                },
+                error: (error) => {
+                    reject(error);
+                },
+            });
+        });
+    };
 
     const [email, setEmail] = React.useState('');
     const [firstname, setFirstname] = React.useState('');
@@ -39,6 +59,7 @@ const EditProfilePage = () => {
             setEmail(profileData.email);
             setFirstname(profileData.firstname);
             setLastname(profileData.lastname);
+            setPreview(import.meta.env.VITE_SERVER_URL + profileData.avatar)
         }
     }, [profileData]);
 
@@ -49,7 +70,48 @@ const EditProfilePage = () => {
     const [refreshToken, { data }] = useMutation(REFRESH_TOKEN);
     const {toggleModal} = useModalLoadingStore();
 
+    const [image, setImage] = useState(null);
+    const [preview, setPreview] = useState('');
+    const [uploadFile] = useMutation(UPLOAD_FILE);
 
+    const handleFileChange = async (event: any) => {
+        const selectedImage = event.target.files[0];
+        if (selectedImage) {
+            const compressedFile: any = await compressImage(selectedImage);
+            setImage(compressedFile);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreview(reader.result);
+            };
+            reader.readAsDataURL(compressedFile);
+        }
+    };
+
+
+    const handleUpload = async () => {
+        try {
+            if (image) {
+                console.log(image);
+                const base64Image = preview.split(',')[1];
+                try {
+                    const uploadedImage = await uploadFile({ variables: { file: base64Image } });
+                    console.log('Image uploaded successfully: ');
+                    return uploadedImage.data.singleUploadFile; // Вернуть имя загруженного файла
+                } catch (error) {
+                    console.error('Error uploading image', error);
+                    // Обработка ошибки при загрузке изображения
+                    throw error; // Передать ошибку дальше
+                }
+            } else {
+                console.error('No image selected');
+                // Обработка случая, когда изображение не выбрано
+                return null; // Если изображение не выбрано, вернуть null
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            throw error; // Передать ошибку дальше
+        }
+    };
 
     const handleUpdate = async () => {
         toggleModal();
@@ -57,6 +119,11 @@ const EditProfilePage = () => {
         formData.firstname = firstname;
         formData.lastname = lastname;
         try {
+            const uploadedImageName = await handleUpload(); // Дождаться загрузки изображения и получить его имя
+            console.log(uploadedImageName)
+
+            formData.avatar = uploadedImageName; // Установить имя загруженного изображения в formData
+            console.log(formData)
             const { data: updateUserData } = await updateUser({
                 variables: {
                     userId: userId,
@@ -65,7 +132,6 @@ const EditProfilePage = () => {
             });
 
             window.location.href = '/profile';
-
             console.log('Updated User:', updateUserData.updateUser.user);
             // Handle success or update UI accordingly
         } catch (error: any) {
@@ -73,7 +139,6 @@ const EditProfilePage = () => {
             // Handle error or update UI accordingly
         }
     };
-
     const handleDelete = async () => {
         try {
             const { data: deleteUserData } = await deleteUser({
@@ -106,6 +171,11 @@ const EditProfilePage = () => {
         <div className="edit-profile-page">
             <h2 className="edit-profile-page__title">Update User</h2>
             <form>
+                <Avatar style={{
+                    width: "146px",
+                    height: "146px"
+                }} src={preview} alt="preview" />
+                <input type="file" onChange={handleFileChange} />
                 <Input type="email"  classNames={{
                     input: [
                         "bg-transparent",
@@ -192,6 +262,8 @@ const EditProfilePage = () => {
                 {/*    value={formData.password}*/}
                 {/*    onChange={handleChange}*/}
                 {/*/>*/}
+
+
 
                 <Button color="primary" onClick={handleUpdate}  style={{  width: "100%",
                     height: "70px",

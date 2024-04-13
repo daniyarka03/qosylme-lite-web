@@ -102,9 +102,10 @@ export const DELETE_EVENT = gql`
 
 // Update User Mutation
 export const UPDATE_USER = gql`
-  mutation updateUser($userId: String!, $email: String!, $firstname: String!, $lastname: String!) {
-    updateUser(id: $userId, email: $email, firstname: $firstname, lastname: $lastname) {
+  mutation updateUser($userId: String!, $email: String!, $firstname: String!, $lastname: String!, $avatar: String!) {
+    updateUser(id: $userId, email: $email, firstname: $firstname, lastname: $lastname, avatar: $avatar) {
         user_id
+        avatar
         email
         firstname
         lastname
@@ -222,5 +223,11 @@ export const DELETE_PARTICIPATION_CHALLENGE = gql`
             }
         }
     }
+`;
+
+export const UPLOAD_FILE = gql`
+  mutation singleUploadFile($file: String!) {
+    singleUploadFile(file: $file) 
+  }
 `;
 

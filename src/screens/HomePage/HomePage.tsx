@@ -65,7 +65,6 @@ const HomePage = () => {
 
 
     const handleUpload = async () => {
-        console.log(image)
         try {
             if (image) {
                 const base64Image = preview.split(',')[1];

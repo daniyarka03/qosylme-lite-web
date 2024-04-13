@@ -106,9 +106,7 @@ const ProfilePage = () => {
 
             // console.log(usersChallenges)
             //
-            console.log(usersChallenges)
             if (infoProfile && decodedToken && usersChallenges) {
-                console.log()
                 setUsersChallengesList(usersChallenges.getUserById.participatedChallenges)
             }
         } catch (error) {
@@ -153,7 +151,7 @@ const ProfilePage = () => {
                                         margin: "0 auto",
                                         width: "146px",
                                         height: "146px"
-                                    }} src={AvatarStaticImage}/>
+                                    }} src={import.meta.env.VITE_SERVER_URL + infoProfile.avatar}/>
                                 </motion.div>
                                 <div className="profile-controls">
                                     <Link to="/settings">
