@@ -141,6 +141,8 @@
     position: fixed;
     bottom: 10px;
     border-radius: 20px;
+    z-index: 1;
+
 }
 
 .challenge-page__join-mobile {

@@ -51,7 +51,7 @@ const ProfilePage = () => {
 
     const infoProfile = useInfoProfile();
     const decodedToken: any = jwtDecode(localStorage.getItem('token') || "");
-    const {data: attendedEvents} = useQuery(GET_ATTENDED_EVENTS, {
+    const {data: attendedEvents} = useQuery(GET_USER_BY_ID, {
         variables: {
             userId: decodedToken.userId
         }
@@ -94,7 +94,7 @@ const ProfilePage = () => {
 
     useEffect(() => {
         try {
-            if (infoProfile && decodedToken && attendedEvents && attendedEvents.getUserById) {
+            if (infoProfile && decodedToken && attendedEvents) {
                 const events = attendedEvents.getUserById.attendedEvents;
                 setEvents(events)
             }

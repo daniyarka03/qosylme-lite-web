@@ -120,17 +120,31 @@ export const GET_USER_BY_ID = gql`
       lastname
       email
       participatedChallenges {
-                participated_id
-                
-                challenge {
-                    challenge_id
+        participated_id 
+        challenge {
+          challenge_id
+          name
+          description
+          deadline
+          xp_award
+          coins_award
+          image_cover
+        }
+      }
+      attendedEvents {
+                    event_id
                     name
                     description
-                    deadline
-                    xp_award
-                    coins_award
+                    location
+                    date
+                    time
                     image_cover
-                }
+                    author_event {
+                        user_id
+                        firstname
+                        lastname
+                        email
+                    }
             }
     }
   }
