@@ -108,11 +108,13 @@ function App() {
                             </>
                         ) : (
                             <>
+                                <Route path="/" element={<EventListPage />} />
                                 <Route path="/login" element={<LoginPage />} />
                                 <Route path="/register" element={<RegisterPage />} />
                                 <Route path={"*"} element={<LoginPage />} />
                                 <Route path="/events" element={<EventListPage />} />
                                 <Route path="/event/:id" element={<EventPage />} />
+                                <Route path="/event/create" element={<CreateEventPage />} />
                             </>
                         )}
                     </Routes>

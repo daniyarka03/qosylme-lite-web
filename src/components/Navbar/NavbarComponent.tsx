@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     Navbar,
     NavbarBrand,
@@ -7,10 +7,11 @@ import {
     Link,
     Button,
     NavbarMenuToggle,
-    NavbarMenuItem, NavbarMenu, Image
+    NavbarMenuItem, NavbarMenu, Image, Avatar
 } from "@nextui-org/react";
 import Logo from '../../assets/Logo.png';
 import HomeIcon from "../../assets/Iconly/Regular/Bold/Home.svg";
+import {useInfoProfile} from "../../hooks/useInfoProfile";
 
 const NavbarComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -21,8 +22,15 @@ const NavbarComponent = () => {
         "My Settings",
         "Log Out",
     ];
-
+    const infoProfile = useInfoProfile();
+    const [user, setUser] = React.useState<any>();
     const token = localStorage.getItem('token');
+
+    useEffect(() => {
+        if (infoProfile) {
+            setUser(infoProfile);
+        }
+    }, []);
     return (
         <Navbar onMenuOpenChange={setIsMenuOpen}>
             <NavbarContent>
@@ -65,10 +73,17 @@ const NavbarComponent = () => {
             <NavbarContent justify="end">
                 {token ? (
                     <NavbarItem>
-                        <Link href="/profile">
-                            <Button color="primary" className="font-bold">
-                                Profile
-                            </Button>
+                        <Link href="/profile" style={{backgroundColor: "#eee", borderRadius: "50px", paddingLeft: "20px", height: "40px"}}>
+                            {infoProfile  && (
+                                <>
+                                    <p style={{fontSize: "14px", marginRight: "20px", color: "#000"}}>{infoProfile.firstname + " " + infoProfile.lastname}</p>
+                                    <Avatar style={{height: "40px", width: "40px"}} src={import.meta.env.VITE_SERVER_URL + infoProfile.avatar} />
+                                </>
+                            )}
+                            {/*<Avatar src={infoProfile.avatar} />*/}
+                            {/*<Button color="primary" className="font-bold">*/}
+                            {/*    Profile*/}
+                            {/*</Button>*/}
                         </Link>
                     </NavbarItem>
                 ) : (

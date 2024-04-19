@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
 import "./HomePage.css";
-import {useChangeFormatDate} from "../../hooks/useChangeFormatDate";
+import { useChangeFormatDate } from "../../hooks/useChangeFormatDate";
 import DiscoveryIcon from "../../assets/Discovery.svg";
 import TicketIcon from "../../assets/Ticket.svg";
 import ReportIcon from "../../assets/Danger.svg";
 import StarIcon from "../../assets/Game.svg";
-import {useInfoProfile} from "../../hooks/useInfoProfile";
-import {motion} from "framer-motion";
+import { useInfoProfile } from "../../hooks/useInfoProfile";
+import { motion } from "framer-motion";
 import style from "../EventListPage/EventListPage.module.css";
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
@@ -95,7 +95,8 @@ const HomePage = () => {
                 transition={{
                     duration: 0.8,
                     delay: 0.5,
-                    ease: [0, 0.71, 0.2, 1.01]}}
+                    ease: [0, 0.71, 0.2, 1.01]
+                }}
                 className="home-page" >
                 <div className="home-page__date">
                     <div className="row">
@@ -116,12 +117,13 @@ const HomePage = () => {
                         transition={{
                             duration: 0.8,
                             delay: 0.7,
-                            ease: [0, 0.71, 0.2, 1.01]}}
+                            ease: [0, 0.71, 0.2, 1.01]
+                        }}
                         className="navigation__item">
                         <Link to="/events">
                             <motion.div whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                                whileTap={{ scale: 0.9 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 10 }}>
                                 <img src={DiscoveryIcon} alt="Discovery" />
                             </motion.div>
                             <span>Moments</span>
@@ -133,12 +135,13 @@ const HomePage = () => {
                         transition={{
                             duration: 0.8,
                             delay: 0.9,
-                            ease: [0, 0.71, 0.2, 1.01]}}
+                            ease: [0, 0.71, 0.2, 1.01]
+                        }}
                         className="navigation__item">
                         <Link to="/events">
-                            <motion.div  whileHover={{ scale: 1.1 }}
-                                         whileTap={{ scale: 0.9 }}
-                                         transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                            <motion.div whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 10 }}>
                                 <img src={TicketIcon} alt="Ticket" />
                             </motion.div>
                             <span>Ticket</span>
@@ -150,12 +153,13 @@ const HomePage = () => {
                         transition={{
                             duration: 0.8,
                             delay: 1.1,
-                            ease: [0, 0.71, 0.2, 1.01]}}
+                            ease: [0, 0.71, 0.2, 1.01]
+                        }}
                         className="navigation__item">
                         <Link to="/challenges" className="">
                             <motion.div whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                                whileTap={{ scale: 0.9 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 10 }}>
                                 <img src={StarIcon} alt="Work" />
                             </motion.div>
                             <span>Challenges</span>
@@ -169,12 +173,13 @@ const HomePage = () => {
                         transition={{
                             duration: 0.8,
                             delay: 1.3,
-                            ease: [0, 0.71, 0.2, 1.01]}}
+                            ease: [0, 0.71, 0.2, 1.01]
+                        }}
                         className="navigation__item">
                         <Link to="/event/report">
                             <motion.div whileHover={{ scale: 1.1 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                                        whileTap={{ scale: 0.9 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                whileTap={{ scale: 0.9 }}
                             >
                                 <img src={ReportIcon} alt="Report" />
                             </motion.div>
@@ -183,9 +188,9 @@ const HomePage = () => {
                     </motion.div>
                 </div>
 
-                <img src={preview} alt="preview" />
-                <input type="file" onChange={handleFileChange} />
-                <button onClick={handleUpload}>Upload File</button>
+                {/*<img src={preview} alt="preview" />*/}
+                {/*<input type="file" onChange={handleFileChange} />*/}
+                {/*<button onClick={handleUpload}>Upload File</button>*/}
             </motion.div>
             <BottomNavbar />
         </>

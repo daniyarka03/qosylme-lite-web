@@ -141,7 +141,7 @@ const CreateEventPage = () => {
             } else {
                 console.error('No image selected');
                 // Обработка случая, когда изображение не выбрано
-                return null; // Если изображение не выбрано, вернуть null
+                return staticImage; // Если изображение не выбрано, вернуть null
             }
         } catch (error) {
             console.error('Error uploading file:', error);
@@ -158,13 +158,13 @@ const CreateEventPage = () => {
         const day = parseInt(parts[0]); // Извлекаем часть с днем и преобразуем в целое число
         const month = parseInt(parts[1]); // Извлекаем часть с месяцем
         const year = parseInt(parts[2]); // Извлекаем часть с годом
-
         const dateObject = new Date(Date.UTC(year, month - 1, day)); // Создаем объект Date в формате UTC
         const formattedDate = dateObject.toISOString().split('T')[0];
-        formData.name = titleValueState;
-        formData.location = locationValue;
+        formData.name = titleValueState == "Tap to change title" ? `${profileData.firstname}'s event`: titleValueState;
+        formData.location = locationValue == "" ? "Prague" : locationValue;
         formData.date = formattedDate;
         formData.time = timeValueState.toString();
+        formData.description = formData.description == "" ? "Event organizer forgot about writing description :)" : formData.description;
         formData.image_cover = uploadedImageName;
 
         try {

@@ -2,13 +2,19 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 100%;
+    width: 500px;
     min-width: 393px;
     height: 343px;
     margin-bottom: 50px;
     border-radius: 30px;
     background-color: #fff;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+    .challenge-card {
+        width: 300px;
+    }
 }
 
 .challenge-card__date {

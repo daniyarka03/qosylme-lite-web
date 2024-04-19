@@ -17,6 +17,7 @@ const GuestCardList = ({guest}: GuestCardListProps) => {
     //         console.log(filteredGuests)
     //     }
     // }, [data]);
+    console.log(guest)
     return (
         <div>
             <div className="guest-card-list">

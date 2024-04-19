@@ -105,13 +105,15 @@ const UpdateEventPage = () => {
             setDescription(description);
             setLocation(location);
             setImageCover(image_cover);
+            console.log(image_cover)
             setHours(time.split(":").slice(0, 1).join(":"))
             setMinutes(time.split(":").slice(1, 2).join(":"))
             if (!/^https?:\/\//i.test(image_cover)) {
                 console.log(import.meta.env.VITE_SERVER_URL + image_cover)
                 setImageCover(import.meta.env.VITE_SERVER_URL + image_cover)
             } else {
-                setImageCover(data.image_cover);
+                console.log(image_cover)
+                setImageCover(image_cover);
             }
             console.log(hours)
         }
@@ -176,7 +178,7 @@ const UpdateEventPage = () => {
         formData.time = timeValueState.toString();
         formData.location = location;
         formData.description = description;
-        //formData.image_cover = uploadedImageName;
+        formData.image_cover = uploadedImageName ? uploadedImageName : imageCover;
 
         console.log('Form Data:', formData);
         console.log(id)
@@ -190,7 +192,7 @@ const UpdateEventPage = () => {
                     date: formattedDate,
                     time: timeValueState.toString(),
                     location: location,
-                    image_cover: uploadedImageName,
+                    image_cover: uploadedImageName ? uploadedImageName : imageCover,
                 },
             });
 
@@ -239,6 +241,7 @@ const UpdateEventPage = () => {
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
+    console.log(imageCover)
 
     const event = data.eventById; // Предполагается, что у тебя есть соответствующий запрос для получения деталей мероприятия
     return (

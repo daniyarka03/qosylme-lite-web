@@ -122,17 +122,27 @@ const EditProfilePage = () => {
             const uploadedImageName = await handleUpload(); // Дождаться загрузки изображения и получить его имя
             console.log(uploadedImageName)
 
-            formData.avatar = uploadedImageName; // Установить имя загруженного изображения в formData
-            console.log(formData)
-            const { data: updateUserData } = await updateUser({
-                variables: {
-                    userId: userId,
-                    ...formData,
-                },
-            });
+           if (uploadedImageName) {
+               formData.avatar = uploadedImageName; // Установить имя загруженного изображения в formData
+               console.log(formData)
+               const { data: updateUserData } = await updateUser({
+                   variables: {
+                       userId: userId,
+                       ...formData,
+                   },
+               });
+           } else {
+               formData.avatar = profileData.avatar;
+               console.log(formData)
+               const { data: updateUserData } = await updateUser({
+                   variables: {
+                       userId: userId,
+                       ...formData,
+                   },
+               });
+           }
 
             window.location.href = '/profile';
-            console.log('Updated User:', updateUserData.updateUser.user);
             // Handle success or update UI accordingly
         } catch (error: any) {
             console.error('Error updating user:', error.message);

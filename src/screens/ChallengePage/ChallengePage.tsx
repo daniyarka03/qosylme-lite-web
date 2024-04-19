@@ -13,12 +13,18 @@ import {
     ADD_GUEST_TO_EVENT,
     ADD_PARTICIPATION_CHALLENGE,
     DELETE_GUEST_FROM_EVENT,
-    DELETE_PARTICIPATION_CHALLENGE
+    DELETE_PARTICIPATION_CHALLENGE, UPDATE_PARTICIPATION_CHALLENGE, UPLOAD_FILE
 } from "../../graphQL/Mutations";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 import ModalSuccessJoinedChallenge from "../../components/ModalSuccessJoinedChallenge/ModalSuccessJoinedChallenge";
-import {useModalSuccessJoinChallengeStore, useModalSuccessJoinEventStore} from "../../store/store";
+import {
+    useModalSuccessJoinChallengeStore,
+    useModalSuccessJoinEventStore,
+    useModalUploadingResultChallengeStore
+} from "../../store/store";
 import {motion} from "framer-motion";
+import ChallengeUploadingResultModal
+    from "../../components/ChallengeUploadingResultModal/ChallengeUploadingResultModal";
 
 interface ChallengePageProps {
     name: string;
@@ -46,8 +52,11 @@ const ChallengePage = () => {
     const h1Ref = useRef(null);
     const [addParticipantChallenge, { loading: updateLoading, error: updateError }] = useMutation(ADD_PARTICIPATION_CHALLENGE);
     const [deleteParticipantChallenge, { loading: deleteGuestsLoading, error: deleteGuestsError }] = useMutation(DELETE_PARTICIPATION_CHALLENGE);
+    const [updateParticipantChallenge, { loading: updateParticipantLoading, error: updateParticipantError }] = useMutation(UPDATE_PARTICIPATION_CHALLENGE);
     const [participantsChallenge, setParticipantsChallenge] = useState<any[]>([]);
     const {toggleModal} = useModalSuccessJoinChallengeStore();
+    const {toggleModal: toggleModalChallenge, image, toggleImage, participantsId, setParticipantsId} = useModalUploadingResultChallengeStore();
+    const [uploadFile] = useMutation(UPLOAD_FILE);
     useEffect(() => {
         if (data) {
             setChallenge(data.getChallengeById)
@@ -141,6 +150,7 @@ const ChallengePage = () => {
 
     useEffect(() => {
         console.log("participantsChallenge: ", participantsChallenge)
+        setParticipantsId(participantsChallenge)
     }, [participantsChallenge]);
     const joinChallengeHandler  = async () => {
             const participants = participantsChallenge;
@@ -179,6 +189,36 @@ const ChallengePage = () => {
                 }
                 setStateJoinText('Leave challenge');
             }
+    }
+
+    const handleUpload = async () => {
+        try {
+            if (image) {
+                const base64Image = image.split(',')[1];
+                try {
+                    const uploadedImage = await uploadFile({ variables: { file: base64Image } });
+                    console.log('Image uploaded successfully: ');
+                    return uploadedImage.data.singleUploadFile; // Вернуть имя загруженного файла
+                } catch (error) {
+                    console.error('Error uploading image', error);
+                    // Обработка ошибки при загрузке изображения
+                    throw error; // Передать ошибку дальше
+                }
+            } else {
+                console.error('No image selected');
+                // Обработка случая, когда изображение не выбрано
+                return null; // Если изображение не выбрано, вернуть null
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            throw error; // Передать ошибку дальше
+        }
+    };
+
+    const shareResult = async () => {
+        toggleModalChallenge();
+        const uploadedImageName = await handleUpload();
+
     }
 
     return (
@@ -255,7 +295,7 @@ const ChallengePage = () => {
                                    <div className="challenge-page__subblock">
                                        <div className="challenge-page__count-users">
                                            <h2>Бесплатно</h2>
-                                           {/*<p>Количество гостей: {guestsList.length}</p>*/}
+                                           {/*<p>Количество участников: {guestsList.length}</p>*/}
                                        </div>
                                        <Button  style={{
                                            width: "45%",
@@ -267,9 +307,22 @@ const ChallengePage = () => {
                                        }}  className={style.eventBlockButton} color={stateJoinText === "Join challenge" ? "primary" : "danger"} onClick={() => joinChallengeHandler()}>{stateJoinText}</Button>
                                    </div>
                            </motion.div>
-
+                           {stateJoinText !== "Join challenge" && (
+                               <div className="challenge-page__info-block">
+                                   <h2>Result</h2>
+                                   <Button  style={{
+                                       width: "100%",
+                                       height: "70px",
+                                       fontWeight: "700",
+                                       fontSize: "18px",
+                                       borderRadius: "20px",
+                                       border: "2px solid #fff"
+                                   }}  className={style.eventBlockButton} color="primary"  onClick={() => shareResult()}>Share your result</Button>
+                               </div>
+                           )}
                            <ToastContainer limit={1} />
                            <ModalSuccessJoinedChallenge challenge={challenge} />
+                           <ChallengeUploadingResultModal />
                        </>
                     )}
                 </div>

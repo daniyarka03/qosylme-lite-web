@@ -260,14 +260,21 @@ const ProfilePage = () => {
                                             <div className="flex items-center space-x-2">
                                                 <span>Attending events</span>
                                                 <Chip size="sm" color="default">{events.length}</Chip>
-                                            </div>
+                                            </div >
                                         }
                                     >
-                                        <div className="profile__attended-event">
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.5 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{
+                                                duration: 0.8,
+                                                delay: 0.2,
+                                                ease: [0, 0.71, 0.2, 1.01]}}
+                                            className="profile__attended-event">
                                             {events && events.map((event, index) => (
                                                 <CardEventMinimized key={index} data={event}/>
                                             ))}
-                                        </div>
+                                        </motion.div>
                                     </Tab>
                                     <Tab
                                         key="challenge"
@@ -276,24 +283,21 @@ const ProfilePage = () => {
                                                 <span>My Challenges</span>
                                                 <Chip size="sm" color="default">{usersChallengesList ? usersChallengesList.length : ""}</Chip>
                                             </div>
-                                        }
-                                    >
+                                        }>
                                         <motion.div className="profile__challenges"
                                                     initial={{ opacity: 0, scale: 0.5 }}
                                                     animate={{ opacity: 1, scale: 1 }}
                                                     transition={{
                                                         duration: 0.8,
                                                         delay: 0.2,
-                                                        ease: [0, 0.71, 0.2, 1.01]}}
-                                        >
-                                            {usersChallengesList && usersChallengesList.map((item: any) => (
-                                                <ChallengeCard challenge_id={item.challenge.challenge_id} title={item.challenge.name} description={item.challenge.description} deadline={item.challenge.deadline} xp={item.challenge.xp_award} coins={item.challenge.coins_award} image_cover={item.challenge.image_cover} />
+                                                        ease: [0, 0.71, 0.2, 1.01]}}>
+                                            {usersChallengesList && usersChallengesList.map((item: any, key: number) => (
+                                                <ChallengeCard key={key} challenge_id={item.challenge.challenge_id} title={item.challenge.name} description={item.challenge.description} deadline={item.challenge.deadline} xp={item.challenge.xp_award} coins={item.challenge.coins_award} image_cover={item.challenge.image_cover} />
                                             ))}
                                         </motion.div>
                                     </Tab>
                                 </Tabs>
                             </motion.div>
-
                         </div>
                     </section>
                 </>

@@ -151,6 +151,10 @@ const EventPage = () => {
 
     const joinGuestHandler = async  () => {
 
+        if (!token) {
+            window.location.href = '/login';
+        }
+
         const currentGuests = guestsList;
 
 
@@ -341,7 +345,7 @@ const EventPage = () => {
                             ease: [0, 0.71, 0.2, 1.01],
                         }}
                         className={isMobile ? style.eventControlBlockMobile : style.eventControlBlockDesktop}>
-                        {!isAuthor && token && (
+                        {!isAuthor && (
                             <div className={style.eventControlSubblock}>
                                 <div className={style.eventControlCountGuests}>
                                     <h2>Бесплатно</h2>
@@ -358,7 +362,7 @@ const EventPage = () => {
                             </div>
                         )}
                     </motion.div>
-                    <ModalSuccessJoinedEvent event={event} />
+                    <ModalSuccessJoinedEvent event={event} eventImageCover={eventImageCover} />
                     <EventSettingsModal />
                     <ChangeSettingsPrivacyEventModal />
                     <ToastContainer limit={1} />

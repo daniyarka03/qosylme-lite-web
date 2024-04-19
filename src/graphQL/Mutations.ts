@@ -165,6 +165,7 @@ export const ADD_GUEST_TO_EVENT = gql`
             event_id
             guests {
                 user_id
+                avatar
                 email
                 firstname
                 lastname
@@ -179,6 +180,7 @@ export const DELETE_GUEST_FROM_EVENT = gql`
             event_id
             guests {
                 user_id
+                avatar
                 email
                 firstname
                 lastname
@@ -190,6 +192,25 @@ export const DELETE_GUEST_FROM_EVENT = gql`
 export const ADD_PARTICIPATION_CHALLENGE = gql`
     mutation createChallengeParticipant($userId: String!, $challengeId: String!) {
         createChallengeParticipant(user_id: $userId, challenge_id: $challengeId) {
+            participated_id
+            user {
+                user_id
+                email
+                firstname
+                lastname
+            }
+            challenge {
+                challenge_id
+                name
+                description
+            }
+        }
+    }
+`;
+
+export const UPDATE_PARTICIPATION_CHALLENGE = gql`
+    mutation updateChallengeParticipant($participatedId: String!, $result: String!) {
+        updateChallengeParticipant(participated_id: $participatedId, result: $result) {
             participated_id
             user {
                 user_id

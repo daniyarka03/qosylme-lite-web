@@ -11,16 +11,21 @@ import {
     Image, CardBody
 } from "@nextui-org/react";
 import './ModalSuccessJoinedEvent.css';
+import {useChangeFormatDate} from "../../hooks/useChangeFormatDate";
 
 interface ModalSuccessJoinedEventProps {
     event: any;
+    eventImageCover: string;
 }
-const ModalSuccessJoinedEvent = ({event}: ModalSuccessJoinedEventProps) => {
+const ModalSuccessJoinedEvent = ({event, eventImageCover}: ModalSuccessJoinedEventProps) => {
     const {isOpen, toggleModal} = useModalSuccessJoinEventStore();
 
     const redirectMyEvents = () => {
         window.location.href = "/profile";
     }
+
+    const dateEvent = new Date(event.date);
+    const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US' });
 
     return (
         <div className="modal-success-joined-event">
@@ -41,13 +46,13 @@ const ModalSuccessJoinedEvent = ({event}: ModalSuccessJoinedEventProps) => {
                             <Card className="col-span-12 sm:col-span-4 h-[200px]">
                                 <CardHeader className="absolute z-10 t-1 backdrop-blur-sm flex-col !items-start bg-black/40 bottom-0  border-t-1 border-default-600 dark:border-default-100">
                                     <p className="text-tiny text-white/60 uppercase font-bold">{event.name}</p>
-                                    <h4 className="text-white font-medium text-large">{event.date + " " + event.time}</h4>
+                                    <h4 className="text-white font-medium text-large">{goodFormatDate + " " + event.time}</h4>
                                 </CardHeader>
                                     <Image
                                         removeWrapper
                                         alt="Card background"
                                         className="z-0 w-full h-full object-cover blur-darken-image"
-                                        src={event.image_cover}
+                                        src={eventImageCover}
                                     />
                             </Card>
                         </ModalBody>
