@@ -227,6 +227,8 @@ const ChallengePage = () => {
         toggleModalChallenge();
     }
 
+    console.log(result)
+
     return (
         <motion.div initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -310,10 +312,10 @@ const ChallengePage = () => {
                                            fontSize: "18px",
                                            borderRadius: "20px",
                                            border: "2px solid #fff"
-                                       }}  className={style.eventBlockButton} color={stateJoinText === "Join challenge" ? "primary" : "danger"} onClick={() => joinChallengeHandler()}>{stateJoinText}</Button>
+                                       }}  className={style.eventBlockButton} color={!result ? "primary" : "danger"} onClick={() => joinChallengeHandler()}>{stateJoinText}</Button>
                                    </div>
                            </motion.div>
-                           {stateJoinText !== "Join challenge" &&  (
+                           {result &&  (
                               <>
 
                                   <div className="challenge-page__info-block" style={{marginTop: "50px"}}>
