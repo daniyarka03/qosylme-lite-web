@@ -6,7 +6,7 @@ import {GET_CHALLENGE_ONE} from "../../graphQL/Queries";
 import ArrowBackIcon from "../../assets/ArrowBack.svg";
 import style from "../EventPage/EventPage.module.css";
 import Logo from "../../assets/Logo.png";
-import {Button} from "@nextui-org/react";
+import {Button, Chip} from "@nextui-org/react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -43,7 +43,7 @@ const ChallengePage = () => {
     const {data, loading} = useQuery(GET_CHALLENGE_ONE, {
         variables: {challengeId: id}
     });
-
+    const [result, setResult] = useState<string>('');
     const [challenge, setChallenge] = useState<ChallengePageProps>();
     const [isMobile, setIsMobile] = useState(false);
     const [fontSizeTitle, setFontSizeTitle] = useState('40px');
@@ -150,7 +150,15 @@ const ChallengePage = () => {
 
     useEffect(() => {
         console.log("participantsChallenge: ", participantsChallenge)
-        setParticipantsId(participantsChallenge)
+        setParticipantsId(participantsChallenge);
+        if (participantsChallenge) {
+            const currentUserParticipiantId = participantsChallenge.filter((item: any) => {
+                if (item.user.user_id === profileData.user_id) {
+                    return item.participated_id;
+                }
+            });
+            setResult(currentUserParticipiantId[0]);
+        }
     }, [participantsChallenge]);
     const joinChallengeHandler  = async () => {
             const participants = participantsChallenge;
@@ -217,8 +225,6 @@ const ChallengePage = () => {
 
     const shareResult = async () => {
         toggleModalChallenge();
-        const uploadedImageName = await handleUpload();
-
     }
 
     return (
@@ -307,18 +313,33 @@ const ChallengePage = () => {
                                        }}  className={style.eventBlockButton} color={stateJoinText === "Join challenge" ? "primary" : "danger"} onClick={() => joinChallengeHandler()}>{stateJoinText}</Button>
                                    </div>
                            </motion.div>
-                           {stateJoinText !== "Join challenge" && (
-                               <div className="challenge-page__info-block">
-                                   <h2>Result</h2>
-                                   <Button  style={{
-                                       width: "100%",
-                                       height: "70px",
-                                       fontWeight: "700",
-                                       fontSize: "18px",
-                                       borderRadius: "20px",
-                                       border: "2px solid #fff"
-                                   }}  className={style.eventBlockButton} color="primary"  onClick={() => shareResult()}>Share your result</Button>
-                               </div>
+                           {stateJoinText !== "Join challenge" &&  (
+                              <>
+
+                                  <div className="challenge-page__info-block" style={{marginTop: "50px"}}>
+                                      <h2 style={{fontSize: "24px", fontWeight: "700", marginBottom: "10px"}}>Result</h2>
+                                      <div className="challenge-page__result-block">
+                                          <div>
+                                              {result && (
+                                                  <img style={{width: "150px", height: "100%"}} src={import.meta.env.VITE_SERVER_URL + result.result} />
+                                              )}
+                                          </div>
+                                          <div>
+                                              <h3>Ваш результат опубликованный</h3>
+                                              <Chip className="challenge-page__result-status" color="warning">На рассмотрении</Chip>
+                                          </div>
+                                      </div>
+                                      <Button  style={{
+                                          width: "100%",
+                                          height: "70px",
+                                          fontWeight: "700",
+                                          fontSize: "18px",
+                                          borderRadius: "20px",
+                                          border: "2px solid #fff"
+                                      }}  className={style.eventBlockButton} color="primary"  onClick={() => shareResult()}>Share your result</Button>
+                                  </div>
+
+                              </>
                            )}
                            <ToastContainer limit={1} />
                            <ModalSuccessJoinedChallenge challenge={challenge} />

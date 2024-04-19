@@ -48,8 +48,6 @@ const ChallengeUploadingResultModal = () => {
     };
     const changeImageValueHandler = async () => {
         const uploadedImageName = await handleUpload();
-        console.log(uploadedImageName)
-        console.log("ParticipiantsChallenge:", participantsId)
         if (participantsId) {
             const currentUserParticipiantId = participantsId.filter((item: any) => {
                 if (item.user.user_id === infoProfile.user_id) {
@@ -66,6 +64,7 @@ const ChallengeUploadingResultModal = () => {
                 }).then(() => {
                     console.log('Image updated successfully');
                     toggleModal();
+                    window.location.reload();
                 }).catch((error) => {
                     console.error('Error updating image', error);
                 });

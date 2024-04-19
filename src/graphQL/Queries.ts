@@ -121,6 +121,7 @@ export const GET_USER_BY_ID = gql`
       email
       participatedChallenges {
                 participated_id
+                
                 challenge {
                     challenge_id
                     name
@@ -169,6 +170,7 @@ export const GET_CHALLENGE_ONE = gql`
             image_cover
             participants {
                 participated_id
+                result
                 user {
                     user_id
                     email

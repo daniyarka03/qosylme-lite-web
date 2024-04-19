@@ -170,3 +170,26 @@
     font-size: 15px;
     color: #fff;
 }
+
+.challenge-page__result-block {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.challenge-page__result-block img {
+    border-radius: 12px;
+}
+
+.challenge-page__result-block h3 {
+    font-size: 20px;
+    color: #000;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.challenge-page__result-status {
+    margin-left: 20px;
+    margin-top: 5px;
+    font-weight: 500;
+}
