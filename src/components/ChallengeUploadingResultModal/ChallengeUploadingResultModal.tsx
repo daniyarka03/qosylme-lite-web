@@ -1,30 +1,23 @@
 import React, {useRef} from 'react';
 import {
     useImageModalStore,
-    useModalChangeEventPropertiesStore,
     useModalUploadingResultChallengeStore
 } from "../../store/store";
 import Compressor from "compressorjs";
 import {
-    Avatar,
     Button,
-    Input,
     Modal,
     ModalBody,
     ModalContent,
     ModalFooter,
     ModalHeader,
-    Tab,
-    Tabs
 } from "@nextui-org/react";
-import style from "../../screens/CreateEventPage/CreateEventPage.module.css";
 import {useMutation} from "@apollo/client";
 import {UPDATE_PARTICIPATION_CHALLENGE, UPLOAD_FILE} from "../../graphQL/Mutations";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
 const ChallengeUploadingResultModal = () => {
 
     const {isOpen, toggleModal, image, toggleImage, participantsId} = useModalUploadingResultChallengeStore();
-    const [imageValue, setImageValue] = React.useState("")
     const {imagePreview, setImagePreview, setImageEvent, imageEvent} = useImageModalStore();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [uploadFile] = useMutation(UPLOAD_FILE);
@@ -58,15 +51,16 @@ const ChallengeUploadingResultModal = () => {
         console.log(uploadedImageName)
         console.log("ParticipiantsChallenge:", participantsId)
         if (participantsId) {
-            const currentUserParticipiantId = participantsId.filter((item) => {
+            const currentUserParticipiantId = participantsId.filter((item: any) => {
                 if (item.user.user_id === infoProfile.user_id) {
                     return item.participated_id;
                 }
             });
             if (uploadedImageName) {
+                const participatedIdValue = currentUserParticipiantId[0].participated_id
                 updateParticipantChallenge({
                     variables: {
-                        participatedId: currentUserParticipiantId[0].participated_id,
+                        participatedId: participatedIdValue,
                         result: uploadedImageName
                     }
                 }).then(() => {
