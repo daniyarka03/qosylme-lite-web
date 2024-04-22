@@ -209,8 +209,8 @@ export const ADD_PARTICIPATION_CHALLENGE = gql`
 `;
 
 export const UPDATE_PARTICIPATION_CHALLENGE = gql`
-    mutation updateChallengeParticipant($participatedId: String!, $result: String!) {
-        updateChallengeParticipant(participated_id: $participatedId, result: $result) {
+    mutation updateChallengeParticipant($participatedId: String!, $result: String!, $result_state: String!) {
+        updateChallengeParticipant(participated_id: $participatedId, result: $result, result_state: $result_state) {
             participated_id
             user {
                 user_id

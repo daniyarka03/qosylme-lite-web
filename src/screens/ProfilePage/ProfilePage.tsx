@@ -197,9 +197,10 @@ const ProfilePage = () => {
                                             delay: 0.8,
                                             ease: [0, 0.71, 0.2, 1.01]}}
                                         className="profile__info-item" style={{marginTop: "10px"}}>
-                                        {/*<div className="profile__info-username">*/}
-                                        {/*    <span className="profile__info-item-value">{infoProfile.username}</span>*/}
-                                        {/*</div>*/}
+                                        <div className="profile__info-username">
+                                            <span className="profile__info-item-value">{infoProfile.xp} XP </span> <br/>
+                                            <span className="profile__info-item-value">{infoProfile.coins} qcoins </span>
+                                        </div>
                                         <Link to="/profile/edit"><Button color="primary" style={{fontWeight: 500}}
                                                                          startContent={<EditIconComponent/>}>Edit
                                             profile</Button></Link>

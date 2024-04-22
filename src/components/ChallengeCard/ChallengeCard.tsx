@@ -18,6 +18,7 @@ const ChallengeCard = ({title, description, deadline, xp, coins, image_cover, ch
     const dateEvent = new Date(deadline);
     const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US' });
     const splittedDate = goodFormatDate.split(' ');
+
     return (
         <Link to={`/challenge/${challenge_id}`}>
             <div className="challenge-card" style={{

@@ -59,7 +59,8 @@ const ChallengeUploadingResultModal = () => {
                 updateParticipantChallenge({
                     variables: {
                         participatedId: participatedIdValue,
-                        result: uploadedImageName
+                        result: uploadedImageName,
+                        result_state: "In review"
                     }
                 }).then(() => {
                     console.log('Image updated successfully');

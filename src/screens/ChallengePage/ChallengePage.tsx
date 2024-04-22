@@ -25,6 +25,7 @@ import {
 import {motion} from "framer-motion";
 import ChallengeUploadingResultModal
     from "../../components/ChallengeUploadingResultModal/ChallengeUploadingResultModal";
+import {useChangeFormatDate} from "../../hooks/useChangeFormatDate";
 
 interface ChallengePageProps {
     name: string;
@@ -57,6 +58,10 @@ const ChallengePage = () => {
     const {toggleModal} = useModalSuccessJoinChallengeStore();
     const {toggleModal: toggleModalChallenge, image, toggleImage, participantsId, setParticipantsId} = useModalUploadingResultChallengeStore();
     const [uploadFile] = useMutation(UPLOAD_FILE);
+    const [updatedAt, setUpdatedAt] = useState<any>();
+
+
+
     useEffect(() => {
         if (data) {
             setChallenge(data.getChallengeById)
@@ -157,6 +162,13 @@ const ChallengePage = () => {
                     return item.participated_id;
                 }
             });
+            const dataNew = currentUserParticipiantId[0];
+            if (dataNew) {
+                const updatedAt = new Date(dataNew.updated_at);
+                const goodFormatUpdateAtDate = useChangeFormatDate({date: updatedAt, language: 'en-US'});
+                setUpdatedAt(goodFormatUpdateAtDate)
+            }
+
             setResult(currentUserParticipiantId[0]);
         }
     }, [participantsChallenge]);
@@ -226,6 +238,12 @@ const ChallengePage = () => {
     const shareResult = async () => {
         toggleModalChallenge();
     }
+
+    useEffect(() => {
+        if (result && result.result_state == "Completed") {
+            console.log('Completed')
+        }
+    }, []);
 
     console.log(result)
 
@@ -327,18 +345,22 @@ const ChallengePage = () => {
                                               )}
                                           </div>
                                           <div>
-                                              <h3>Ваш результат опубликованный</h3>
-                                              <Chip className="challenge-page__result-status" color="warning">На рассмотрении</Chip>
+                                              <h3>Ваш результат опубликованный. Был отправлен ({updatedAt})</h3>
+                                              <Chip className="challenge-page__result-status" color={result.result_state === "In review" ? "primary" : (result.result_state === "Completed" ? "success" : "warning")}>{result.result_state}</Chip>
                                           </div>
                                       </div>
-                                      <Button  style={{
-                                          width: "100%",
-                                          height: "70px",
-                                          fontWeight: "700",
-                                          fontSize: "18px",
-                                          borderRadius: "20px",
-                                          border: "2px solid #fff"
-                                      }}  className={style.eventBlockButton} color="primary"  onClick={() => shareResult()}>Share your result</Button>
+                                      {
+                                          result.result_state !== "Completed" && (
+                                              <Button  style={{
+                                                  width: "100%",
+                                                  height: "70px",
+                                                  fontWeight: "700",
+                                                  fontSize: "18px",
+                                                  borderRadius: "20px",
+                                                  border: "2px solid #fff"
+                                              }}  className={style.eventBlockButton} color="primary"  onClick={() => shareResult()}>{result.result_state == "Not started" ? "Share your result" : "Update result photo"}</Button>
+                                          )
+                                      }
                                   </div>
 
                               </>
