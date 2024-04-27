@@ -49,7 +49,7 @@ const ChallengeUploadingResultModal = () => {
     const changeImageValueHandler = async () => {
         const uploadedImageName = await handleUpload();
         if (participantsId) {
-            const currentUserParticipiantId = participantsId.filter((item: any) => {
+            const currentUserParticipiantId: any = participantsId.filter((item: any) => {
                 if (item.user.user_id === infoProfile.user_id) {
                     return item.participated_id;
                 }
