@@ -26,9 +26,7 @@ const ChallengesPage = () => {
                     {!data && (
                     <div className="challenges-page__without">
                                 <img className="challenges-page__cloud-image" src={ScientistImage} />
-                                <h2>Challenges in development</h2>
-                                <p>
-                                    Our scientists are carefully creating you exciting Challenges, wait and soon you will be able to immerse yourself in a world of activity</p>
+                                <h2>Challenges Loading</h2>
                     </div>
                     )}
                 </div>
@@ -49,6 +47,7 @@ const ChallengesPage = () => {
                                 xp={challenge.xp_award}
                                 coins={challenge.coins_award}
                                 image_cover={challenge.image_cover}
+                                participants={challenge.participants}
                             />
                     ))}
                 </motion.div>

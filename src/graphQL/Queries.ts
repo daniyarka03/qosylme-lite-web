@@ -123,6 +123,8 @@ export const GET_USER_BY_ID = gql`
       coins
       participatedChallenges {
         participated_id 
+        result
+        result_state
         challenge {
           challenge_id
           name
@@ -170,6 +172,18 @@ export const GET_CHALLENGES = gql`
             xp_award
             coins_award
             image_cover
+            participants {
+                participated_id 
+                result
+                result_state
+                updated_at
+                user {
+                    user_id
+                    email
+                    firstname
+                    lastname
+                }
+            }
         }
     }
 `;
@@ -209,6 +223,8 @@ export const GET_USERS_CHALLENGES = gql`
             email
             participatedChallenges {
                 participated_id
+                result
+                result_state
                 challenge {
                     challenge_id
                     name

@@ -145,6 +145,26 @@
 
 }
 
+.challenge-page__result-image-preview {
+    max-width: 150px;
+    min-width: 150px;
+    max-height: 150px;
+    height: 150px;
+    object-fit: cover;
+
+}
+
+.__react_modal_image__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding: 10px;
+}
+
+.__react_modal_image__icon_menu {
+}
+
 .challenge-page__join-mobile {
     width: 100%;
     background: #0070F0;

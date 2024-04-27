@@ -9,6 +9,7 @@ import Logo from "../../assets/Logo.png";
 import {Button, Chip} from "@nextui-org/react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import ModalImage from "react-modal-image";
 import {
     ADD_GUEST_TO_EVENT,
     ADD_PARTICIPATION_CHALLENGE,
@@ -44,7 +45,7 @@ const ChallengePage = () => {
     const {data, loading} = useQuery(GET_CHALLENGE_ONE, {
         variables: {challengeId: id}
     });
-    const [result, setResult] = useState<string>('');
+    const [result, setResult] = useState<any>('');
     const [challenge, setChallenge] = useState<ChallengePageProps>();
     const [isMobile, setIsMobile] = useState(false);
     const [fontSizeTitle, setFontSizeTitle] = useState('40px');
@@ -153,7 +154,7 @@ const ChallengePage = () => {
         return tempDiv.innerHTML;
     };
 
-    useEffect(() => {
+    function setResultFunction() {
         console.log("participantsChallenge: ", participantsChallenge)
         setParticipantsId(participantsChallenge);
         if (participantsChallenge) {
@@ -171,7 +172,14 @@ const ChallengePage = () => {
 
             setResult(currentUserParticipiantId[0]);
         }
+    }
+
+    useEffect(() => {
+        setResultFunction();
     }, [participantsChallenge]);
+
+
+
     const joinChallengeHandler  = async () => {
             const participants = participantsChallenge;
             console.log(participants)
@@ -207,6 +215,7 @@ const ChallengePage = () => {
                     setParticipantsChallenge([...participantsChallenge, joinData.createChallengeParticipant]);
                     toggleModal();
                 }
+                setResultFunction();
                 setStateJoinText('Leave challenge');
             }
     }
@@ -310,14 +319,15 @@ const ChallengePage = () => {
                                    <p dangerouslySetInnerHTML={{ __html: sanitizeHTML(challenge.description) }} style={{ whiteSpace: 'pre-wrap' }} className="challenge-page__description-text"></p>
                                </motion.div>
                            </div>
-                           <motion.div
-                               initial={{ opacity: 0, scale: 0.5 }}
-                               animate={{ opacity: 1, scale: 1 }}
-                               transition={{
-                                   duration: 0.8,
-                                   delay: 1.2,
-                                   ease: [0, 0.71, 0.2, 1.01]}}
-                               className={isMobile ? "challenge-page__join-mobile" : "challenge-page__join-desktop"}>
+                           {(result && result.result_state === "Completed") || (!result) && (
+                               <motion.div
+                                   initial={{ opacity: 0, scale: 0.5 }}
+                                   animate={{ opacity: 1, scale: 1 }}
+                                   transition={{
+                                       duration: 0.8,
+                                       delay: 1.2,
+                                       ease: [0, 0.71, 0.2, 1.01]}}
+                                   className={isMobile ? "challenge-page__join-mobile" : "challenge-page__join-desktop"}>
                                    <div className="challenge-page__subblock">
                                        <div className="challenge-page__count-users">
                                            <h2>Бесплатно</h2>
@@ -332,22 +342,34 @@ const ChallengePage = () => {
                                            border: "2px solid #fff"
                                        }}  className={style.eventBlockButton} color={!result ? "primary" : "danger"} onClick={() => joinChallengeHandler()}>{stateJoinText}</Button>
                                    </div>
-                           </motion.div>
+                               </motion.div>
+                           )}
                            {result &&  (
                               <>
-
                                   <div className="challenge-page__info-block" style={{marginTop: "50px"}}>
                                       <h2 style={{fontSize: "24px", fontWeight: "700", marginBottom: "10px"}}>Result</h2>
                                       <div className="challenge-page__result-block">
                                           <div>
-                                              {result && (
-                                                  <img style={{width: "150px", height: "100%"}} src={import.meta.env.VITE_SERVER_URL + result.result} />
+                                              {result && result.result_state !== "Not started" && (
+                                                 <>
+                                                     {/*<img style={{width: "150px", height: "100%", objectFit: "cover", objectPosition: "center"}} src={import.meta.env.VITE_SERVER_URL + result.result} />*/}
+                                                     <ModalImage
+                                                         className={"challenge-page__result-image-preview"}
+                                                         small={import.meta.env.VITE_SERVER_URL + result.result}
+                                                         large={import.meta.env.VITE_SERVER_URL + result.result}
+                                                         hideZoom={false}
+                                                         hideDownload={true}
+                                                         alt="Your result uploaded"
+                                                     />
+                                                 </>
                                               )}
                                           </div>
-                                          <div>
-                                              <h3>Ваш результат опубликованный. Был отправлен ({updatedAt})</h3>
-                                              <Chip className="challenge-page__result-status" color={result.result_state === "In review" ? "primary" : (result.result_state === "Completed" ? "success" : "warning")}>{result.result_state}</Chip>
-                                          </div>
+                                          {result.result_state !== "Not started" && (
+                                              <div>
+                                                  <h3>Ваш результат опубликованный. Был отправлен ({updatedAt})</h3>
+                                                  <Chip className="challenge-page__result-status" color={result.result_state === "In review" ? "primary" : (result.result_state === "Completed" ? "success" : "warning")}>{result.result_state}</Chip>
+                                              </div>
+                                          )}
                                       </div>
                                       {
                                           result.result_state !== "Completed" && (
@@ -368,6 +390,7 @@ const ChallengePage = () => {
                            <ToastContainer limit={1} />
                            <ModalSuccessJoinedChallenge challenge={challenge} />
                            <ChallengeUploadingResultModal />
+
                        </>
                     )}
                 </div>

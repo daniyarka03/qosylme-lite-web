@@ -22,6 +22,7 @@ import {jwtDecode} from "jwt-decode";
 import PlusIconComponent from "../../components/PlusIconComponent";
 import ChallengeCard from "../../components/ChallengeCard/ChallengeCard";
 import {motion} from "framer-motion";
+import Logo from "../../assets/Logo.png";
 
 interface Event {
     getEvents: {
@@ -197,9 +198,9 @@ const ProfilePage = () => {
                                             delay: 0.8,
                                             ease: [0, 0.71, 0.2, 1.01]}}
                                         className="profile__info-item" style={{marginTop: "10px"}}>
-                                        <div className="profile__info-username">
-                                            <span className="profile__info-item-value">{infoProfile.xp} XP </span> <br/>
-                                            <span className="profile__info-item-value">{infoProfile.coins} qcoins </span>
+                                        <div className="profile__info-scores">
+                                            <Chip color={"success"} className="profile__info-item-value" size="lg">{infoProfile.xp} XP </Chip>
+                                            <Chip className="profile__info-item-value" size="lg"><img src={Logo} />{infoProfile.coins} qcoins </Chip>
                                         </div>
                                         <Link to="/profile/edit"><Button color="primary" style={{fontWeight: 500}}
                                                                          startContent={<EditIconComponent/>}>Edit
@@ -293,7 +294,7 @@ const ProfilePage = () => {
                                                         delay: 0.2,
                                                         ease: [0, 0.71, 0.2, 1.01]}}>
                                             {usersChallengesList && usersChallengesList.map((item: any, key: number) => (
-                                                <ChallengeCard key={key} challenge_id={item.challenge.challenge_id} title={item.challenge.name} description={item.challenge.description} deadline={item.challenge.deadline} xp={item.challenge.xp_award} coins={item.challenge.coins_award} image_cover={item.challenge.image_cover} />
+                                                <ChallengeCard key={key} result_state={item.result_state} challenge_id={item.challenge.challenge_id} title={item.challenge.name} description={item.challenge.description} deadline={item.challenge.deadline} xp={item.challenge.xp_award} coins={item.challenge.coins_award} image_cover={item.challenge.image_cover} />
                                             ))}
                                         </motion.div>
                                     </Tab>
