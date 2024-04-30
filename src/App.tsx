@@ -28,11 +28,14 @@ import 'dayjs/locale/en-gb';
 import ChallengesPage from "./screens/ChallengesPage/ChallengesPage";
 import CheckingValideToken from "./components/CheckingValideToken";
 import ChallengePage from "./screens/ChallengePage/ChallengePage";
+import { setContext } from '@apollo/client/link/context';
+
 setupIonicReact();
 
 function App() {
 
     const token = localStorage.getItem('token');
+    const SECRET = import.meta.env.VITE_SECRET_KEY;
     const [isMobile, setIsMobile] = useState(false);
     const detectDeviceType = () => {
         setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
@@ -67,9 +70,20 @@ function App() {
         uri: import.meta.env.VITE_SERVER_URL_GRAPHQL,
         credentials: 'include',
     });
+
+    const authLink = setContext((_, { headers }) => {
+        // Возвращаем объект с заголовками, включая токен
+        return {
+            headers: {
+                ...headers,
+                authorization: `${SECRET}` // Добавляем токен в заголовок запроса
+            }
+        }
+    });
+
     const client = new ApolloClient({
         cache: new InMemoryCache(),
-        link: httpLink
+        link: authLink.concat(httpLink)
     });
 
 
