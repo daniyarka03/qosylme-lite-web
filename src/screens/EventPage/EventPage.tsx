@@ -364,7 +364,7 @@ const EventPage = () => {
                     </motion.div>
                     <ModalSuccessJoinedEvent event={event} eventImageCover={eventImageCover} />
                     <EventSettingsModal />
-                    <ChangeSettingsPrivacyEventModal />
+                    <ChangeSettingsPrivacyEventModal data={event} />
                     <ToastContainer limit={1} />
                 </>
             )}

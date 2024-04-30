@@ -23,8 +23,10 @@ const EventListPage = () => {
                 return new Date(a.date).getTime() - new Date(b.date).getTime();
             });
 
+            // Фильтруем события, оставляя только те, у которых isPrivate === false
+            const publicEvents = sortedEvents.filter((event: any) => !event.isPrivate);
 
-            setEvents(sortedEvents);
+            setEvents(publicEvents);
             setIsLoaded(true);
         }
     }, [data]);
@@ -64,7 +66,8 @@ const EventListPage = () => {
                          }}  className="flex flex-col items-center h-screen" style={{marginBottom: "400px"}}>
                 {events.map((item: any, index: number) => (
                   <>
-                      <CardEvent style={{marginBottom: "40px"}} key={`${item}-${index}`} data={item} /></>
+                      <CardEvent style={{marginBottom: "40px"}} key={`${item}-${index}`} data={item} />
+                  </>
                 ))}
             </motion.div>
             {/*<BottomNavbar />*/}

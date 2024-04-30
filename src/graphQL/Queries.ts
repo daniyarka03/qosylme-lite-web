@@ -10,6 +10,7 @@ export const SHOW_ALL_EVENTS = gql`
             location
             date
             image_cover
+            isPrivate
             author_event {
                 user_id
                 firstname
@@ -36,6 +37,7 @@ export const SHOW_EVENT_BY_ID = gql`
       time
       location
       image_cover
+      isPrivate
       author_event {
         avatar
         user_id
@@ -64,6 +66,7 @@ export const GET_CREATED_EVENTS = gql`
             time
             location
             image_cover
+            isPrivate
             author_event {
                 user_id
                 email
@@ -81,6 +84,7 @@ export const GET_ATTENDED_EVENTS = gql`
               firstname
               lastname
               email
+              isPrivate
                 attendedEvents {
                     event_id
                     name

@@ -13,28 +13,31 @@ import style from "../EventListPage/EventListPage.module.css";
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 import Compressor from 'compressorjs';
+import {Skeleton} from "@nextui-org/react";
+
+
 const UPLOAD_FILE = gql`
   mutation singleUploadFile($file: String!) {
     singleUploadFile(file: $file) 
   }
 `;
 const HomePage = () => {
-    const compressImage = (file: any) => {
-        return new Promise((resolve, reject) => {
-            new Compressor(file, {
-                quality: 0.9, // Качество сжатия (от 0 до 1)
-                maxWidth: 1024, // Максимальная ширина изображения
-                maxHeight: 1024, // Максимальная высота изображения
-                mimeType: 'image/jpeg', // Тип MIME для сжатого изображения
-                success: (compressedFile) => {
-                    resolve(compressedFile);
-                },
-                error: (error) => {
-                    reject(error);
-                },
-            });
-        });
-    };
+    // const compressImage = (file: any) => {
+    //     return new Promise((resolve, reject) => {
+    //         new Compressor(file, {
+    //             quality: 0.9, // Качество сжатия (от 0 до 1)
+    //             maxWidth: 1024, // Максимальная ширина изображения
+    //             maxHeight: 1024, // Максимальная высота изображения
+    //             mimeType: 'image/jpeg', // Тип MIME для сжатого изображения
+    //             success: (compressedFile) => {
+    //                 resolve(compressedFile);
+    //             },
+    //             error: (error) => {
+    //                 reject(error);
+    //             },
+    //         });
+    //     });
+    // };
     const formData = new FormData();
     const dateEvent = new Date();
     const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US' });
@@ -50,42 +53,42 @@ const HomePage = () => {
     const [file, setFile] = useState<any>(null);
     const [uploadFile] = useMutation(UPLOAD_FILE);
 
-    const handleFileChange = async (event: any) => {
-        const selectedImage = event.target.files[0];
-        if (selectedImage) {
-            const compressedFile: any = await compressImage(selectedImage);
-            setImage(compressedFile);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreview(reader.result);
-            };
-            reader.readAsDataURL(compressedFile);
-        }
-    };
+    // const handleFileChange = async (event: any) => {
+    //     const selectedImage = event.target.files[0];
+    //     if (selectedImage) {
+    //         const compressedFile: any = await compressImage(selectedImage);
+    //         setImage(compressedFile);
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => {
+    //             setPreview(reader.result);
+    //         };
+    //         reader.readAsDataURL(compressedFile);
+    //     }
+    // };
 
 
-    const handleUpload = async () => {
-        try {
-            if (image) {
-                const base64Image = preview.split(',')[1];
-                console.log(base64Image)
-                try {
-                    await uploadFile({ variables: { file: base64Image } });
-                    console.log('Image uploaded successfully');
-                    // Дополнительные действия после успешной загрузки изображения
-                } catch (error) {
-                    console.error('Error uploading image', error);
-                    // Обработка ошибки при загрузке изображения
-                }
-            } else {
-                console.error('No image selected');
-                // Обработка случая, когда изображение не выбрано
-            }
-
-        } catch (error) {
-            console.error('Error uploading file:', error);
-        }
-    };
+    // const handleUpload = async () => {
+    //     try {
+    //         if (image) {
+    //             const base64Image = preview.split(',')[1];
+    //             console.log(base64Image)
+    //             try {
+    //                 await uploadFile({ variables: { file: base64Image } });
+    //                 console.log('Image uploaded successfully');
+    //                 // Дополнительные действия после успешной загрузки изображения
+    //             } catch (error) {
+    //                 console.error('Error uploading image', error);
+    //                 // Обработка ошибки при загрузке изображения
+    //             }
+    //         } else {
+    //             console.error('No image selected');
+    //             // Обработка случая, когда изображение не выбрано
+    //         }
+    //
+    //     } catch (error) {
+    //         console.error('Error uploading file:', error);
+    //     }
+    // };
 
     return (
         <>
@@ -106,7 +109,7 @@ const HomePage = () => {
                     <div
 
                         className="row">
-                        <span className="row__name">Hello {firstname}</span>
+                            <span className="row__name">Hello {firstname}</span>
                     </div>
                 </div>
 

@@ -16,6 +16,9 @@ interface CardEventProps {
         image_cover: string,
         location: string,
         date: string,
+        time: string,
+        description: string,
+        isPrivate: boolean
     }
 }
 const CardEvent = ({data}: CardEventProps) => {
@@ -106,6 +109,7 @@ function desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style,
         <div className={style.cardBlock} style={{
             background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${eventImageCover}) lightgray 50% / cover no-repeat`
         }}>
+
             <div className={style.cardEventHeader}>
                 <div className={style.cardEventLocation} style={{background: randomColor}}>
                     <div className={style.cardEventLocationIcon}>
@@ -127,6 +131,7 @@ function desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style,
                     <Link to={"/event/" + data.event_id} replace><button className={style.cardEventActionButton}><img src={ArrowIcon} alt=""/></button></Link>
                 </motion.div>
             </div>
+
         </div>
     )
 }

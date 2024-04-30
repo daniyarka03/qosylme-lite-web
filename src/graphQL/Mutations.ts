@@ -246,6 +246,14 @@ export const DELETE_PARTICIPATION_CHALLENGE = gql`
     }
 `;
 
+export const UPDATE_PRIVACY_EVENT = gql`
+    mutation updateEventPrivacy($eventId: String!, $isPrivate: Boolean!) {
+        updateEventPrivacy(eventId: $eventId, isPrivate: $isPrivate) {
+            isPrivate
+        }
+    }
+`;
+
 export const UPLOAD_FILE = gql`
   mutation singleUploadFile($file: String!) {
     singleUploadFile(file: $file) 
