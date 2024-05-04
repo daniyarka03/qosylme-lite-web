@@ -47,14 +47,14 @@ const EventListPage = () => {
                     Events
                 </h1>
 
-                <div className={style.eventListControls}>
-                    <button className={style.eventListControlsButton}>
-                        <img src={searchIcon} alt=""/>
-                    </button>
-                    <button className={style.eventListControlsButton}>
-                        <img src={settingsGray} alt=""/>
-                    </button>
-                </div>
+                {/*<div className={style.eventListControls}>*/}
+                {/*    <button className={style.eventListControlsButton}>*/}
+                {/*        <img src={searchIcon} alt=""/>*/}
+                {/*    </button>*/}
+                {/*    <button className={style.eventListControlsButton}>*/}
+                {/*        <img src={settingsGray} alt=""/>*/}
+                {/*    </button>*/}
+                {/*</div>*/}
             </div>
 
             <motion.div  initial={{ opacity: 0, scale: 0.5 }}

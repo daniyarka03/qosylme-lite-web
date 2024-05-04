@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useMutation, useQuery} from "@apollo/client";
 import {DELETE_USER, GET_USER_INFO, REFRESH_TOKEN, UPDATE_USER, UPLOAD_FILE} from "../../graphQL/Mutations";
 import {useInfoProfile} from "../../hooks/useInfoProfile";
-import {Avatar, Button, Input} from "@nextui-org/react";
+import {Avatar, Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
 import ModalLoading from "../../components/ModalLoading/ModalLoading";
 import {useModalLoadingStore} from "../../store/store";
 import "./EditProfilePage.css";
 import Compressor from "compressorjs";
-
+import SweetAlert2, { withSwal } from 'react-sweetalert2';
 
 interface IFormData {
     avatar: string;
@@ -20,6 +20,7 @@ interface IFormData {
 const EditProfilePage = () => {
 
     const profileData = useInfoProfile();
+    const isMobile = window.innerWidth <= 768;
     const [userInfo, setUserInfo] = useState();
     const [userId, setUserId] = useState();
     const [formData, setFormData] = useState({
@@ -30,12 +31,21 @@ const EditProfilePage = () => {
         password: '',
     });
 
+    const [swalProps, setSwalProps] = useState({});
+    const [isOpen, setIsOpen] = useState(false);
+    const [errorModalValue, setErrorModalValue] = useState("");
+    const onClose = () => {
+        setIsOpen(false);
+    }
+
+
+
     const compressImage = (file: any) => {
         return new Promise((resolve, reject) => {
             new Compressor(file, {
                 quality: 0.9, // Качество сжатия (от 0 до 1)
-                maxWidth: 1024, // Максимальная ширина изображения
-                maxHeight: 1024, // Максимальная высота изображения
+                maxWidth: 512, // Максимальная ширина изображения
+                maxHeight: 512, // Максимальная высота изображения
                 mimeType: 'image/jpeg', // Тип MIME для сжатого изображения
                 success: (compressedFile) => {
                     resolve(compressedFile);
@@ -75,7 +85,21 @@ const EditProfilePage = () => {
     const [uploadFile] = useMutation(UPLOAD_FILE);
 
     const handleFileChange = async (event: any) => {
+        const allowedFormats = ["image/jpeg", "image/jpg", "image/png", "image/heic", "image/webp"];
+        const maxSize = 15 * 1024 * 1024; // 10 MB
         const selectedImage = event.target.files[0];
+        if (!allowedFormats.includes(selectedImage.type)) {
+            console.log("Неподдерживаемый формат изображения.");
+            setErrorModalValue("Неподдерживаемый формат изображения.");
+            setIsOpen(true);
+            return;
+        }
+        if (selectedImage.size > maxSize) {
+            console.log("Изображение слишком большое (больше 10 MB).");
+            setErrorModalValue("Изображение слишком большое (больше 10 MB).");
+            setIsOpen(true);
+            return;
+        }
         if (selectedImage) {
             const compressedFile: any = await compressImage(selectedImage);
             setImage(compressedFile);
@@ -92,7 +116,9 @@ const EditProfilePage = () => {
         try {
             if (image) {
                 console.log(image);
+
                 const base64Image = preview.split(',')[1];
+
                 try {
                     const uploadedImage = await uploadFile({ variables: { file: base64Image } });
                     console.log('Image uploaded successfully: ');
@@ -181,11 +207,13 @@ const EditProfilePage = () => {
         <div className="edit-profile-page">
             <h2 className="edit-profile-page__title">Update User</h2>
             <form>
-                <Avatar style={{
-                    width: "146px",
-                    height: "146px"
-                }} src={preview} alt="preview" />
-                <input type="file" onChange={handleFileChange} />
+                <div className="edit-profile-page__avatar">
+                    <Avatar style={{
+                        width: "146px",
+                        height: "146px"
+                    }} src={preview} alt="preview" />
+                    <input name="file" type="file" onChange={handleFileChange} />
+                </div>
                 <Input type="email"  classNames={{
                     input: [
                         "bg-transparent",
@@ -280,7 +308,8 @@ const EditProfilePage = () => {
                     fontWeight: "700",
                     fontSize: "20px",
                     borderRadius: "20px",
-                    border: "2px solid #fff"
+                    border: "2px solid #fff",
+                    marginBottom: "100px"
                 }}>
                     Update User
                 </Button>
@@ -296,6 +325,33 @@ const EditProfilePage = () => {
                 {/*</Button>*/}
             </form>
             <ModalLoading />
+            <SweetAlert2 {...swalProps}>
+                <h1>
+                    Hello World!
+                </h1>
+            </SweetAlert2>
+            <Modal
+                isOpen={isOpen}
+                placement={isMobile ? "bottom" : "center"}
+                onClose={onClose}
+            >
+                <ModalContent>
+
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">Error uploading</ModalHeader>
+                            <ModalBody>
+                                <p>
+                                    {errorModalValue}
+                                </p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="danger" variant="light" onPress={onClose}>
+                                    Close
+                                </Button>
+                            </ModalFooter>
+                        </>
+                </ModalContent>
+            </Modal>
         </div>
     );
 };
