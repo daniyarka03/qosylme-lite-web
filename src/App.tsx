@@ -29,6 +29,7 @@ import ChallengesPage from "./screens/ChallengesPage/ChallengesPage";
 import CheckingValideToken from "./components/CheckingValideToken";
 import ChallengePage from "./screens/ChallengePage/ChallengePage";
 import { setContext } from '@apollo/client/link/context';
+import MomentsPage from "./screens/MomentsPage/MomentsPage";
 
 setupIonicReact();
 
@@ -119,6 +120,7 @@ function App() {
                                 <Route path={"*"} element={<HomePage />} />
                                 <Route path={"/challenges"} element={<ChallengesPage />} />
                                 <Route path={"/challenge/:id"} element={<ChallengePage />} />
+                                <Route path={"/moments"} element={<MomentsPage />} />
                             </>
                         ) : (
                             <>

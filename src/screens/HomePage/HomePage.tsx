@@ -123,7 +123,7 @@ const HomePage = () => {
                             ease: [0, 0.71, 0.2, 1.01]
                         }}
                         className="navigation__item">
-                        <Link to="/events">
+                        <Link to="/moments">
                             <motion.div whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 transition={{ type: "spring", stiffness: 400, damping: 10 }}>
@@ -179,7 +179,7 @@ const HomePage = () => {
                             ease: [0, 0.71, 0.2, 1.01]
                         }}
                         className="navigation__item">
-                        <Link to="/event/report">
+                        <Link to="https://forms.gle/BNrsxkqovbuQAoZi6">
                             <motion.div whileHover={{ scale: 1.1 }}
                                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
                                 whileTap={{ scale: 0.9 }}
