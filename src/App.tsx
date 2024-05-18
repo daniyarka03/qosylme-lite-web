@@ -5,7 +5,6 @@ import HomePage from "./screens/HomePage/HomePage";
 import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Link, Route, Routes, useNavigate} from 'react-router-dom';
 import EventListPage from "./screens/EventListPage/EventListPage";
-import Navbar from "./components/Navbar/NavbarComponent";
 import NavbarComponent from "./components/Navbar/NavbarComponent";
 import EventPage from "./screens/EventPage/EventPage";
 import LoginPage from "./screens/LoginPage/LoginPage";
@@ -18,9 +17,6 @@ import UpdateEventPage from "./screens/UpdateEventPage/UpdateEventPage";
 import SettingsPage from "./screens/SettingsPage/SettingsPage";
 import EditProfilePage from "./screens/EditProfilePage/EditProfilePage";
 import BottomNavbar from "./components/BottomNavbar/BottomNavbar";
-import style from "./components/CardEvent/CardEvent.module.css";
-import LocationIcon from "./assets/Location.svg";
-import ArrowIcon from "./assets/arrow.svg";
 import NotificationsPage from "./screens/NotificationsPage/NotificationsPage";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -30,18 +26,17 @@ import CheckingValideToken from "./components/CheckingValideToken";
 import ChallengePage from "./screens/ChallengePage/ChallengePage";
 import { setContext } from '@apollo/client/link/context';
 import MomentsPage from "./screens/MomentsPage/MomentsPage";
+import LandingPage from "./landing/LandingPage";
 
 setupIonicReact();
 
 function App() {
-
     const token = localStorage.getItem('token');
     const SECRET = import.meta.env.VITE_SECRET_KEY;
     const [isMobile, setIsMobile] = useState(false);
     const detectDeviceType = () => {
         setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
     };
-
 
     useEffect(() => {
         detectDeviceType();
@@ -87,8 +82,6 @@ function App() {
         link: authLink.concat(httpLink)
     });
 
-
-
     return (
         <ApolloProvider client={client}>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
@@ -109,6 +102,7 @@ function App() {
                         {token ? (
                             <>
                                 <Route path="/" element={<HomePage />} />
+                                <Route path="/landing" element={<LandingPage />} />
                                 <Route path="/events" element={<EventListPage />} />
                                 <Route path="/event/:id" element={<EventPage />} />
                                 <Route path="/profile" element={<ProfilePage />} />

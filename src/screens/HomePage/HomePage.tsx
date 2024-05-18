@@ -147,7 +147,7 @@ const HomePage = () => {
                                 transition={{ type: "spring", stiffness: 400, damping: 10 }}>
                                 <img src={TicketIcon} alt="Ticket" />
                             </motion.div>
-                            <span>Ticket</span>
+                            <span>Events</span>
                         </Link>
                     </motion.div>
                     <motion.div

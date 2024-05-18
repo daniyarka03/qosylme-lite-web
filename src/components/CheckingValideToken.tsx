@@ -10,11 +10,18 @@ const CheckingValideToken = () => {
 
     useEffect(() => {
         const fetchVerifyToken = async () => {
+            console.log("Checking token validation")
             if (token) {
                 try {
                     const {data} = await verifyToken({
                         token: token.toString()
                     });
+                    console.log(data.verifyToken)
+                    if (data.verifyToken == null) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('refreshToken');
+                        window.location.href = '/login';
+                    }
                 } catch (error: any) {
                     if (error.message.includes('Invalid token')) {
                         // Обработка ошибки, связанной с недействительным токеном
