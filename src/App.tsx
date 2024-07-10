@@ -27,6 +27,9 @@ import ChallengePage from "./screens/ChallengePage/ChallengePage";
 import { setContext } from '@apollo/client/link/context';
 import MomentsPage from "./screens/MomentsPage/MomentsPage";
 import LandingPage from "./landing/LandingPage";
+import PartnersPage from "./screens/PartnersPage/PartnersPage";
+import PartnerMenuPage from "./screens/PartnerMenuPage/PartnerMenuPage";
+import PartnersProductPage from "./screens/PartnersProductPage/PartnersProductPage";
 
 setupIonicReact();
 
@@ -104,6 +107,9 @@ function App() {
                                 <Route path="/" element={<HomePage />} />
                                 <Route path="/landing" element={<LandingPage />} />
                                 <Route path="/events" element={<EventListPage />} />
+                                <Route path="/partners" element={<PartnersPage />} />
+                                <Route path="/partners/:id" element={<PartnerMenuPage />} />
+                                <Route path="/partners/:id/product/:id" element={<PartnersProductPage />} />
                                 <Route path="/event/:id" element={<EventPage />} />
                                 <Route path="/profile" element={<ProfilePage />} />
                                 <Route path="/profile/edit" element={<EditProfilePage />} />

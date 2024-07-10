@@ -1,0 +1,36 @@
+.partners-product {
+    max-width: 800px;
+    padding: 0 120px;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+        padding: 0 2rem;
+    }
+
+    @media (max-width: 576px) {
+        padding: 0 1rem;
+    }
+}
+
+.partners-product__image {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.partners-product__title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    margin-top: 20px;
+
+    @media (max-width: 768px) {
+        font-size: 1.2rem;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 1rem;
+    }
+}
+
+
+

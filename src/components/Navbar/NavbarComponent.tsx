@@ -55,6 +55,11 @@ const NavbarComponent = () => {
                         Events
                     </Link>
                 </NavbarItem>
+                <NavbarItem isActive={location.pathname === '/partners'}>
+                    <Link color={location.pathname === '/partners' ? 'primary' : 'foreground'} href="/partners" aria-current="page">
+                        Partners
+                    </Link>
+                </NavbarItem>
                 {token ? (
                     <>
                 <NavbarItem  isActive={location.pathname === '/challenges'}>
