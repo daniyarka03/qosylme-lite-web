@@ -1,19 +1,48 @@
 import React, {useEffect} from 'react';
 import "./ChangeImageCoverEventModal.css";
-import {useModalChangeEventPropertiesStore} from "../../store/store";
-import {Button, Input, Modal, ModalBody, ModalContent, ModalHeader, Tab, Tabs} from "@nextui-org/react";
+import {useImageModalStore, useModalChangeEventPropertiesStore} from "../../store/store";
+import {Avatar, Button, Input, Modal, ModalBody, ModalContent, ModalHeader, Tab, Tabs} from "@nextui-org/react";
 import style from "../../screens/CreateEventPage/CreateEventPage.module.css";
+import Compressor from "compressorjs";
 const ChangeImageCoverEventModal = () => {
 
 
     const {isOpenImageModal, toggleImageModal, image, toggleImage} = useModalChangeEventPropertiesStore();
     const [imageValue, setImageValue] = React.useState("")
-
+    const {imagePreview, setImagePreview, setImageEvent, imageEvent} = useImageModalStore();
 
     const changeImageValueHandler = () => {
         toggleImage(imageValue);
         toggleImageModal();
     }
+    const compressImage = (file: any) => {
+        return new Promise((resolve, reject) => {
+            new Compressor(file, {
+                quality: 0.9, // Качество сжатия (от 0 до 1)
+                maxWidth: 1024, // Максимальная ширина изображения
+                maxHeight: 1024, // Максимальная высота изображения
+                mimeType: 'image/jpeg', // Тип MIME для сжатого изображения
+                success: (compressedFile) => {
+                    resolve(compressedFile);
+                },
+                error: (error) => {
+                    reject(error);
+                },
+            });
+        });
+    };
+    const handleFileChange = async (event: any) => {
+        const selectedImage = event.target.files[0];
+        if (selectedImage) {
+            const compressedFile: any = await compressImage(selectedImage);
+            setImageEvent(compressedFile);
+            const reader: any = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(compressedFile);
+        }
+    };
 
     return (
         <div>
@@ -35,7 +64,11 @@ const ChangeImageCoverEventModal = () => {
                         <ModalBody >
                             <Tabs color={"primary"} aria-label="Tabs colors" radius="full">
                                 <Tab key="photos" title="Upload">
-
+                                    <Avatar style={{
+                                        width: "146px",
+                                        height: "146px"
+                                    }} src={imagePreview} alt="preview" />
+                                    <input type="file" onChange={handleFileChange} />
                                 </Tab>
                                 <Tab key="music" title="URL image">
                                     <Input

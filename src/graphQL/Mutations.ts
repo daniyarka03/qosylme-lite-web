@@ -93,18 +93,19 @@ export const UPDATE_EVENT = gql`
 `;
 
 export const DELETE_EVENT = gql`
-  mutation deleteEvent($eventId: ID!) {
-    deleteEvent(eventId: $eventId) {
-      success
+  mutation deleteEvent($eventId: String!) {
+    deleteEvent(id: $eventId) {
+      name
     }
   }
 `;
 
 // Update User Mutation
 export const UPDATE_USER = gql`
-  mutation updateUser($userId: String!, $email: String!, $firstname: String!, $lastname: String!) {
-    updateUser(id: $userId, email: $email, firstname: $firstname, lastname: $lastname) {
+  mutation updateUser($userId: String!, $email: String!, $firstname: String!, $lastname: String!, $avatar: String!) {
+    updateUser(id: $userId, email: $email, firstname: $firstname, lastname: $lastname, avatar: $avatar) {
         user_id
+        avatar
         email
         firstname
         lastname
@@ -164,6 +165,7 @@ export const ADD_GUEST_TO_EVENT = gql`
             event_id
             guests {
                 user_id
+                avatar
                 email
                 firstname
                 lastname
@@ -178,6 +180,7 @@ export const DELETE_GUEST_FROM_EVENT = gql`
             event_id
             guests {
                 user_id
+                avatar
                 email
                 firstname
                 lastname
@@ -185,3 +188,75 @@ export const DELETE_GUEST_FROM_EVENT = gql`
         }
     }
 `;
+
+export const ADD_PARTICIPATION_CHALLENGE = gql`
+    mutation createChallengeParticipant($userId: String!, $challengeId: String!) {
+        createChallengeParticipant(user_id: $userId, challenge_id: $challengeId) {
+            participated_id
+            user {
+                user_id
+                email
+                firstname
+                lastname
+            }
+            challenge {
+                challenge_id
+                name
+                description
+            }
+        }
+    }
+`;
+
+export const UPDATE_PARTICIPATION_CHALLENGE = gql`
+    mutation updateChallengeParticipant($participatedId: String!, $result: String!, $result_state: String!) {
+        updateChallengeParticipant(participated_id: $participatedId, result: $result, result_state: $result_state) {
+            participated_id
+            user {
+                user_id
+                email
+                firstname
+                lastname
+            }
+            challenge {
+                challenge_id
+                name
+                description
+            }
+        }
+    }
+`;
+
+export const DELETE_PARTICIPATION_CHALLENGE = gql`
+    mutation deleteChallengeParticipant($participatedId: String!) {
+        deleteChallengeParticipant(participated_id: $participatedId) {
+            participated_id
+            user {
+                user_id
+                email
+                firstname
+                lastname
+            }
+            challenge {
+                challenge_id
+                name
+                description
+            }
+        }
+    }
+`;
+
+export const UPDATE_PRIVACY_EVENT = gql`
+    mutation updateEventPrivacy($eventId: String!, $isPrivate: Boolean!) {
+        updateEventPrivacy(eventId: $eventId, isPrivate: $isPrivate) {
+            isPrivate
+        }
+    }
+`;
+
+export const UPLOAD_FILE = gql`
+  mutation singleUploadFile($file: String!) {
+    singleUploadFile(file: $file) 
+  }
+`;
+

@@ -35,8 +35,9 @@ const ChangeLocationEventModal = () => {
                                 apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}
                                 autocompletionRequest={{
                                     componentRestrictions: {
-                                        country: "cz"
-                                    }
+                                        country: ["cz", "kz"]
+                                    },
+                                    types: ['geocode', 'establishment'], // Здесь указываются типы мест
                                 }}
                                 selectProps={{
                                     value: location,
@@ -47,10 +48,11 @@ const ChangeLocationEventModal = () => {
                                         }),
 
                                     },
-                                    placeholder: 'Select location...',
+                                    placeholder: 'Write address or name location',
                                 }}
                                 apiOptions={{ language: 'cz', region: 'cz' }}
                                 debounce={300}
+
                             />
 
                             <Button

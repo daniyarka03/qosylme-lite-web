@@ -10,6 +10,7 @@ export const SHOW_ALL_EVENTS = gql`
             location
             date
             image_cover
+            isPrivate
             author_event {
                 user_id
                 firstname
@@ -36,13 +37,16 @@ export const SHOW_EVENT_BY_ID = gql`
       time
       location
       image_cover
+      isPrivate
       author_event {
+        avatar
         user_id
         email
         firstname
         lastname
       }
       guests {
+        avatar    
         user_id
         email
         firstname
@@ -62,6 +66,7 @@ export const GET_CREATED_EVENTS = gql`
             time
             location
             image_cover
+            isPrivate
             author_event {
                 user_id
                 email
@@ -79,6 +84,7 @@ export const GET_ATTENDED_EVENTS = gql`
               firstname
               lastname
               email
+              isPrivate
                 attendedEvents {
                     event_id
                     name
@@ -113,10 +119,126 @@ export const GET_USER_BY_ID = gql`
   query getUserById($userId: String!) {
     getUserById (id: $userId) {
       user_id
+      avatar
       firstname
       lastname
       email
+      xp
+      coins
+      participatedChallenges {
+        participated_id 
+        result
+        result_state
+        challenge {
+          challenge_id
+          name
+          description
+          deadline
+          xp_award
+          coins_award
+          image_cover
+        }
+      }
+      attendedEvents {
+                    event_id
+                    name
+                    description
+                    location
+                    date
+                    time
+                    image_cover
+                    author_event {
+                        user_id
+                        firstname
+                        lastname
+                        email
+                    }
+            }
     }
   }
 `;
 
+export const VERIFY_TOKEN = gql`
+    query verifyToken ($token: String!) {
+        verifyToken (token: $token) {
+           user_id
+        }
+    }
+`;
+
+export const GET_CHALLENGES = gql`
+    query {
+        getChallenges {
+            challenge_id
+            name
+            description
+            deadline
+            xp_award
+            coins_award
+            image_cover
+            participants {
+                participated_id 
+                result
+                result_state
+                updated_at
+                user {
+                    user_id
+                    email
+                    firstname
+                    lastname
+                }
+            }
+        }
+    }
+`;
+
+export const GET_CHALLENGE_ONE = gql`
+    query getChallengeById($challengeId: String!) {
+        getChallengeById(id: $challengeId) {
+            challenge_id
+            name
+            description
+            deadline
+            xp_award
+            coins_award
+            image_cover
+            participants {
+                participated_id 
+                result
+                result_state
+                updated_at
+                user {
+                    user_id
+                    email
+                    firstname
+                    lastname
+                }
+            }
+        }
+    }
+`;
+
+export const GET_USERS_CHALLENGES = gql`
+    query getUserById($userId: String!) {
+        getUserById(id: $userId) {
+            user_id
+            firstname
+            lastname
+            email
+            participatedChallenges {
+                participated_id
+                result
+                result_state
+                challenge {
+                    challenge_id
+                    name
+                    description
+                    deadline
+                    xp_award
+                    coins_award
+                    image_cover
+                }
+            }
+        }
+    }
+`;

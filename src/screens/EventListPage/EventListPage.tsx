@@ -6,8 +6,8 @@ import {SHOW_ALL_EVENTS} from "../../graphQL/Queries";
 import {Input, Skeleton} from "@nextui-org/react";
 import BottomNavbar from "../../components/BottomNavbar/BottomNavbar";
 import searchIcon from "../../assets/Search.svg";
-import settingsGray from "../../assets/settingGray.svg";
-
+import settingsGray from "../../assets/SettingGray.svg";
+import { motion } from "framer-motion";
 
 const EventListPage = () => {
 
@@ -23,38 +23,56 @@ const EventListPage = () => {
                 return new Date(a.date).getTime() - new Date(b.date).getTime();
             });
 
+            // Фильтруем события, оставляя только те, у которых isPrivate === false
+            const publicEvents = sortedEvents.filter((event: any) => !event.isPrivate);
 
-            setEvents(sortedEvents);
+            setEvents(publicEvents);
             setIsLoaded(true);
         }
     }, [data]);
 
     return (
-        <div className={style.main}>
+
+        <motion.div
+            className={style.main}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+                duration: 0.8,
+                delay: 0.5,
+                ease: [0, 0.71, 0.2, 1.01]
+        }}>
             <div className={style.eventListHeader}>
                 <h1 className={style.eventListTitle}>
                     Events
                 </h1>
 
-                <div className={style.eventListControls}>
-                    <button className={style.eventListControlsButton}>
-                        <img src={searchIcon} alt=""/>
-                    </button>
-                    <button className={style.eventListControlsButton}>
-                        <img src={settingsGray} alt=""/>
-                    </button>
-                </div>
+                {/*<div className={style.eventListControls}>*/}
+                {/*    <button className={style.eventListControlsButton}>*/}
+                {/*        <img src={searchIcon} alt=""/>*/}
+                {/*    </button>*/}
+                {/*    <button className={style.eventListControlsButton}>*/}
+                {/*        <img src={settingsGray} alt=""/>*/}
+                {/*    </button>*/}
+                {/*</div>*/}
             </div>
 
-            <div className="flex flex-col items-center h-screen" style={{marginBottom: "400px"}}>
+            <motion.div  initial={{ opacity: 0, scale: 0.5 }}
+                         animate={{ opacity: 1, scale: 1 }}
+                         transition={{
+                             duration: 0.8,
+                             delay: 0.7,
+                             ease: [0, 0.71, 0.2, 1.01]
+                         }}  className="flex flex-col items-center h-screen" style={{marginBottom: "400px"}}>
                 {events.map((item: any, index: number) => (
                   <>
-                      <CardEvent style={{marginBottom: "40px"}} key={`${item}-${index}`} data={item} /></>
+                      <CardEvent style={{marginBottom: "40px"}} key={`${item}-${index}`} data={item} />
+                  </>
                 ))}
-            </div>
+            </motion.div>
             {/*<BottomNavbar />*/}
 
-        </div>
+        </motion.div>
     );
 };
 

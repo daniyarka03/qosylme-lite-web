@@ -5,12 +5,11 @@ import HomePage from "./screens/HomePage/HomePage";
 import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Link, Route, Routes, useNavigate} from 'react-router-dom';
 import EventListPage from "./screens/EventListPage/EventListPage";
-import Navbar from "./components/Navbar/NavbarComponent";
 import NavbarComponent from "./components/Navbar/NavbarComponent";
 import EventPage from "./screens/EventPage/EventPage";
 import LoginPage from "./screens/LoginPage/LoginPage";
 import RegisterPage from "./screens/RegisterPage/RegisterPage";
-import {ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache} from "@apollo/client";
+import {ApolloClient, ApolloLink, ApolloProvider, from, HttpLink, InMemoryCache, useQuery} from "@apollo/client";
 import {onError} from "@apollo/client/link/error";
 import ProfilePage from "./screens/ProfilePage/ProfilePage";
 import CreateEventPage from "./screens/CreateEventPage/CreateEventPage";
@@ -18,24 +17,27 @@ import UpdateEventPage from "./screens/UpdateEventPage/UpdateEventPage";
 import SettingsPage from "./screens/SettingsPage/SettingsPage";
 import EditProfilePage from "./screens/EditProfilePage/EditProfilePage";
 import BottomNavbar from "./components/BottomNavbar/BottomNavbar";
-import style from "./components/CardEvent/CardEvent.module.css";
-import LocationIcon from "./assets/Location.svg";
-import ArrowIcon from "./assets/arrow.svg";
 import NotificationsPage from "./screens/NotificationsPage/NotificationsPage";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/en-gb';
 import ChallengesPage from "./screens/ChallengesPage/ChallengesPage";
+import CheckingValideToken from "./components/CheckingValideToken";
+import ChallengePage from "./screens/ChallengePage/ChallengePage";
+import { setContext } from '@apollo/client/link/context';
+import MomentsPage from "./screens/MomentsPage/MomentsPage";
+import LandingPage from "./landing/LandingPage";
 
 setupIonicReact();
 
 function App() {
-
     const token = localStorage.getItem('token');
+    const SECRET = import.meta.env.VITE_SECRET_KEY;
     const [isMobile, setIsMobile] = useState(false);
     const detectDeviceType = () => {
         setIsMobile(window.innerWidth <= 768); // Примерный порог для мобильных устройств
     };
+
     useEffect(() => {
         detectDeviceType();
         // Добавляем прослушиватель изменения размера окна для реакции на изменение типа устройства
@@ -60,18 +62,25 @@ function App() {
         }
     });
 
-    const client = new ApolloClient({
-        cache: new InMemoryCache(),
-        link: from([
-            errorLink,
-            new HttpLink({
-                uri: import.meta.env.VITE_SERVER_URL_GRAPHQL,
-                credentials: 'include',
-            }),
-        ]),
+    const httpLink = new HttpLink({
+        uri: import.meta.env.VITE_SERVER_URL_GRAPHQL,
+        credentials: 'include',
     });
 
+    const authLink = setContext((_, { headers }) => {
+        // Возвращаем объект с заголовками, включая токен
+        return {
+            headers: {
+                ...headers,
+                authorization: `${SECRET}` // Добавляем токен в заголовок запроса
+            }
+        }
+    });
 
+    const client = new ApolloClient({
+        cache: new InMemoryCache(),
+        link: authLink.concat(httpLink)
+    });
 
     return (
         <ApolloProvider client={client}>
@@ -79,11 +88,12 @@ function App() {
             <NextUIProvider>
 
                 <Router>
+                    <CheckingValideToken />
                     {
-                        !isMobile && token && (
-                            <NavbarComponent />
-                        ) || (
+                        isMobile && (
                             <BottomNavbar />
+                        ) || (
+                            <NavbarComponent />
                         )
                     }
                     <Routes>
@@ -92,6 +102,7 @@ function App() {
                         {token ? (
                             <>
                                 <Route path="/" element={<HomePage />} />
+                                <Route path="/landing" element={<LandingPage />} />
                                 <Route path="/events" element={<EventListPage />} />
                                 <Route path="/event/:id" element={<EventPage />} />
                                 <Route path="/profile" element={<ProfilePage />} />
@@ -102,12 +113,18 @@ function App() {
                                 <Route path="/settings" element={<SettingsPage />} />
                                 <Route path={"*"} element={<HomePage />} />
                                 <Route path={"/challenges"} element={<ChallengesPage />} />
+                                <Route path={"/challenge/:id"} element={<ChallengePage />} />
+                                <Route path={"/moments"} element={<MomentsPage />} />
                             </>
                         ) : (
                             <>
+                                <Route path="/" element={<EventListPage />} />
                                 <Route path="/login" element={<LoginPage />} />
                                 <Route path="/register" element={<RegisterPage />} />
                                 <Route path={"*"} element={<LoginPage />} />
+                                <Route path="/events" element={<EventListPage />} />
+                                <Route path="/event/:id" element={<EventPage />} />
+                                <Route path="/event/create" element={<CreateEventPage />} />
                             </>
                         )}
                     </Routes>

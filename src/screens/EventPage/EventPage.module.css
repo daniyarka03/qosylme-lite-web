@@ -113,6 +113,7 @@
 .eventInfoDescriptionText {
     width: 100%;
     max-width: 500px;
+    word-break: break-word;
 }
 
 .eventInfoAuthorTitle, .eventInfoLocationSectionTitle {

@@ -5,15 +5,20 @@ import "./EventSettingsModal.css";
 import EditIcon from "../../assets/EditIcon.svg";
 import PrivacyIcon from "../../assets/SecurityIcon.svg";
 import GuestsIcon from "../../assets/UsersWhiteIcon.svg";
-import DeleteIcon from "../../assets/Deleteicon.svg";
-import {Link} from "react-router-dom";
+import DeleteIcon from "../../assets/DeleteIcon.svg";
+import {Link, useParams} from "react-router-dom";
+import {useMutation} from "@apollo/client";
+import {DELETE_EVENT} from "../../graphQL/Mutations";
 const EventSettingsModal = () => {
 
     const {isOpen, toggleModal, togglePrivacyOption} = useModalEventSettingsStore();
 
+
     const onOpenChange = () => {
         toggleModal();
     }
+    const [deleteEvent, { loading: deleteLoading, error: deleteError }] = useMutation(DELETE_EVENT);
+    const { id } = useParams();
 
     const [isMobile, setIsMobile] = useState(false);
     const detectDeviceType = () => {
@@ -36,6 +41,20 @@ const EventSettingsModal = () => {
         toggleModal();
         togglePrivacyOption();
     }
+
+    const handleDelete = async () => {
+        try {
+            const { data: deleteData } = await deleteEvent({
+                variables: { eventId: id },
+            });
+
+
+            window.location.href = '/events';
+        } catch (error: any) {
+            console.error('Error deleting event:', error.message);
+            // Добавь обработку ошибок
+        }
+    };
 
 
     return (
@@ -69,7 +88,7 @@ const EventSettingsModal = () => {
                                     </div>
                                     <p>Guests</p>
                                 </div>
-                                <div className="event-settings-modal__item">
+                                <div className="event-settings-modal__item" onClick={handleDelete}>
                                     <div className="event-settings-modal__img event-settings-modal__img-delete">
                                         <img src={DeleteIcon} alt=""/>
                                     </div>

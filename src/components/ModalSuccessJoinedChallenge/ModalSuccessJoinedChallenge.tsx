@@ -1,32 +1,26 @@
 import React from 'react';
-import {useModalLoadingStore, useModalSuccessJoinEventStore} from "../../store/store";
+import {useModalSuccessJoinChallengeStore, useModalSuccessJoinEventStore} from "../../store/store";
+import "./ModalSuccessJoinedChallenge.css";
 import {
     Button,
-    Card, CardHeader,
+    Card,
+    CardHeader,
+    Image,
     Modal,
     ModalBody,
     ModalContent,
     ModalFooter,
-    ModalHeader,
-    Image, CardBody
+    ModalHeader
 } from "@nextui-org/react";
-import './ModalSuccessJoinedEvent.css';
 import {useChangeFormatDate} from "../../hooks/useChangeFormatDate";
+const ModalSuccessJoinedChallenge = ({challenge}: any) => {
+    const {isOpen, toggleModal} = useModalSuccessJoinChallengeStore();
+    const dateEvent = new Date(challenge.deadline);
+    const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US', year: true });
 
-interface ModalSuccessJoinedEventProps {
-    event: any;
-    eventImageCover: string;
-}
-const ModalSuccessJoinedEvent = ({event, eventImageCover}: ModalSuccessJoinedEventProps) => {
-    const {isOpen, toggleModal} = useModalSuccessJoinEventStore();
-
-    const redirectMyEvents = () => {
-        window.location.href = "/profile";
+    function redirectMyEvents() {
+        window.location.href = "/challenges";
     }
-
-    const dateEvent = new Date(event.date);
-    const goodFormatDate = useChangeFormatDate({ date: dateEvent, language: 'en-US' });
-
     return (
         <div className="modal-success-joined-event">
             <Modal
@@ -39,21 +33,21 @@ const ModalSuccessJoinedEvent = ({event, eventImageCover}: ModalSuccessJoinedEve
                 <ModalContent>
                     <>
                         <ModalHeader className="flex flex-col gap-1">
-                            <h2 style={{fontSize: "24px", textAlign: "center"}}>You have successfully registered for the event</h2>
+                            <h2 style={{fontSize: "24px", textAlign: "center"}}>You have successfully joined to challenge</h2>
                         </ModalHeader>
 
                         <ModalBody>
                             <Card className="col-span-12 sm:col-span-4 h-[200px]">
                                 <CardHeader className="absolute z-10 t-1 backdrop-blur-sm flex-col !items-start bg-black/40 bottom-0  border-t-1 border-default-600 dark:border-default-100">
-                                    <p className="text-tiny text-white/60 uppercase font-bold">{event.name}</p>
-                                    <h4 className="text-white font-medium text-large">{goodFormatDate + " " + event.time}</h4>
+                                    <p className="text-tiny text-white/60 uppercase font-bold">{challenge.name}</p>
+                                    <h4 className="text-white font-medium text-large">{goodFormatDate}</h4>
                                 </CardHeader>
-                                    <Image
-                                        removeWrapper
-                                        alt="Card background"
-                                        className="z-0 w-full h-full object-cover blur-darken-image"
-                                        src={eventImageCover}
-                                    />
+                                <Image
+                                    removeWrapper
+                                    alt="Card background"
+                                    className="z-0 w-full h-full object-cover blur-darken-image"
+                                    src={challenge.image_cover}
+                                />
                             </Card>
                         </ModalBody>
                         <ModalFooter className="flex-column">
@@ -66,7 +60,7 @@ const ModalSuccessJoinedEvent = ({event, eventImageCover}: ModalSuccessJoinedEve
                                     style={{ height: '4rem', fontWeight: 700, fontSize: '1.1rem', marginBottom: "20px" }}
                                     onClick={() => redirectMyEvents()}
                                 >
-                                    Check my events
+                                    Check my challenges
                                 </Button>
                                 <Button
                                     className="modal-footer__button"
@@ -89,4 +83,4 @@ const ModalSuccessJoinedEvent = ({event, eventImageCover}: ModalSuccessJoinedEve
     );
 };
 
-export default ModalSuccessJoinedEvent;
+export default ModalSuccessJoinedChallenge;

@@ -6,15 +6,19 @@ import { Link } from 'react-router-dom';
 import LocationIcon from '../../assets/Location.svg';
 import ArrowIcon from '../../assets/arrow.svg';
 import {useChangeFormatDate} from "../../hooks/useChangeFormatDate";
+import {motion} from "framer-motion";
 interface CardEventProps {
     style?: React.CSSProperties,
     data: {
         eventId: number,
         name: string,
         author: string,
-        imageCover: string,
+        image_cover: string,
         location: string,
         date: string,
+        time: string,
+        description: string,
+        isPrivate: boolean
     }
 }
 const CardEvent = ({data}: CardEventProps) => {
@@ -26,9 +30,16 @@ const CardEvent = ({data}: CardEventProps) => {
     ];
 
     const [isLoaded, setIsLoaded] = useState(false);
+    const [eventImageCover, setEventImageCover] = React.useState<string>('');
 
     useEffect(() => {
         if (data) {
+            if (!/^https?:\/\//i.test(data.image_cover)) {
+                console.log(import.meta.env.VITE_SERVER_URL + data.image_cover)
+                setEventImageCover(import.meta.env.VITE_SERVER_URL + data.image_cover)
+            } else {
+                setEventImageCover(data.image_cover);
+            }
             setIsLoaded(true);
         }
     }, [data]);
@@ -58,19 +69,20 @@ const CardEvent = ({data}: CardEventProps) => {
     if (isMobile != null) {
 
         return isMobile ?
-            mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link})
+            mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link, eventImageCover})
             :
-            desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link});
+            desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link, eventImageCover});
     } else {
         return null;
     }
 };
 
-function mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
+function mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link, eventImageCover}: any) {
     return (
         <Link to={"/event/" + data.event_id} style={{width: "100%"}}>
-            <div className={style.cardBlock} style={{
-                background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.image_cover}) lightgray 50% / cover no-repeat`
+            <div
+                className={style.cardBlock} style={{
+                background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${eventImageCover}) lightgray 50% / cover no-repeat`
             }}>
                 <div className={style.cardEventHeader}>
                     <div className={style.cardEventLocation} style={{background: randomColor}}>
@@ -91,11 +103,13 @@ function mobileVersionView({isLoaded, data, randomColor, goodFormatDate, style, 
     )
 }
 
-function desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link}: any) {
+function desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style, LocationIcon, ArrowIcon, Link, eventImageCover}: any) {
+    console.log(eventImageCover)
     return (
         <div className={style.cardBlock} style={{
-            background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${data.image_cover}) lightgray 50% / cover no-repeat`
+            background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.62) 100%), url(${eventImageCover}) lightgray 50% / cover no-repeat`
         }}>
+
             <div className={style.cardEventHeader}>
                 <div className={style.cardEventLocation} style={{background: randomColor}}>
                     <div className={style.cardEventLocationIcon}>
@@ -109,10 +123,15 @@ function desktopVersionView({isLoaded, data, randomColor, goodFormatDate, style,
                     <h1 className={style.cardEventTitle}>{data.name}</h1>
                     <p className={style.cardEventDate}>{(data.location).split(",")[0]}</p>
                 </div>
-                <div className={style.cardEventActions}>
+                <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    className={style.cardEventActions}>
                     <Link to={"/event/" + data.event_id} replace><button className={style.cardEventActionButton}><img src={ArrowIcon} alt=""/></button></Link>
-                </div>
+                </motion.div>
             </div>
+
         </div>
     )
 }

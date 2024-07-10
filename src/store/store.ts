@@ -17,6 +17,11 @@ interface IModalSuccessJoinEventStore {
     toggleModal: () => void
 }
 
+interface IModalSuccessJoinChallengeStore {
+    isOpen: boolean
+    toggleModal: () => void
+}
+
 interface IModalChangeTitleEventStore {
     isOpen: boolean
     toggleModal: () => void
@@ -83,6 +88,13 @@ interface Guest {
     id: number;
 }
 
+interface  IStoreImageModal {
+    imagePreview: string;
+    setImagePreview: (imagePreview: string) => void;
+    imageEvent: string;
+    setImageEvent: (imageEvent: string) => void;
+}
+
 
 interface IStoreGuests {
     guests: Guest[];
@@ -91,11 +103,27 @@ interface IStoreGuests {
     removeGuest: (guestId: number) => void;
 }
 
+interface IStoreImageUploadingChallengeModal {
+    isOpen: boolean;
+    toggleModal: () => void;
+    image: string;
+    toggleImage: (image: string) => void;
+    participantsId: string[];
+    setParticipantsId: (participantsId: string[]) => void;
+}
+
 export const useStore = create<IStore>((set) => ({
     bears: 0,
     increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
     removeAllBears: () => set({ bears: 0 }),
 }))
+
+export const useImageModalStore = create<IStoreImageModal>((set) => ({
+    imageEvent: '',
+    setImageEvent: (imageEvent) => set({ imageEvent }),
+    imagePreview: '',
+    setImagePreview: (imagePreview) => set({ imagePreview }),
+}));
 
 export const useModalLoadingStore = create<IModalLoadingStore>((set) => ({
     isOpen: false,
@@ -106,6 +134,21 @@ export const useModalSuccessJoinEventStore = create<IModalSuccessJoinEventStore>
     isOpen: false,
     toggleModal: () => set((state) => ({ isOpen: !state.isOpen })),
 }));
+
+export const useModalSuccessJoinChallengeStore = create<IModalSuccessJoinChallengeStore>((set) => ({
+    isOpen: false,
+    toggleModal: () => set((state) => ({ isOpen: !state.isOpen })),
+}));
+
+export const useModalUploadingResultChallengeStore = create<IStoreImageUploadingChallengeModal>((set) => ({
+    isOpen: false,
+    toggleModal: () => set((state) => ({ isOpen: !state.isOpen })),
+    image: '',
+    toggleImage: (image) => set({ image }),
+    participantsId: [],
+    setParticipantsId: (participantsId) => set({ participantsId }),
+}));
+
 
 export const useModalChangeTitleEventStore = create<IModalChangeTitleEventStore>((set) => ({
     isOpen: false,

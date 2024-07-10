@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { UPDATE_EVENT } from '../../graphQL/Mutations';
+import {UPDATE_EVENT, UPLOAD_FILE} from '../../graphQL/Mutations';
 import {SHOW_EVENT_BY_ID} from "../../graphQL/Queries";
 import ModalLoading from "../../components/ModalLoading/ModalLoading";
 import {
+    useImageModalStore,
     useModalChangeEventPropertiesStore,
     useModalChangeTitleEventStore,
     useModalLoadingStore, useModalUpdateEventPropertiesStore
@@ -36,7 +37,9 @@ const UpdateEventPage = () => {
     });
 
 
+    const [uploadFile] = useMutation(UPLOAD_FILE);
 
+    const {imagePreview, setImagePreview, setImageEvent, imageEvent} = useImageModalStore();
 
     const [fontSizeTitle, setFontSizeTitle] = useState('40px');
     const {toggleModal: toggleModalTitleEvent, titleValue, toggleTitleValue} = useModalChangeTitleEventStore();
@@ -85,7 +88,6 @@ const UpdateEventPage = () => {
     const [selectedDay, setSelectedDay] = useState<any>("");
     const [selectedDayTime, setSelectedDayTime] = useState<any>();
 
-    console.log(hours)
 
     const { loading, error, data } = useQuery(SHOW_EVENT_BY_ID, {
         variables: { eventId: id },
@@ -103,18 +105,25 @@ const UpdateEventPage = () => {
             setDescription(description);
             setLocation(location);
             setImageCover(image_cover);
+            console.log(image_cover)
             setHours(time.split(":").slice(0, 1).join(":"))
             setMinutes(time.split(":").slice(1, 2).join(":"))
-
+            if (!/^https?:\/\//i.test(image_cover)) {
+                console.log(import.meta.env.VITE_SERVER_URL + image_cover)
+                setImageCover(import.meta.env.VITE_SERVER_URL + image_cover)
+            } else {
+                console.log(image_cover)
+                setImageCover(image_cover);
+            }
             console.log(hours)
         }
     }, [loading, data]);
 
     useEffect(() => {
-        if (image) {
-            setImageCover(image);
+        if (imagePreview) {
+            setImageCover(imagePreview);
         }
-    }, [image]);
+    }, [imagePreview]);
 
     useEffect(() => {
         if (locationValue) {
@@ -126,10 +135,36 @@ const UpdateEventPage = () => {
         toggleTitleValue(titleValueState);
         toggleModalTitleEvent();
     };
+
+
+
+    const handleUpload = async () => {
+        try {
+            if (imageEvent) {
+                const base64Image = imagePreview.split(',')[1];
+                try {
+                    const uploadedImage = await uploadFile({ variables: { file: base64Image } });
+                    console.log('Image uploaded successfully: ');
+                    return uploadedImage.data.singleUploadFile; // Вернуть имя загруженного файла
+                } catch (error) {
+                    console.error('Error uploading image', error);
+                    // Обработка ошибки при загрузке изображения
+                    throw error; // Передать ошибку дальше
+                }
+            } else {
+                console.error('No image selected');
+                // Обработка случая, когда изображение не выбрано
+                return null; // Если изображение не выбрано, вернуть null
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            throw error; // Передать ошибку дальше
+        }
+    };
     const handleSubmit = async (e: any) => {
         toggleModal();
         e.preventDefault();
-
+        const uploadedImageName = await handleUpload();
         const parts = dateValueState.split('.'); // Разделяем строку на части с помощью '.' в качестве разделителя
         const day = parseInt(parts[0]); // Извлекаем часть с днем и преобразуем в целое число
         const month = parseInt(parts[1]); // Извлекаем часть с месяцем
@@ -143,22 +178,29 @@ const UpdateEventPage = () => {
         formData.time = timeValueState.toString();
         formData.location = location;
         formData.description = description;
-        formData.image_cover = imageCover;
+        formData.image_cover = uploadedImageName ? uploadedImageName : imageCover;
 
         console.log('Form Data:', formData);
+        console.log(id)
 
         try {
-            const { data: updateData } = await updateEvent({
+            const { data: updateData, errors } = await updateEvent({
                 variables: {
                     eventId: id,
-                    ...formData,
+                    name: titleValueState,
+                    description: description,
+                    date: formattedDate,
+                    time: timeValueState.toString(),
+                    location: location,
+                    image_cover: uploadedImageName ? uploadedImageName : imageCover,
                 },
             });
+
 
             window.location.href = `/event/${id}`;
             // Добавь обработку успешного обновления мероприятия
         } catch (error: any) {
-            console.error('Error updating event:', error.message);
+            console.error('Error updating event:', error);
             // Добавь обработку ошибок
         }
     };
@@ -199,11 +241,12 @@ const UpdateEventPage = () => {
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
+    console.log(imageCover)
 
     const event = data.eventById; // Предполагается, что у тебя есть соответствующий запрос для получения деталей мероприятия
     return (
         <div className="update-event-page">
-            <h2>Update Event</h2>
+            <h2 style={{fontSize: "30px", fontWeight: 700, margin: "40px 0 40px 0"}}>Update Event</h2>
             <form onSubmit={handleSubmit}>
                 <div className={style.cardBlock} style={{
                     background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.92) 100%), url(${imageCover}) lightgray 50% / cover no-repeat`

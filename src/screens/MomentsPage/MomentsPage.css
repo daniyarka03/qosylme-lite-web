@@ -1,0 +1,37 @@
+.notifications-page {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    text-align: center;
+    height: 100%;
+}
+
+.notifications-page__title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.notification-page__without-notifications {
+    margin-top: calc(70vh / 4);
+}
+
+.notifications-page__cloud-image {
+    width: 80px;
+    margin: 0 auto;
+}
+
+.notification-page__without-notifications h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 20px;
+}
+
+.notification-page__without-notifications p {
+    font-size: 16px;
+    font-weight: 600;
+    color: #6B6B6B;
+    margin-top: 10px;
+}
