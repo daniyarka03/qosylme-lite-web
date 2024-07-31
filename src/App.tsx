@@ -30,6 +30,7 @@ import LandingPage from "./landing/LandingPage";
 import PartnersPage from "./screens/PartnersPage/PartnersPage";
 import PartnerMenuPage from "./screens/PartnerMenuPage/PartnerMenuPage";
 import PartnersProductPage from "./screens/PartnersProductPage/PartnersProductPage";
+import CreateProduct from "./screens/CreateProduct/CreateProduct";
 
 setupIonicReact();
 
@@ -109,7 +110,9 @@ function App() {
                                 <Route path="/events" element={<EventListPage />} />
                                 <Route path="/partners" element={<PartnersPage />} />
                                 <Route path="/partners/:id" element={<PartnerMenuPage />} />
-                                <Route path="/partners/:id/product/:id" element={<PartnersProductPage />} />
+                                <Route path="/partners/:id/product/:productId" element={<PartnersProductPage />} />
+                                <Route path="/partners/:id/product/create" element={<CreateProduct />} />
+
                                 <Route path="/event/:id" element={<EventPage />} />
                                 <Route path="/profile" element={<ProfilePage />} />
                                 <Route path="/profile/edit" element={<EditProfilePage />} />

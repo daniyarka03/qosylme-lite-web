@@ -242,3 +242,58 @@ export const GET_USERS_CHALLENGES = gql`
         }
     }
 `;
+
+export const GET_ALL_SHOPS = gql`
+    query getShops {
+        getShops {
+            shop_id
+            name
+            description
+            address
+            author_shop {
+                user_id
+                email
+                firstname
+                lastname
+            }
+        }
+    }
+`;
+
+export const GET_SHOP_BY_ID = gql`
+    query getShopById($shopId: String!) {
+        getShopById(id: $shopId) {
+            shop_id
+            name
+            description
+            address
+            menu {
+                menu_id
+                products {
+                    product_id
+                    name
+                    description
+                    price
+                }
+            }
+            author_shop {
+                user_id
+                email
+                firstname
+                lastname
+            }
+        }
+    }
+`;
+
+export const GET_PRODUCT_BY_ID = gql`
+    query getProductById($productId: String!) {
+        getProductById(id: $productId) {
+            product_id
+            name
+            description
+            price
+        }
+    }
+`;
+

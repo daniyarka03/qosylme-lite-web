@@ -260,3 +260,15 @@ export const UPLOAD_FILE = gql`
   }
 `;
 
+export const CREATE_PRODUCT = gql`
+    mutation createProduct($name: String!, $price: Float!, $description: String!, $type: String!, $menuId: Int!, $currency: String!) {
+        createProduct(name: $name, price: $price, description: $description, currency: $currency, type: $type, menu_id: $menuId) {
+            product_id
+            name
+            type
+            currency
+            description
+            price
+        }
+    }
+`;
