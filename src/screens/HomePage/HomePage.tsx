@@ -141,13 +141,13 @@ const HomePage = () => {
                             ease: [0, 0.71, 0.2, 1.01]
                         }}
                         className="navigation__item">
-                        <Link to="/events">
+                        <Link to="/partners">
                             <motion.div whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 transition={{ type: "spring", stiffness: 400, damping: 10 }}>
                                 <img src={TicketIcon} alt="Ticket" />
                             </motion.div>
-                            <span>Events</span>
+                            <span>Cafe</span>
                         </Link>
                     </motion.div>
                     <motion.div
