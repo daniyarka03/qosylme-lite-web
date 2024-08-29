@@ -260,6 +260,12 @@ export const UPLOAD_FILE = gql`
   }
 `;
 
+export const UPLOAD_FILES = gql`
+    mutation uploadImages($files: [FileInput!]!) {
+        uploadImages(files: $files)
+    }
+`;
+
 export const CREATE_PRODUCT = gql`
     mutation createProduct($name: String!, $price: Float!, $description: String!, $type: String!, $menuId: Int!, $currency: String!) {
         createProduct(name: $name, price: $price, description: $description, currency: $currency, type: $type, menu_id: $menuId) {

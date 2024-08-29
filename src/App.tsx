@@ -101,13 +101,12 @@ function App() {
                         )
                     }
                     <Routes>
-
-
                         {token ? (
                             <>
                                 <Route path="/" element={<HomePage />} />
                                 <Route path="/landing" element={<LandingPage />} />
                                 <Route path="/events" element={<EventListPage />} />
+
                                 <Route path="/partners" element={<PartnersPage />} />
                                 <Route path="/partners/:id" element={<PartnerMenuPage />} />
                                 <Route path="/partners/:id/product/:productId" element={<PartnersProductPage />} />
@@ -134,6 +133,10 @@ function App() {
                                 <Route path="/events" element={<EventListPage />} />
                                 <Route path="/event/:id" element={<EventPage />} />
                                 <Route path="/event/create" element={<CreateEventPage />} />
+
+                                <Route path="/partners" element={<PartnersPage />} />
+                                <Route path="/partners/:id" element={<PartnerMenuPage />} />
+                                <Route path="/partners/:id/product/:productId" element={<PartnersProductPage />} />
                             </>
                         )}
                     </Routes>

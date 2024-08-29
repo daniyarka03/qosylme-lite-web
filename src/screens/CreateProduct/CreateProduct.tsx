@@ -16,7 +16,7 @@ import ImageUploading from 'react-images-uploading';
 import {CameraIcon} from "../../components/Icons/CameraIcon";
 import "./CreateProduct.css";
 import {useMutation} from "@apollo/client";
-import {CREATE_PRODUCT} from "../../graphQL/Mutations";
+import {CREATE_PRODUCT, UPLOAD_FILES} from "../../graphQL/Mutations";
 import {ProductsTypes} from "../../utils/constants";
 import * as constants from "node:constants";
 
@@ -35,6 +35,7 @@ const CreateProduct = () => {
     const [errors, setErrors] = useState<ErrorsType>({});
     const [isOpen, setOpen] = useState(false);
     const [createProduct, { data, loading, error }] = useMutation(CREATE_PRODUCT);
+    const [uploadFiles] = useMutation(UPLOAD_FILES);
     const handleCreateProduct = async () => {
         try {
             await createProduct({
@@ -63,6 +64,23 @@ const CreateProduct = () => {
         setHtml(e.target.value);
     }
 
+    const uploadMultipleImages = async (filesArray) => {
+        try {
+            const formData = new FormData();
+            filesArray.forEach((file) => {
+                formData.append('files', file.file);
+            });
+           await uploadFiles({
+                variables: {
+                    variables: { files: formData },
+                }
+            }).catch((error) => {
+                console.log(error)
+            });
+        } catch (error) {
+            console.error("Error uploading images:", error);
+        }
+    };
 
     useEffect(() => {
         console.log(error)
@@ -94,7 +112,10 @@ const CreateProduct = () => {
     const createNewProductHandler = async (e: any) => {
         e.preventDefault();
         console.log('321')
-        handleCreateProduct();
+        // handleCreateProduct();
+        uploadMultipleImages(images);
+
+        console.log(images)
 
         // if (!validateForm()) {
         //     return;
